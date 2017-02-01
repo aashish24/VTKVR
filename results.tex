@@ -1,4 +1,7 @@
 \subsection{Results}
+
+\subsubsection{Jittering}
+
 \subsubsection{Clipping}
 A set of infinite clipping planes can be defined to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is implemented by determining the visibility of each sample along the ray according to whether that location is excluded by the clipping planes.A set of infinite clipping planes can be defined to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is implemented by determining the visibility of each sample along the ray according to whether that location is excluded by the clipping planes.
 
@@ -22,7 +25,7 @@ The vtkGPURayCastMapper supports most data types such as short, int, float, and 
 \label{fig:clipping}
 \end{figure}
 
-\subsubsection{Blending Modes}
+\subsubsection{Blending Modes *Sankhesh to add new blending mode}
 The mapper supports composite blending, minimum intensity projection, maximum intensity projection, and additive blending. Each of these blending modes are useful for a particular use-case in medical computing. The most common one which is also the default is the composite blending mode. See Figure~\ref{fig:blendingmodes} for an example of composite blending, maximum intensity projection, and additive blending on the same data.
 
 \begin{figure*}
