@@ -58,86 +58,6 @@ The tags belong to this group are the variables or functions or the combination 
 4. Exit (:: Exit)
 The tags belong to this group perform final computation such as the final color of the fragment. These tags are placed outside the ray-casting loop and typically contain numeric assignments.
 
-\subsubsection{Optimizations and Handling of Edge-Cases}
-The new \texttt{vtkOpenGLGPUVolumeRayCastMapper} is more than just a ray cast mapper implementation. It is designed to work on multiple platforms and developed to perform volume rendering at interactive frame rates. To achieve interactive frame rates and to handle edge cases, we have implemented following optimizations in the new mapper. 
-
-\begin{itemize}
-\item Clipping plane optimization 
-In VTK a user can place multiple planes at desired angles to clip the volume. This technique is essential for many medical use-cases. Since only one side of clip planes needs to be traversed, performing any sort of ray cast on the clipped side is wasteful. Hence a simple optimization is to move the starting point of the ray on the plane by projecting the ray onto the plane in the view direction. 
-
-\item Eye Too Close to the Volume
-
-\item Volume Texture Streaming
-
-
-
-\end{itemize}
-
-\subsubsection{Cropping}
-Cropping refers to 27 regions that defined by two planes along each coordinate axis of the volume and can be independently turned on (visible) or off (invisible) to produce a variety of different cropping effects, as shown in Figure~\ref{fig:cropping}. Cropping is implemented by determining the cropping region of each sample location along the ray and including only those samples that fall within a visible region.
-
-\begin{figure}
-\centering
-\includegraphics[width=2.5in]{SphereCropping.png}
-\caption{Figure 3. A sphere is cropped using two different configurations of cropping regions.}
-\label{fig:cropping}
-\end{figure}
-
-\subsubsection{Wide Support of Data Types} 
-The vtkGPURayCastMapper supports most data types such as short, int, float, and double and both point and cell data types. Bias are scale are computed and applied to the scalars in the fragment shader to normalize the scalars between 0-1 range. 
-
-\subsubsection{Clipping}
-A set of infinite clipping planes can be defined to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is implemented by determining the visibility of each sample along the ray according to whether that location is excluded by the clipping planes.A set of infinite clipping planes can be defined to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is implemented by determining the visibility of each sample along the ray according to whether that location is excluded by the clipping planes.
-
-\begin{figure}
-\centering
-\includegraphics[width=2.5in]{HeadClippingOblique.png}
-\caption{Figure 4. Top: An example of an oblique clipping plane. Bottom: A pair of parallel clipping planes clip the volume, rendered without (left) and with (right) shading.}
-\label{fig:clipping}
-\end{figure}
-
-\subsubsection{Blending Modes}
-The mapper supports composite blending, minimum intensity projection, maximum intensity projection, and additive blending. Each of these blending modes are useful for a particular use-case in medical computing. The most common one which is also the default is the composite blending mode. See Figure~\ref{fig:blendingmodes} for an example of composite blending, maximum intensity projection, and additive blending on the same data.
-
-\begin{figure*}
-\centering
-\begin{subfigure}{.6\columnwidth}
-    \includegraphics[width=\columnwidth]{TorsoBlendingComposite.png}
-\end{subfigure}
-\begin{subfigure}{.6\columnwidth}   
-    \includegraphics[width=\columnwidth]{TorsoBlendingAdditive.png}
-\end{subfigure} 
-\begin{subfigure}{.6\columnwidth}
-    \includegraphics[width=\columnwidth]{TorsoBlendingMIP.png}
-\end{subfigure}
-\caption{Rendering with and without gradient opacity transfer function.}
-\label{fig:blendingmodes}
-\end{figure*}
-
-\subsubsection{Masking}
-Both binary and label masks are supported. With binary masks, the value in the masking volume indicates visibility of the voxel in the data volume. When a label map is in use, the value in the label map is used to select different rendering parameters for that sample.  See Figure 5 for an example of label data masks.
-
-\subsubsection{Opacity Modulated by Gradient Magnitude}
-A transfer function mapping the magnitude of the gradient to an opacity modulation value can be used to essentially perform edge detection (de-emphasize homogenous regions) during rendering. See ~\ref{fig:gradient} for an example of rendering with and without the use of a gradient opacity transfer function.
-
-\begin{figure*}
-\centering
-   \begin{subfigure}[b]{0.5\textwidth}
-   \includegraphics[width=1\linewidth]{TorsoGradient.png}
-   \caption{}
-   \label{fig:Ng1} 
-\end{subfigure}
-
-\begin{subfigure}[b]{0.5\textwidth}
-   \includegraphics[width=1\linewidth]{TorsoNoGradient.png}
-   \caption{}
-   \label{fig:Ng2}
-\end{subfigure}
-
-\caption{Rendering with and without gradient opacity transfer function.}
-\label{fig:gradient}
-\end{figure*}
-
 \subsubsection{Mobile Support}
 The move to OpenGL 3 and higher enabled volume rendering to support mobile devices (iOS and Android devices) as OpenGL ES 3.0 and higher supports 3D textures. Support for multiple touch events such as using two fingers to translate, rotate, and zoom the camera was added to support interactive rendering on mobile devices. New texture formats are added with logistics to enable / disable them based on the platform.. With minor feature-set exceptions, the new volume mapper works on mobile devices enabling developers to build sophisticated applications for the scientific community.
 
@@ -158,4 +78,18 @@ Streaming the volume as separate texture bricks certainly imposes a performance 
  
  
  
- 
+\subsubsection{Optimizations and Edge-Cases}
+The new \texttt{vtkOpenGLGPUVolumeRayCastMapper} is more than just a ray cast mapper implementation. It is designed to work on multiple platforms and developed to perform volume rendering at interactive frame rates. To achieve interactive frame rates and to handle edge cases, we have implemented following optimizations in the new mapper. 
+
+\begin{itemize}
+\item Clipping plane optimization 
+In VTK a user can place multiple planes at desired angles to clip the volume. This technique is essential for many medical use-cases. Since only one side of clip planes needs to be traversed, performing any sort of ray cast on the clipped side is wasteful. Hence a simple optimization is to move the starting point of the ray on the plane by projecting the ray onto the plane in the view direction. 
+
+\item Eye Too Close to the Volume
+When the eye is too close to the volume, the near plane could clip the volume visible bounds resulting in OpenGL clipping removing the geometry from rendering. In such cases the bounding box of the volume that defines the texture coordinates and hence define a surface to start casting the ray needs to be clipped. To handle such scenario, a plant-box interaction is added. So far evey move of the camera is funding invokved checking if the geomtry of the volume needs to be clipped. 
+
+\item Volume Texture Streaming
+
+
+
+\end{itemize}
