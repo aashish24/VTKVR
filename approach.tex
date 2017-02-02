@@ -33,8 +33,8 @@ In a ray-casting algorithm, the entry and the exit point into the volume is need
  The advantage of such approach is that it requires one less pass and is faster than other approaches since there is no texture generation or lookup happens for determining the termination of the ray.
  
  
- \subsubsection{Dynamic Shader Generation}
- In the new \texttt{vtkOpenGLGPUVolumeRayCastMapper} all the operations are performed on the GPU. The advantage of this approach was a more streamlined code that is easier to maintain and debug. This approach also provided an opportunity to rework how to support different features without having too many branches in the shader code or having to send all the options to the shader because that would have been detrimental to the performance. In the new \texttt{vtkOpenGLGPUVolumeRayCastMapper}, the shader is dynamically composed by the mapper. For this to work, we have introduced tags in a vertex, or fragment shader which are then replaced by the \texttt{vtkShaderComposer} depending on the option enabled or chosen by the application code. For instance, the skeleton fragment shader defines tags as shown below:
+\subsubsection{Dynamic Shader Generation}
+In the new \texttt{vtkOpenGLGPUVolumeRayCastMapper} all the operations are performed on the GPU. The advantage of this approach was a more streamlined code that is easier to maintain and debug. This approach also provided an opportunity to rework how to support different features without having too many branches in the shader code or having to send all the options to the shader because that would have been detrimental to the performance. In the new \texttt{vtkOpenGLGPUVolumeRayCastMapper}, the shader is dynamically composed by the mapper. For this to work, we have introduced tags in a vertex, or fragment shader which are then replaced by the \texttt{vtkShaderComposer} depending on the option enabled or chosen by the application code. For instance, the skeleton fragment shader defines tags as shown below:
  
  \begin{lstlisting}
 //VTK::Base::Dec
@@ -46,16 +46,16 @@ At the run time then \texttt{//VTK::Base::Dec} is then replaced by the code show
 
 To define a structure, we have chosen a strategy that separates the tags in found category: 
 
-1. Declaration (:: Dec)
+1. Declaration (::Dec)
 The tags belong to this group are meant to declare variables or function outside the main execution of the shader code. The variables defined are uniform, varying, and user-defined global variables. The functions defined are typically perform operations that are repetitive in nature such as computing color of a fragment. 
 
-2. Initialization (:: Init)
+2. Initialization (::Init)
 The tags belong to this group are meant to initialize variables inside the main execution function of the shader but before the ray-casting loop in the fragment shader. An example of such code includes computation of the initial position of ray and direction of ray traversal.
 
 3. Implementation (::Impl)
 The tags belong to this group are the variables or functions or the combination of both that perform the actual operation of clipping, cropping, shading, etc. on one, two, or four component volume data. The implementation code used local and global variables and optimized for performance reasons as they are executed as long as the ray is traversing inside the volume and didn't run into a termination condition which is checked every time.  
 
-4. Exit (:: Exit)
+4. Exit (::Exit)
 The tags belong to this group perform final computation such as the final color of the fragment. These tags are placed outside the ray-casting loop and typically contain numeric assignments.
 
 \subsubsection{Lighting / Shading }
