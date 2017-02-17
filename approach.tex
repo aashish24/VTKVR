@@ -113,7 +113,47 @@ volumetric data to be mixed with translucent geometry while
 efficiently yielding a correctly colored result.
  
 \subsubsection{Render to texture}
-Typically the mapper uses a single pass rendering approach in which the 3D volume data is rendered on screen, the default framebuffer that contains a color a and a depth buffer. In games and other graphics applications render to texture approach is used to support advanced visual rendering technique such as deferred shading. Render to texture technique uses rendered output from one pass to modify/enhance the output of another rendering passes. Unlike to this, the volume mapper enables rendering to an OpenGL FrameBufferObject (FBO) and obtaining the pixel data from the FBO via simple image retrieval calls. The mapper supports an application to grab color and depth information as texture or VTK image data. The color data is simply the pixel representation of the rendered volume whereas depth data consists of a grayscale image depicting how deep each voxel is in the scene. When an application enables render to texture mode, a framebuffer object is created and used, the vertex and fragment shader are generated, color and depth buffers are cleared, and the color is set to white with a value of zero alpha. The value of zero alpha is used so that applications can safely ignore the transparent pixels and the color buffer is set to white color because white represents the maximum depth, that is the depth of the far plane. In the render to texture pass, the fragment shader writes to color and depth target and to write the depth information it uses the depth of first non-transparent voxel.
+Typically, the mapper uses a single pass rendering approach in which the 3D
+volume data is rendered on screen i.e. the default framebuffer that comprises of
+a color and a depth buffer. In games and other graphics applications, a
+multi-pass rendering approach called ``Render to Texture'' is used to support
+advanced visual rendering techniques such as deferred shading, texture baking,
+post processing, etc. This technique uses the rendered output from one pass to
+modify/enhance the output of another rendering passes. 
+
+\begin{figure}[h]
+\centering
+  \begin{subfigure}[b]{.5\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{colorimage.png}
+    \caption{Color image}
+    \label{fig:rendertotexturecolor}
+  \end{subfigure}%
+  \begin{subfigure}[b]{.5\columnwidth}
+    \centering
+    \includegraphics[width=\textwidth]{depthimage.png}
+    \caption{Depth image}
+    \label{fig:rendertotexturedepth}
+  \end{subfigure}
+  \caption{Render to texture}
+  \label{fig:rendertotexture}
+\end{figure}
+
+When the \texttt{RenderToImage} flag is enabled, the volume mapper switches
+rendering to an OpenGL FrameBufferObject (FBO) and allows the user to obtain the
+rendered pixel data via simple image retrieval calls. The mapper provides
+methods to grab color and depth information either as individual textures or as
+VTK's image data structure - \texttt{vtkImageData}. The color data is simply the
+pixel representation of the rendered volume whereas depth data consists of a
+grayscale image depicting how deep each voxel is in the scene. When an
+application enables render to texture mode, a framebuffer object is created, the
+vertex and fragment shader are generated, color and depth buffers are cleared,
+and the color is set to white with a value of zero alpha. The value of zero
+alpha is used so that applications can safely ignore the transparent pixels and
+the color buffer is set to white color because white represents the maximum
+depth, that is the depth of the far plane. In the render to texture pass, the
+fragment shader writes to color and depth target and to write the depth
+information it uses the depth of first non-transparent voxel.
 
 \subsubsection{Mobile Support}
 The decision to use OpenGL 3 or higher enabled volume rendering to support mobile devices (iOS and Android devices) as OpenGL ES 3.0 supports 3D textures. However the OpenGL ES does not support all of the texture format types, and therefore, new texture formats are added with compile time switch to enable or disable them depending on whether the platform is desktop or mobile. One such example is capturing of depth buffer since that is not yet supported on the mobile platform.  Since typically interactions on mobile devices require touch interactions, the new rendering system added support for multiple touch events such as using two fingers to translate, rotate, and zoom the camera. With minor feature-set exceptions, the new volume mapper works on mobile devices enabling developers to build sophisticated applications for the scientific community.
