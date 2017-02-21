@@ -40,23 +40,39 @@ The vtkGPURayCastMapper supports most data types such as short, int, float, and 
 \label{fig:clipping}
 \end{figure}
 
-\subsubsection{Blending Modes *Sankhesh to add new blending mode}
-The mapper supports composite blending, minimum intensity projection, maximum intensity projection, and additive blending. Each of these blending modes are useful for a particular use-case in medical computing. The most common one which is also the default is the composite blending mode. See Figure~\ref{fig:blendingmodes} for an example of composite blending, maximum intensity projection, and additive blending on the same data.
+\subsubsection{Blending Modes}
+The mapper supports composite blending, minimum intensity projection, maximum
+intensity projection, additive intensity and average intensity blending. Each of
+these blending modes are useful for a particular use-case in medical computing.
+The most common one which is also the default is the composite blending mode.
+See Figure~\ref{fig:blendingmodes} for an example of the different blend modes
+on the same data.
 
-\begin{figure*}
-\centering
-\begin{subfigure}{.6\columnwidth}
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}{.5\columnwidth}
     \includegraphics[width=\columnwidth]{TorsoBlendingComposite.png}
-\end{subfigure}
-\begin{subfigure}{.6\columnwidth}   
-    \includegraphics[width=\columnwidth]{TorsoBlendingAdditive.png}
-\end{subfigure} 
-\begin{subfigure}{.6\columnwidth}
+    \caption{Composite}
+    \label{fig:blendcomposite}
+  \end{subfigure}%
+  \begin{subfigure}{.5\columnwidth}
     \includegraphics[width=\columnwidth]{TorsoBlendingMIP.png}
-\end{subfigure}
-\caption{Rendering with and without gradient opacity transfer function.}
-\label{fig:blendingmodes}
-\end{figure*}
+    \caption{Maximum Intensity}
+    \label{fig:blendmax}
+  \end{subfigure}
+  \begin{subfigure}{.5\columnwidth}   
+    \includegraphics[width=\columnwidth]{TorsoBlendingAdditive.png}
+    \caption{Additive}
+    \label{fig:blendadditive}
+  \end{subfigure}%
+  \begin{subfigure}{.5\columnwidth}
+    \includegraphics[width=\columnwidth]{TorsoBlendingAverage.png}
+    \caption{Average Intensity}
+    \label{fig:blendaverage}
+  \end{subfigure}
+  \caption{Blend modes supported by the \texttt{vtkGPUVolumeRayCastMapper}}
+  \label{fig:blendingmodes}
+\end{figure}
 
 \subsubsection{Masking}
 Both binary and label masks are supported. With binary masks, the value in the masking volume indicates visibility of the voxel in the data volume. When a label map is in use, the value in the label map is used to select different rendering parameters for that sample.  See Figure 5 for an example of label data masks.
@@ -64,20 +80,18 @@ Both binary and label masks are supported. With binary masks, the value in the m
 \subsubsection{Opacity Modulated by Gradient Magnitude}
 A transfer function mapping the magnitude of the gradient to an opacity modulation value can be used to essentially perform edge detection (de-emphasize homogenous regions) during rendering. See ~\ref{fig:gradient} for an example of rendering with and without the use of a gradient opacity transfer function.
 
-\begin{figure*}
-\centering
-   \begin{subfigure}[b]{0.5\textwidth}
-   \includegraphics[width=1\linewidth]{TorsoGradient.png}
-   \caption{}
-   \label{fig:Ng1} 
-\end{subfigure}
-
-\begin{subfigure}[b]{0.5\textwidth}
-   \includegraphics[width=1\linewidth]{TorsoNoGradient.png}
-   \caption{}
-   \label{fig:Ng2}
-\end{subfigure}
-
-\caption{Rendering with and without gradient opacity transfer function.}
-\label{fig:gradient}
-\end{figure*}
+\begin{figure}[ht]
+  \centering
+   \begin{subfigure}[b]{0.5\columnwidth}
+     \includegraphics[width=\columnwidth]{TorsoNoGradient.png}
+     \caption{Without gradient opacity function}
+     \label{fig:Ng1} 
+   \end{subfigure}%
+  \begin{subfigure}[b]{0.5\columnwidth}
+    \includegraphics[width=\columnwidth]{TorsoGradient.png}
+    \caption{With gradient opacity function}
+    \label{fig:Ng2}
+  \end{subfigure}
+  \caption{Gradient magnitude based opacity modulation}
+  \label{fig:gradient}
+\end{figure}
