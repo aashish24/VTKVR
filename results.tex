@@ -1,14 +1,29 @@
-\subsection{Results}
-By using the approach described in the previous section, the new mapper grew capable of providing critical features for medical and scientific computing. This section describes each of these features in sufficient detail in the following text.
+\section{Results}
+By using the approach described in the previous section, the new mapper grew
+capable of providing critical features for medical and scientific computing.
+This section describes each of these features in sufficient detail in the
+following text.
 
 \newcommand{\ignore}[1]{}
 
-\subsubsection{Stochastic Jittering}
-Because ray-casting effectively samples a discrete signal (voxel values along the ray trajectory), the distance between those sampling points heavily influences how accurately the volume data is represented.  Due to well established limitations described by the sampling theorem, low sampling rates may result in aliasing effects 
-often referred to as wood-grain artifacts in the context of volume rendering \ignore{\cite{RTVG_jittering}}. Reducing the distance between samples neutralizes these artifacts but takes an important toll on performance.
+\subsection{Stochastic Jittering}
+Because ray-casting effectively samples a discrete signal (voxel values along
+the ray trajectory), the distance between those sampling points heavily
+influences how accurately the volume data is represented.  Due to well
+established limitations described by the sampling theorem, low sampling rates
+may result in aliasing effects often referred to as wood-grain artifacts in the
+context of volume rendering \ignore{\cite{RTVG_jittering}}. Reducing the
+distance between samples neutralizes these artifacts but takes an important toll
+on performance.
 
 
-The mapper supports stochastic jittering, which is an alternative technique to counteract wood-grain artifacts by adding a random offset to the rays in the viewing direction thereby breaking the coherence between neighboring fragments which causes the aliased patterns become apparent (Figure~\ref{fig:jittering}).  Jittering is implemented by creating a random noise texture (using \texttt{vtkPerlinNoise}) and applying the offset to the ray's starting point, thus has a much lower performance penalty than reducing the sampling distance.
+The mapper supports stochastic jittering, which is an alternative technique to
+counteract wood-grain artifacts by adding a random offset to the rays in the
+viewing direction thereby breaking the coherence between neighboring fragments
+which causes the aliased patterns become apparent (Figure~\ref{fig:jittering}).
+Jittering is implemented by creating a random noise texture (using
+\texttt{vtkPerlinNoise}) and applying the offset to the ray's starting point,
+thus has a much lower performance penalty than reducing the sampling distance.
 
 %\begin{figure}
 %\centering
@@ -17,30 +32,52 @@ The mapper supports stochastic jittering, which is an alternative technique to c
 %\label{fig:jittering}
 %\end{figure}
 
-\subsubsection{Clipping}
-A set of infinite planes can be defined to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is implemented by determining the visibility of each sample along the ray according to whether that location is excluded by the clipping planes.A set of infinite clipping planes can be defined to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is implemented by determining the visibility of each sample along the ray according to whether that location is excluded by the clipping planes.
+\subsection{Clipping}
+A set of infinite planes can be defined to clip the volume to reveal inner
+detail, as shown in Figure 4.  Clipping is implemented by determining the
+visibility of each sample along the ray according to whether that location is
+excluded by the clipping planes.A set of infinite clipping planes can be defined
+to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is
+implemented by determining the visibility of each sample along the ray according
+to whether that location is excluded by the clipping planes.
 
-\subsubsection{Cropping}
-Cropping refers to 27 regions that defined by two planes along each coordinate axis of the volume and can be independently turned on (visible) or off (invisible) to produce a variety of different cropping effects, as shown in Figure~\ref{fig:cropping}. Cropping is implemented by determining the cropping region of each sample location along the ray and including only those samples that fall within a visible region.
+\subsection{Cropping} Cropping refers to 27 regions that defined by two
+planes along each coordinate axis of the volume and can be independently turned
+on (visible) or off (invisible) to produce a variety of different cropping
+effects, as shown in Figure~\ref{fig:cropping}. Cropping is implemented by
+determining the cropping region of each sample location along the ray and
+including only those samples that fall within a visible region.
 
-\begin{figure}
-\centering
-\includegraphics[width=2.5in]{SphereCropping.png}
-\caption{Figure 3. A sphere is cropped using two different configurations of cropping regions.}
-\label{fig:cropping}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=2.5in]{SphereCropping.png}
+  \caption{A sphere is cropped using two different configurations of cropping regions.}
+  \label{fig:cropping}
 \end{figure}
 
-\subsubsection{Wide Support of Data Types} 
-The vtkGPURayCastMapper supports most data types such as short, int, float, and double and both point and cell data types. Bias are scale are computed and applied to the scalars in the fragment shader to normalize the scalars between 0-1 range. 
+\subsection{Wide Support of Data Types}
+The \texttt{vtkGPUVolumeRayCastMapper} supports most data types such as short,
+int, float, and double as well as both point and cell data. Bias are scale are
+computed and applied to the scalars in the fragment shader to normalize the
+scalars between 0.0 - 1.0 range. 
 
-\begin{figure}
-\centering
-\includegraphics[width=2.5in]{HeadClippingOblique.png}
-\caption{Figure 4. Top: An example of an oblique clipping plane. Bottom: A pair of parallel clipping planes clip the volume, rendered without (left) and with (right) shading.}
-\label{fig:clipping}
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{.5\columnwidth}
+    \includegraphics[width=\textwidth]{HeadClippingSlabNoShading.png}
+    \caption{Without shading}
+    \label{fig:clipnoshading}
+  \end{subfigure}%
+  \begin{subfigure}[b]{.5\columnwidth}
+    \includegraphics[width=\textwidth]{HeadClippingSlabShading.png}
+    \caption{With shading}
+    \label{fig:clipshading}
+  \end{subfigure}%
+  \caption{A pair of parallel clipping planes clip the volume}
+  \label{fig:clipping}
 \end{figure}
 
-\subsubsection{Blending Modes}
+\subsection{Blending Modes}
 The mapper supports composite blending, minimum intensity projection, maximum
 intensity projection, additive intensity and average intensity blending. Each of
 these blending modes are useful for a particular use-case in medical computing.
@@ -74,11 +111,18 @@ on the same data.
   \label{fig:blendingmodes}
 \end{figure}
 
-\subsubsection{Masking}
-Both binary and label masks are supported. With binary masks, the value in the masking volume indicates visibility of the voxel in the data volume. When a label map is in use, the value in the label map is used to select different rendering parameters for that sample.  See Figure 5 for an example of label data masks.
+\subsection{Masking}
+Both binary and label masks are supported. With binary masks, the value in the
+masking volume indicates visibility of the voxel in the data volume. When a
+label map is in use, the value in the label map is used to select different
+rendering parameters for that sample.  See Figure 5 for an example of label data
+masks.
 
-\subsubsection{Opacity Modulated by Gradient Magnitude}
-A transfer function mapping the magnitude of the gradient to an opacity modulation value can be used to essentially perform edge detection (de-emphasize homogenous regions) during rendering. See ~\ref{fig:gradient} for an example of rendering with and without the use of a gradient opacity transfer function.
+\subsection{Opacity Modulated by Gradient Magnitude} A transfer function
+mapping the magnitude of the gradient to an opacity modulation value can be used
+to essentially perform edge detection (de-emphasize homogenous regions) during
+rendering. See ~\ref{fig:gradient} for an example of rendering with and without
+the use of a gradient opacity transfer function.
 
 \begin{figure}[ht]
   \centering
