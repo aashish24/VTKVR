@@ -1,4 +1,5 @@
-\section{Approach} The new vtkGPUVolumeRayCastMapper uses a ray casting
+\section{Approach}
+The new vtkGPUVolumeRayCastMapper uses a ray casting
 technique ~\ref{raycasting} for volume rendering which is a state-of-the-art for
 volume rendering on modern graphics platforms. Algorithmically, at a high level,
 it is similar to the older version of this class (although with a fairly
@@ -32,20 +33,21 @@ picking amongst many others. In the next few sections, we will cover each of
 these features in detail.
 
 \subsection{Single Pass}
-\begin{figure}
-\centering
-\includegraphics[width=3in]{frontandback.png}
-\caption{Front and back faces are rendered for start and end position of the ray.}
-\label{fig:raycasting}
-\end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{frontandback.png}
+  \caption{Front and back faces are rendered for start and end position of the
+  ray.}
+  \label{fig:raycasting}
+\end{figure}%
 
 
-\begin{figure}
-\centering
-\includegraphics[width=3in]{raycasting.jpg}
-\caption{Implementing volume rendering using single-pass GPU ray casting.}
-\label{fig:raycasting}
-\end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{raycasting.jpg}
+  \caption{Implementing volume rendering using single-pass GPU ray casting.}
+  \label{fig:raycasting}
+\end{figure}%
 
 In a ray-casting algorithm, the entry and the exit point into the volume is
 needed to determine when to stop the ray-marching. To determine the entry and
@@ -95,32 +97,33 @@ shown below.
 To define a structure, we have chosen a strategy that separates the tags in
 found category: 
 
-1. Declaration (::Dec)
-The tags belong to this group are meant to declare variables or function outside
-the main execution of the shader code. The variables defined are uniform,
-varying, and user-defined global variables. The functions defined are typically
-perform operations that are repetitive in nature such as computing color of a
-fragment. 
+\begin{enumerate}
+  \item Declaration (::Dec) The tags belong to this group are meant to declare
+    variables or function outside the main execution of the shader code. The
+    variables defined are uniform, varying, and user-defined global variables.
+    The functions defined are typically perform operations that are repetitive
+    in nature such as computing color of a fragment. 
 
-2. Initialization (::Init)
-The tags belong to this group are meant to initialize variables inside the main
-execution function of the shader but before the ray-casting loop in the fragment
-shader. An example of such code includes computation of the initial position of
-ray and direction of ray traversal.
+  \item Initialization (::Init) The tags belong to this group are meant to
+    initialize variables inside the main execution function of the shader but
+    before the ray-casting loop in the fragment shader. An example of such code
+    includes computation of the initial position of ray and direction of ray
+    traversal.
 
-3. Implementation (::Impl) The tags belong to this group are the variables or
-functions or the combination of both that perform the actual operation of
-clipping, cropping, shading, etc. on one, two, or four component volume data.
-The implementation code used local and global variables and optimized for
-performance reasons as they are executed as long as the ray is traversing inside
-the volume and didn't run into a termination condition which is checked every
-time.  
+  \item Implementation (::Impl) The tags belong to this group are the variables
+    or functions or the combination of both that perform the actual operation of
+    clipping, cropping, shading, etc. on one, two, or four component volume
+    data.  The implementation code used local and global variables and optimized
+    for performance reasons as they are executed as long as the ray is
+    traversing inside the volume and didn't run into a termination condition
+    which is checked every time.  
 
-4. Exit (::Exit) The tags belong to this group perform final computation such as
-the final color of the fragment. These tags are placed outside the ray-casting
-loop and typically contain numeric assignments.
+  \item Exit (::Exit) The tags belong to this group perform final computation
+    such as the final color of the fragment. These tags are placed outside the
+    ray-casting loop and typically contain numeric assignments. 
+\end{enumerate}
 
-\subsection{Lighting / Shading }
+\subsection{Lighting / Shading}
 The old mapper supported only one light (due to limitations in OpenGL at the
 time the class was written). The \texttt{vtkFixedPointVolumeRayCastMapper}
 supports multiple lights, but only with an approximate lighting model, since
@@ -139,7 +142,8 @@ between the cells. The gradient is computed by reading the scalar values form
 the neighboring cdells using the offset vector that stores the step size based
 on the bounds of the volume. 
 
-\subsection{Volume Picking} Picking, in the context of volume rendering, is
+\subsection{Volume Picking}
+Picking, in the context of volume rendering, is
 the action of resolving the set of voxels a user has clicked on with the
 pointer. This provides the user with means to interact with the objects in a 3D
 scene. VTK legacy volume mappers support picking through an instance external to
@@ -189,7 +193,6 @@ memory expansion scheme for devices that would not be able to render a higher
 quality volume otherwise.
 
 \subsection{Dual Depth-Peeling}
-
 VTK has long supported the use of depth-peeling for order-independent rendering
 of translucent geometry. Since translucent fragments must be blended in a
 specific order to obtain the correct pixel color, techniques like depth-peeling
@@ -223,7 +226,8 @@ computing two ``slices'' of a volume, we are able to integrate volume rendering
 into our depth-peeling pass. This enables volumetric data to be mixed with
 translucent geometry while efficiently yielding a correctly colored result.
  
-\subsection{Render to texture} Typically, the mapper uses a single pass
+\subsection{Render to texture}
+Typically, the mapper uses a single pass
 rendering approach in which the 3D volume data is rendered on screen i.e. the
 default framebuffer that comprises of a color and a depth buffer. In games and
 other graphics applications, a multi-pass rendering approach called ``Render to

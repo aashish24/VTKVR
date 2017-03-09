@@ -7,14 +7,14 @@ supports accelerated rendering on graphics hardware and another that works in
 parallel on the CPU. The vtkSmartVolumeMapper would help application developers
 by automatically choosing between these techniques based on system performance. 
 
-\begin{figure}
-\centering
-\includegraphics[width=1\linewidth]{vtk_volume_pipeline.pdf}
-\caption{VTK pipeline for volume rendering which is similar to VTK polygonal
-  rendering with differences such as transfer functions are defined on the
-  property object.}
-\label{fig:pipeline}
-\end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=\columnwidth]{vtk_volume_pipeline.pdf}
+  \caption{VTK pipeline for volume rendering which is similar to VTK polygonal
+    rendering with differences such as transfer functions are defined on the
+    property object.}
+  \label{fig:pipeline}
+\end{figure}%
 
 The main objective of this effort is to create a cross-platform,
 multi-functional and high-performance volume renderer that works in both serial
