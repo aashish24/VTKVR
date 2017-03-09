@@ -5,12 +5,14 @@
 %\documentclass[electronic]{vgtc}             % electronic version
 
 \usepackage{mathptmx}
-\usepackage{graphicx}
 \usepackage{times}
 \usepackage{paralist}
 \usepackage{subcaption}
 \usepackage{listings}
 \usepackage{color}
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
 
 %% Add commands for adding author comments:
 \newcommand{\wrs}[1]{\textbf{\textcolor[rgb]{0,0,1}{WRS: #1}}}
@@ -19,7 +21,7 @@
 
 
 %% This turns references into clickable hyperlinks.
-\usepackage[bookmarks,backref=true,linkcolor=black]{hyperref} %,colorlinks
+\usepackage[bookmarks,backref=page,linkcolor=black]{hyperref} %,colorlinks
 \hypersetup{
   pdfauthor = {},
   pdftitle = {},
@@ -29,7 +31,7 @@
   linkcolor= black,
   citecolor= black,
   pageanchor=true,
-  urlcolor = black,
+  urlcolor = blue,
   plainpages = false,
   linktocpage
 }
@@ -55,8 +57,9 @@
 
 \teaser{
   \centering
-  \includegraphics[width=17cm]{HeadClippingOblique.png}
-  \caption{A VTK volume rendering example showing oblique clipping plane used for visualization inside human brain.}
+  \includegraphics[width=0.95\linewidth]{HeadClippingOblique.png}
+  \caption{A VTK volume rendering example showing oblique clipping plane used
+  for visualization inside human brain.}
   \label{fig:CAVEVolumeViz}
 }
 
