@@ -34,12 +34,19 @@ thus has a much lower performance penalty than reducing the sampling distance.
 
 \subsection{Clipping}
 A set of infinite planes can be defined to clip the volume to reveal inner
-detail, as shown in Figure 4.  Clipping is implemented by determining the
-visibility of each sample along the ray according to whether that location is
-excluded by the clipping planes.A set of infinite clipping planes can be defined
-to clip the volume to reveal inner detail, as shown in Figure 4.  Clipping is
-implemented by determining the visibility of each sample along the ray according
-to whether that location is excluded by the clipping planes.
+detail, as shown in Figure 4.  The visibility of each sample along the ray
+is determined by computing the sample's distance to each plane and testing
+for it being in front or behind.
+
+The current implementation iterates through each of the planes before entering
+the ray marching loop in order to early-discard rays which fall in any of the
+following criteria:
+
+\begin{enumerate}
+\item Entering the volume on the clipped side and exiting before ever
+	intersecting the plane (the ray only traverses clipped space).
+\item Intersecting overlapping geometry before the plane (z-buffer compositing).
+\end{enumerate}
 
 \subsection{Cropping} Cropping refers to 27 regions that defined by two
 planes along each coordinate axis of the volume and can be independently turned
@@ -56,10 +63,11 @@ including only those samples that fall within a visible region.
 \end{figure}
 
 \subsection{Wide Support of Data Types}
-The \texttt{vtkGPUVolumeRayCastMapper} supports most data types such as short,
-int, float, and double as well as both point and cell data. Bias are scale are
-computed and applied to the scalars in the fragment shader to normalize the
-scalars between 0.0 - 1.0 range. 
+The mapper supports most signed and unsigned data types such as short, int,
+float and double as well as the two most common data abstractions in VTK,
+cell and point data.  Bias and scale factors are pre-computed and passed into
+the fragment shader to normalize the data values for correct look-up table
+mapping.
 
 \begin{figure}[ht]
   \centering
