@@ -291,22 +291,21 @@ frame rates and to handle edge cases, we have implemented following
 optimizations in the new mapper. 
 
 \begin{itemize}
-  \item Clipping plane optimization In VTK a user can place multiple planes at
+  \item \emph{Clipping plane optimization} In VTK a user can place multiple planes at
     desired angles to clip the volume. This technique is essential for many
     medical use-cases. Since only one side of clip planes needs to be traversed,
     performing any sort of ray cast on the clipped side is wasteful. Hence a
     simple optimization is to move the starting point of the ray on the plane by
     projecting the ray onto the plane in the view direction. 
 
-  \item Eye Too Close to the Volume When the eye is too close to the volume, the
-    near plane could clip the volume visible bounds resulting in OpenGL clipping
-    removing the geometry from rendering. In such cases the bounding box of the
-    volume that defines the texture coordinates and hence define a surface to
-    start casting the ray needs to be clipped. To handle such scenario, a
-    plane-box intersection is added. So far evey move of the camera is funding
-    invokved checking if the geomtry of the volume needs to be clipped.
+\item \emph{Camera Inside the Bounding Box}
+	Camera views within the volume are handled by clipping the proxy geometry
+    with the camera's near plane (using \texttt{vtkClipConvexPolyData}), thus
+    ensuring all the bounding box fragments fall within range.
+    Plane-Axis-Aligned-Bounding-Box intersection is used to determine whether
+    geometry clipping is necessary.
 
-\item Support for Double and Long Long Data Type The current OpenGL API does not
+\item \emph{Support for Double and Long Long Data Type} The current OpenGL API does not
   support 64-bit data types. In order to be able to render volumes of these
     types, the mapper loads the data array slice by slice casting the data
     values to floating-point. This, despite the obvious precision loss, is
