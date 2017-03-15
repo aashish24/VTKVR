@@ -11,6 +11,10 @@
 \usepackage{listings}
 \usepackage{color}
 
+\usepackage{biblatex}
+%\bibliographystyle{abbrv}
+\bibliography{VTKVR.a}
+
 \usepackage{graphicx}
 \graphicspath{ {images/} }
 
@@ -21,7 +25,7 @@
 
 
 %% This turns references into clickable hyperlinks.
-\usepackage[bookmarks,backref=page,linkcolor=black]{hyperref} %,colorlinks
+\usepackage[bookmarks,linkcolor=black]{hyperref} %,colorlinks
 \hypersetup{
   pdfauthor = {},
   pdftitle = {},
@@ -76,8 +80,8 @@
 \input{conclusion.tex}
 \input{acknowledgements.tex}
 
-\bibliographystyle{abbrv}
-\bibliography{VTKVR}
+\printbibliography
+
 \end{document}
 
 
