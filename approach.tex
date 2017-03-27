@@ -1,6 +1,7 @@
 \section{Approach}
+\label{approach}
 The new \texttt{vtkGPUVolumeRayCastMapper} uses a ray casting
-technique\cite{hadwiger_real-time_2006} for volume rendering which is a
+technique~\citep{hadwiger_real-time_2006} for volume rendering which is a
 state-of-the-art for volume rendering on modern graphics platforms.
 Algorithmically, at a high level, it is similar to the older version of this
 class (although with a fairly different OpenGL implementation since that
@@ -33,7 +34,7 @@ picking amongst many others. In the next few sections, we will cover each of
 these features in detail.
 
 \subsection{Single Pass}
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{frontandback.png}
   \caption{Front and back faces are rendered for start and end position of the
@@ -42,7 +43,7 @@ these features in detail.
 \end{figure}%
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=\columnwidth]{raycasting.jpg}
   \caption{Implementing volume rendering using single-pass GPU ray casting.}
@@ -54,22 +55,27 @@ needed to determine when to stop the ray-marching. To determine the entry and
 the exit point, one approach is to render the geometry of the volume bounding
 box of the volume twice. In the first pass, the front face of the geometry is
 rendered and in the second pass the backface is rendered as shown in
-Figure~\ref{fig:frontandback}. Using the interpolated vertex position and
+~\autoref{fig:frontandback}. Using the interpolated vertex position and
 texture lookup, the start and end positions is computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume is within vec3(1.0), vec3(-1.0)
-range (as shown in Figure~\ref{fig:raycasting}). The code below is showing the
+range (as shown in ~\autoref{fig:raycasting}). The code below is showing the
 fragment shader piece that determines whether or not to stop marching the rays
 depending on the value of stop.
  
- \begin{lstlisting}[breaklines=true]
- bool stop = any(greaterThan(g_dataPos, 
-                 ip_texMax)) ||
-             any(lessThan(g_dataPos, 
-                 ip_texMin));
- \end{lstlisting}
+\begin{center}
+  \begin{lstlisting}[language=Python, caption={Ray stop determination},
+                     captionpos=b, frame=single, breaklines=true]
+bool stop = any(greaterThan(g_dataPos,
+                            ip_texMax)) ||
+            any(lessThan(g_dataPos,
+                         ip_texMin));
+  \end{lstlisting}
+\end{center}
  
- The advantage of such approach is that it requires one less pass and is faster than other approaches since there is no texture generation or lookup happens for determining the termination of the ray.
+The advantage of such approach is that it requires one less pass and is faster
+than other approaches since there is no texture generation or lookup happens
+for determining the termination of the ray.
  
  
 \subsection{Dynamic Shader Generation}
@@ -85,7 +91,8 @@ shader which are then replaced by the \texttt{vtkShaderComposer} depending on
 the options enabled or chosen by the application code. For instance, the
 skeleton fragment shader defines tags as shown below:
  
- \begin{lstlisting}
+\begin{lstlisting}[language=C++, caption={Fragment shader tags},
+                   captionpos=b, frame=single, breaklines=true]
 //VTK::Base::Dec
 
 //VTK::Termination::Dec 
@@ -207,7 +214,7 @@ fragments are blended from front-to-back.
 
 The standard depth-peeling algorithm, which collects a single layer of fragments
 per geometry pass in front-to-back order, was recently updated to use a ``dual
-depth-peeling'' technique\cite{bavoil_order_2008}, in which two layers of
+depth-peeling'' technique~\citep{bavoil_order_2008}, in which two layers of
 fragments are peeled in a single geometry pass: One layer from the front and a
 second from the back. These are blended into two separate accumulation buffers
 and eventually the front and back peels will meet towards the middle of the
@@ -236,7 +243,7 @@ deferred shading, texture baking, post processing, etc. This technique uses the
 rendered output from one pass to modify/enhance the output of another rendering
 passes. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \centering
   \begin{subfigure}[b]{.5\columnwidth}
     \centering
