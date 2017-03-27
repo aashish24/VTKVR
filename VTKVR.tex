@@ -1,0 +1,225 @@
+%% 
+%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+
+\documentclass[preprint,10pt,a4paper,5p,authoryear,twocolumn]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%\usepackage{lineno}
+
+%% Set the bibliography style to be apalike i.e. author, year citation
+\bibliographystyle{apalike}
+%% By default, elsarticle loads the natbib package with round parameter showing
+%% round brackets in citations. This can be changed to sqaure by setting the
+%% citestyle
+\setcitestyle{square}
+
+%% This turns references into clickable hyperlinks.
+\usepackage[bookmarks,
+            colorlinks=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue,
+            linktocpage,
+            pageanchor=true]{hyperref} %,colorlinks
+
+%% The subcaption package is used for figure and table sub-captions
+\usepackage[list=true]{subcaption}
+
+%% For code 
+\usepackage{listings}
+\lstset{basicstyle=\scriptsize}
+
+\journal{SoftwareX}
+
+%% Setting the path to where the images can be found
+\graphicspath{ {images/} }
+
+\begin{document}
+
+\begin{frontmatter}
+%% Set the frontmatter to be two-column wide
+  %\setlength\textwidth\columnwidth
+%% Title, authors and addresses
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+  \input{title.tex}
+
+  \input{abstract.tex}
+
+  \begin{keyword}
+    Visualization Toolkit \sep
+    Data analysis \sep
+    Volume rendering \sep
+    Scientific Visualization \sep
+  \end{keyword}
+%\title{Title/Name of your software}
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \address[label1]{}
+%% \address[label2]{}
+
+%\author{A. Author}
+
+%\address{Your institute, some address}
+
+%\begin{abstract}
+%% Text of abstract 
+%Ca. 100 words
+
+%\end{abstract}
+
+%\begin{keyword}
+%% keywords here, in the form: keyword \sep keyword
+%keyword 1 \sep keyword 2 \sep keyword 3
+
+%% PACS codes here, in the form: \PACS code \sep code
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+%\end{keyword}
+
+\end{frontmatter}
+
+%\linenumbers
+
+%% main text
+
+%  Description of your software in maximum 6 pages.
+%  
+%  \section{Motivation and significance}
+%  \label{}
+%  
+%  Introduce the scientific background and the motivation for developing the software.
+%  
+%  Explain why the software is important, and describe the exact (scientific) problem(s) it solves.
+%  
+%  Indicate in what way the software has contributed (or how it will contribute in the future) to the process of scientific discovery; if available, this is to be supported by citing a research paper using the software.
+%  
+%  Provide a description of the experimental setting (how does the user use the software?).
+%  
+%  Introduce related work in literature (cite or list algorithms used, other software etc.).
+%  
+%  
+%  \section{Software description}
+%  \label{}
+%  
+%  Describe the software in as much as is necessary to establish a vocabulary needed to explain its impact. 
+%  
+%  \subsection{Software Architecture}
+%  \label{}
+%  
+%  Give a short overview of the overall software architecture; provide a pictorial component overview or similar (if possible). If necessary provide implementation details.
+%  
+%  \subsection{Software Functionalities}
+%  \label{}
+%  
+%  Present the major functionalities of the software.
+%  
+%  \subsection{Sample code snippets analysis (optional)}
+%  \label{}
+%  
+%  \section{Illustrative Examples}
+%  \label{}
+%  
+%  Provide at least one illustrative example to demonstrate the major functions.
+%  
+%  Optional: you may include one explanatory video that will appear next to your article, in the right hand side panel. (Please upload any video as a single supplementary file with your article. Only one MP4 formatted, with 50MB maximum size, video is possible per article. Recommended video dimensions are 640 x 480 at a maximum of 30 frames/second. Prior to submission please test and validate your .mp4 file at $ http://elsevier-apps.sciverse.com/GadgetVideoPodcastPlayerWeb/verification$. This tool will display your video exactly in the same way as it will appear on ScienceDirect.).
+%  
+%  \section{Impact}
+%  \label{}
+%  
+%  \textbf{This is the main section of the article and the reviewers weight the description here appropriately}
+%  
+%  Indicate in what way new research questions can be pursued as a result of the software (if any).
+%  
+%  Indicate in what way, and to what extent, the pursuit of existing research questions is improved (if so).
+%  
+%  Indicate in what way the software has changed the daily practice of its users (if so).
+%  
+%  Indicate how widespread the use of the software is within and outside the intended user group.
+%  
+%  Indicate in what way the software is used in commercial settings and/or how it led to the creation of spin-off companies (if so).
+%  
+%  \section{Conclusions}
+%  \label{}
+%  
+%  Set out the conclusion of this original software publication.
+%  
+%  \section*{Acknowledgements}
+%  \label{}
+%  
+%  Optionally thank people and institutes you need to acknowledge. 
+%  
+%  %% The Appendices part is started with the command \appendix;
+%  %% appendix sections are then done as normal sections
+%  %% \appendix
+%  
+%  %% \section{}
+%  %% \label{}
+
+\input{introduction.tex}
+\input{approach.tex}
+\input{results.tex}
+\input{conclusion.tex}
+\input{acknowledgements.tex}
+
+%% References:
+\section{References}
+\label{}
+\bibliography{VTKVR}
+
+\end{document}
+\endinput
+%%
+%% End of file `SoftwareX_article_template.tex'.
