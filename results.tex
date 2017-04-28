@@ -113,7 +113,7 @@ See ~\Autoref{fig:blendingmodes} for an example of the different blend modes
 on the same data.
 
 \begin{figure}[htb]
-  \centering
+  \centering%
   \begin{subfigure}{.5\columnwidth}
     \includegraphics[width=\columnwidth]{TorsoBlendingComposite.png}
     \caption{Composite}
@@ -207,4 +207,54 @@ rendering with and without the use of a gradient opacity transfer function.
   temporally-evolving plane jet
   flames~\protect\citep{hiroshi_akiba_visualizing_2007}}
   \label{fig:paraview-turbulent-combustion}
+\end{figure}
+
+\subsection{Performance benchmarks}
+\label{performance-benchmarks}
+As part of the modernization effort, we obtained several performance metrics
+from sample systems with different graphics cards ranging from on-board Intel
+Graphics to dedicated GPUs. The code used to benchmark is located within the VTK
+code repository under \texttt{Utilities/Benchmarks/}. The results of the
+benchmark are shown in~\Autoref{fig:perf-bench}.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width = \linewidth,
+      xlabel=Number of voxels in data (x 1 Million),
+      xmode=log,
+      ylabel=Frames per second,
+      grid=both,
+      grid style={line width=.1pt, draw=gray!10}
+      ]
+      \addplot[color={rgb:red,228;green,26;blue,28},mark=*] file {data/k5200.data};
+      \label{plot_k52}
+      \addplot[color={rgb:red,55;green,126;blue,184},mark=*] file {data/k5200_shaded.data};
+      \label{plot_k52_s}
+      \addplot[color={rgb:red,77;blue,175;green,74},mark=x] file {data/amdD300.data};
+      \label{plot_a3}
+      \addplot[color={rgb:red,152;blue,78;green,163},mark=x] file {data/amdD300_shaded.data};
+      \label{plot_a3_s}
+      \addplot[color={rgb:red,255;blue,127;green,0},mark=triangle*] file {data/quadro2000.data};
+      \label{plot_q20}
+      \addplot[color={rgb:red,255;blue,255;green,51},mark=triangle*] file {data/quadro2000_shaded.data};
+      \label{plot_q20_s}
+    \end{axis}
+    %legend
+    \node [draw,fill=white] at (rel axis cs: 0.8,0.9) {
+      \shortstack[l]{
+        \tiny{\textbf{Without Shading}} \\
+        \ref{plot_k52} \tiny{NVIDIA Quadro K5200} \\
+        \ref{plot_a3} \tiny{AMD FirePro D300}\\
+        \ref{plot_q20} \tiny{NVIDIA Quadro 2000}}};
+    \node [draw,fill=white] at (rel axis cs: 0.8,0.65) {
+      \shortstack[l]{
+        \tiny{\textbf{With Shading}} \\
+        \ref{plot_k52_s} \tiny{NVIDIA Quadro K5200}\\
+        \ref{plot_a3_s} \tiny{AMD FirePro D300}\\
+        \ref{plot_q20_s} \tiny{NVIDIA Quadro 2000}}};
+  \end{tikzpicture}
+  \caption{Performance benchmarks}
+  \label{fig:perf-bench}
 \end{figure}
