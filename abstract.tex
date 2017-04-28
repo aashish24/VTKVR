@@ -1,16 +1,18 @@
 \begin{abstract}
-The Visualization Toolkit (VTK)~\citep{schroeder_visualization_2006} is
-a popular open source toolkit for scientific and medical data visualization
-which supports a wide variety of data formats, processing filters and rendering
-of both polygonal and volumetric data.  The volume rendering module provides
-features such as plane clipping, color and opacity transfer functions, lighting
-and other controls needed for visualization.  However, due to VTK's legacy
-OpenGL backend reliance on a deprecated API, volume rendering would fail to take
-advantage of the latest improvements in graphics hardware and the flexibility of
-a programmable pipeline.  Additionally, this dependence on an antiquated
-pipeline would pose a restriction on its reliability when running on recent
-target platforms and would limit its scope.   Hence we developed a new and
-improved volume rendering module for VTK's OpenGL2 backend, which also augmented
-the GPU-based implementation with features such as fast volume clipping,
-gradient opacity, and hardware-based volume picking.
+\label{abstract}
+The Visualization Toolkit (VTK) is a popular cross-platform, open source toolkit
+for scientific and medical data visualization, processing and analysis. It
+provides a wide variety of data formats, algorithms and rendering of both
+polygonal and volumetric data. VTK's volume rendering module boasts a
+comprehensive set of features such as plane clipping, color and opacity transfer
+functions, lighting and other controls needed for visualization. However, due to
+VTK's legacy OpenGL backend and its reliance on a deprecated API, volume
+rendering would fail to take advantage of the latest improvements in graphics
+hardware and the flexibility of a programmable pipeline. Additionally, this
+dependence on an antiquated pipeline would pose a restriction on its reliability
+when running on recent target platforms and limit its scope. We developed a new
+and improved volume rendering module for VTK's OpenGL2 backend, which also
+augments the GPU-based implementation with features such as fast volume
+clipping, gradient magnitude based opacity modulation, render to texture and
+hardware-based volume picking.
 \end{abstract}
