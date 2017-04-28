@@ -55,14 +55,14 @@ needed to determine when to stop the ray-marching. To determine the entry and
 the exit point, one approach is to render the geometry of the volume bounding
 box of the volume twice. In the first pass, the front face of the geometry is
 rendered and in the second pass the backface is rendered as shown in
-~\autoref{fig:frontandback}. Using the interpolated vertex position and
+~\Autoref{fig:frontandback}. Using the interpolated vertex position and
 texture lookup, the start and end positions is computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume is within vec3(1.0), vec3(-1.0)
-range (as shown in ~\autoref{fig:raycasting}). The code below is showing the
+range (as shown in ~\Autoref{fig:raycasting}). The code below is showing the
 fragment shader piece that determines whether or not to stop marching the rays
 depending on the value of stop.
- 
+
 \begin{center}
   \begin{lstlisting}[language=Python, caption={Ray stop determination},
                      captionpos=b, frame=single, breaklines=true]
@@ -72,12 +72,12 @@ bool stop = any(greaterThan(g_dataPos,
                          ip_texMin));
   \end{lstlisting}
 \end{center}
- 
+
 The advantage of such approach is that it requires one less pass and is faster
 than other approaches since there is no texture generation or lookup happens
 for determining the termination of the ray.
- 
- 
+
+
 \subsection{Dynamic Shader Generation}
 In the new \texttt{vtkOpenGLGPUVolumeRayCastMapper} all the operations are
 performed on the GPU. The advantage of this approach was a more streamlined code
@@ -89,45 +89,109 @@ would have been detrimental to the performance. In the new
 the mapper. For this to work, we have introduced tags in a vertex or fragment
 shader which are then replaced by the \texttt{vtkShaderComposer} depending on
 the options enabled or chosen by the application code. For instance, the
-skeleton fragment shader defines tags as shown below:
- 
+skeleton fragment shader defines tags as shown in~\Autoref{lst:skeletonshader}.
+
 \begin{lstlisting}[language=C++, caption={Fragment shader tags},
-                   captionpos=b, frame=single, breaklines=true]
+                   captionpos=b, frame=single, breaklines=true,
+                   label=lst:skeletonshader]
 //VTK::Base::Dec
 
-//VTK::Termination::Dec 
+//VTK::Termination::Dec
+
 \end{lstlisting}
 
-At the run time then \texttt{//VTK::Base::Dec} is then replaced by the code
-shown below. 
+At runtime the \texttt{//VTK::Base::Dec} tag is replaced by shader code
+shown in~\Autoref{lst:basedeclshader}
+
+\begin{lstlisting}[language=C++, caption={Base declaration fragment code},
+                   captionpos=b, frame=single, breaklines=true,
+                   label=lst:basedeclshader]
+// Volume dataset
+uniform sampler3D in_volume;
+uniform int in_noOfComponents;
+uniform int in_independentComponents;
+
+uniform sampler2D in_noiseSampler;
+#ifndef GL_ES
+uniform sampler2D in_depthSampler;
+#endif
+
+// Camera position
+uniform vec3 in_cameraPos;
+
+// view and model matrices
+uniform mat4 in_volumeMatrix;
+uniform mat4 in_inverseVolumeMatrix;
+uniform mat4 in_projectionMatrix;
+uniform mat4 in_inverseProjectionMatrix;
+uniform mat4 in_modelViewMatrix;
+uniform mat4 in_inverseModelViewMatrix;
+uniform mat4 in_textureDatasetMatrix;
+uniform mat4 in_inverseTextureDatasetMatrix;
+varying mat4 ip_inverseTextureDataAdjusted;
+uniform vec3 in_texMin;
+uniform vec3 in_texMax;
+uniform mat4 in_textureToEye;
+
+// Ray step size
+uniform vec3 in_cellStep;
+uniform vec2 in_scalarsRange[4];
+uniform vec3 in_cellSpacing;
+
+// Sample distance
+uniform float in_sampleDistance;
+
+// Scales
+uniform vec3 in_cellScale;
+uniform vec2 in_windowLowerLeftCorner;
+uniform vec2 in_inverseOriginalWindowSize;
+uniform vec2 in_inverseWindowSize;
+uniform vec3 in_textureExtentsMax;
+uniform vec3 in_textureExtentsMin;
+
+// Material and lighting
+uniform vec3 in_diffuse[4];
+uniform vec3 in_ambient[4];
+uniform vec3 in_specular[4];
+uniform float in_shininess[4];
+
+// Others
+uniform bool in_cellFlag;
+uniform bool in_useJittering;
+vec3 g_rayJitter = vec3(0.0);
+uniform bool in_clampDepthToBackface;
+
+uniform vec2 in_averageIPRange;
+\end{lstlisting}
 
 To define a structure, we have chosen a strategy that separates the tags in
-found category: 
+the following four categories:
 
 \begin{enumerate}
-  \item Declaration (::Dec) The tags belong to this group are meant to declare
-    variables or function outside the main execution of the shader code. The
-    variables defined are uniform, varying, and user-defined global variables.
-    The functions defined are typically perform operations that are repetitive
-    in nature such as computing color of a fragment. 
+\label{enu:shadertags}
+  \item \textbf{Declaration (::Dec)} The tags belonging to this group are meant
+    to declare variables or function outside the main execution of the shader
+    code.  The variables defined are uniform, varying, and user-defined global
+    variables.  The functions defined are typically perform operations that are
+    repetitive in nature such as computing color of a fragment.
 
-  \item Initialization (::Init) The tags belong to this group are meant to
-    initialize variables inside the main execution function of the shader but
-    before the ray-casting loop in the fragment shader. An example of such code
-    includes computation of the initial position of ray and direction of ray
-    traversal.
+  \item \textbf{Initialization (::Init)} The tags belonging to this group are
+    meant to initialize variables inside the main execution function of the
+    shader but before the ray-casting loop in the fragment shader. An example of
+    such code includes computation of the initial position of ray and direction
+    of ray traversal.
 
-  \item Implementation (::Impl) The tags belong to this group are the variables
-    or functions or the combination of both that perform the actual operation of
-    clipping, cropping, shading, etc. on one, two, or four component volume
-    data.  The implementation code used local and global variables and optimized
-    for performance reasons as they are executed as long as the ray is
-    traversing inside the volume and didn't run into a termination condition
-    which is checked every time.  
+  \item \textbf{Implementation (::Impl)} The tags belonging to this group are
+    the variables or functions or the combination of both that perform the
+    actual operation of clipping, cropping, shading, etc. on one, two, or four
+    component volume data.  The implementation code used local and global
+    variables and optimized for performance reasons as they are executed as long
+    as the ray is traversing inside the volume and didn't run into a termination
+    condition which is checked every time.
 
-  \item Exit (::Exit) The tags belong to this group perform final computation
-    such as the final color of the fragment. These tags are placed outside the
-    ray-casting loop and typically contain numeric assignments. 
+  \item \textbf{Exit (::Exit)} The tags belonging to this group perform final
+    computation such as the final color of the fragment. These tags are placed
+    outside the ray-casting loop and typically contain numeric assignments.
 \end{enumerate}
 
 \subsection{Lighting / Shading}
@@ -147,20 +211,19 @@ which have to be computed for each fragment. The normal calculation is done by
 first computing the gradient and then scaling the gradient by the spacing
 between the cells. The gradient is computed by reading the scalar values form
 the neighboring cdells using the offset vector that stores the step size based
-on the bounds of the volume. 
+on the bounds of the volume.
 
 \subsection{Volume Picking}
-Picking, in the context of volume rendering, is
-the action of resolving the set of voxels a user has clicked on with the
-pointer. This provides the user with means to interact with the objects in a 3D
-scene. VTK legacy volume mappers support picking through an instance external to
-the mapper itself called ~\texttt{vtkVolumePicker}.  This class casts a ray into
-the volume and returns the point where the ray intersects an isosurface of a
-user specified opacity. This technique has certain limitations given that the
-picking class does not have enough information to correctly account for
-clipping, transfer functions and other parameters defining how the mapper
-actually renders, thus reducing its reliability on the actual objects being
-picked.
+Picking, in the context of volume rendering, is the action of resolving the set
+of voxels a user has clicked on with the pointer. This provides the user with
+means to interact with the objects in a 3D scene. VTK legacy volume mappers
+support picking through an instance external to the mapper itself called
+~\texttt{vtkVolumePicker}.  This class casts a ray into the volume and returns
+the point where the ray intersects an isosurface of a user specified opacity.
+This technique has certain limitations given that the picking class does not
+have enough information to correctly account for clipping, transfer functions
+and other parameters defining how the mapper actually renders, thus reducing its
+reliability on the actual objects being picked.
 
 VTK supports hardware-accelerated picking of goemetric data through the class
 ~\texttt{vtkHardwareSelector}, which uses a multiple-render-pass approach in
@@ -199,11 +262,11 @@ texture bricks certainly, imposes a performance trade-off but acts as a graphics
 memory expansion scheme for devices that would not be able to render a higher
 quality volume otherwise.
 
-\subsection{Dual Depth-Peeling}
-VTK has long supported the use of depth-peeling for order-independent rendering
-of translucent geometry. Since translucent fragments must be blended in a
-specific order to obtain the correct pixel color, techniques like depth-peeling
-are necessary for correctly shading a complex scene.
+\subsection{Dual Depth-Peeling} VTK has long supported the use of depth-peeling
+for order-independent rendering of translucent geometry. Since translucent
+fragments must be blended in a specific order to obtain the correct pixel color,
+techniques like depth-peeling are necessary for correctly shading a complex
+scene.
 
 In a multipass depth-peeling rendering, `slices' of fragments are pulled from
 the scene in depth order; first the nearest fragments per pixel are collected in
@@ -232,7 +295,7 @@ By adapting the volume mapper's fragment shader to use these depth values for
 computing two ``slices'' of a volume, we are able to integrate volume rendering
 into our depth-peeling pass. This enables volumetric data to be mixed with
 translucent geometry while efficiently yielding a correctly colored result.
- 
+
 \subsection{Render to texture}
 Typically, the mapper uses a single pass
 rendering approach in which the 3D volume data is rendered on screen i.e. the
@@ -241,7 +304,7 @@ other graphics applications, a multi-pass rendering approach called ``Render to
 Texture'' is used to support advanced visual rendering techniques such as
 deferred shading, texture baking, post processing, etc. This technique uses the
 rendered output from one pass to modify/enhance the output of another rendering
-passes. 
+passes.
 
 \begin{figure}[ht]
 \centering
@@ -295,7 +358,7 @@ developers to build sophisticated applications for the scientific community.
 implementation. It is designed to work on multiple platforms and developed to
 perform volume rendering at interactive frame rates. To achieve interactive
 frame rates and to handle edge cases, we have implemented following
-optimizations in the new mapper. 
+optimizations in the new mapper.
 
 \begin{itemize}
   \item \emph{Clipping plane optimization} In VTK a user can place multiple planes at
@@ -303,7 +366,7 @@ optimizations in the new mapper.
     medical use-cases. Since only one side of clip planes needs to be traversed,
     performing any sort of ray cast on the clipped side is wasteful. Hence a
     simple optimization is to move the starting point of the ray on the plane by
-    projecting the ray onto the plane in the view direction. 
+    projecting the ray onto the plane in the view direction.
 
 \item \emph{Camera Inside the Bounding Box}
 	Camera views within the volume are handled by clipping the proxy geometry

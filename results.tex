@@ -13,7 +13,7 @@ the ray trajectory), the distance between those sampling points heavily
 influences how accurately the volume data is represented.  Due to well
 established limitations described by the sampling theorem, low sampling rates
 may result in aliasing effects often referred to as wood-grain artifacts
-as shown in ~\autoref{fig:jittering_without} in the context of volume rendering
+as shown in ~\Autoref{fig:jittering_without} in the context of volume rendering
 \ignore{~\citep{RTVG_jittering}}. Reducing the distance between samples
 neutralizes these artifacts but takes an important toll on performance.
 
@@ -21,7 +21,7 @@ The mapper supports stochastic jittering, which is an alternative technique to
 counteract wood-grain artifacts by adding a random offset to the rays in the
 viewing direction thereby breaking the coherence between neighboring fragments
 which causes the aliased patterns become apparent
-as shown in ~\autoref{fig:jittering_with}.  Jittering is implemented by creating a
+as shown in ~\Autoref{fig:jittering_with}.  Jittering is implemented by creating a
 random noise texture (using \texttt{vtkPerlinNoise}) and applying the offset to
 the ray's starting point, thus has a much lower performance penalty than
 reducing the sampling distance.
@@ -64,7 +64,7 @@ following criteria:
 \subsection{Cropping} Cropping refers to 27 regions that defined by two
 planes along each coordinate axis of the volume and can be independently turned
 on (visible) or off (invisible) to produce a variety of different cropping
-effects, as shown in ~\autoref{fig:cropping}. Cropping is implemented by
+effects, as shown in ~\Autoref{fig:cropping}. Cropping is implemented by
 determining the cropping region of each sample location along the ray and
 including only those samples that fall within a visible region.
 
@@ -109,7 +109,7 @@ The mapper supports composite blending, minimum intensity projection, maximum
 intensity projection, additive intensity and average intensity blending. Each of
 these blending modes are useful for a particular use-case in medical computing.
 The most common one which is also the default is the composite blending mode.
-See ~\autoref{fig:blendingmodes} for an example of the different blend modes
+See ~\Autoref{fig:blendingmodes} for an example of the different blend modes
 on the same data.
 
 \begin{figure}[htb]
@@ -124,7 +124,7 @@ on the same data.
     \caption{Maximum Intensity}
     \label{fig:blendmax}
   \end{subfigure}
-  \begin{subfigure}{.5\columnwidth}   
+  \begin{subfigure}{.5\columnwidth}
     \includegraphics[width=\columnwidth]{TorsoBlendingAdditive.png}
     \caption{Additive}
     \label{fig:blendadditive}
@@ -155,7 +155,7 @@ dataset. Prior efforts~\citep{marchesin_per-pixel_2010} have demonstrated the
 usefulness of such a technique for feature enhancement in the rendered image. A
 transfer function mapping the magnitude of the gradient to an opacity modulation
 value can be used to essentially perform edge detection (de-emphasize homogenous
-regions) during rendering. See ~\autoref{fig:gradient} for an example of
+regions) during rendering. See ~\Autoref{fig:gradient} for an example of
 rendering with and without the use of a gradient opacity transfer function.
 
 \begin{figure}[htb]
@@ -163,7 +163,7 @@ rendering with and without the use of a gradient opacity transfer function.
    \begin{subfigure}[b]{0.5\columnwidth}
      \includegraphics[width=\columnwidth]{TorsoNoGradient.png}
      \caption{Without gradient opacity function}
-     \label{fig:Ng1} 
+     \label{fig:Ng1}
    \end{subfigure}%
   \begin{subfigure}[b]{0.5\columnwidth}
     \includegraphics[width=\columnwidth]{TorsoGradient.png}
