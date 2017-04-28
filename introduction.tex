@@ -1,13 +1,21 @@
 \section{Introduction}
 \label{introduction}
-VTK has a long history of volume rendering and, unfortunately, that history is
-evident in the large selection of classes available to render volumes. Each of
-these methods was state-of-the-art at the time, but given VTK’s 20+ year
-history, many of these methods are now quite obsolete. One of the goals of this
-work is to reduce the number of volume mappers to ideally just two: one that
-supports accelerated rendering on graphics hardware and another that works in
-parallel on the CPU. The vtkSmartVolumeMapper would help application developers
-by automatically choosing between these techniques based on system performance. 
+VTK is an open source cross-platform software system used for scientific data
+processing, analysis and visualization. It was originally developed to provide
+examples accompanying a book on object oriented computer graphics
+programming~\citep{schroeder_visualization_2006, geveci_vtk_2012}.  Since its
+inception, VTK has a long history of volume rendering and, unfortunately, that
+history is evident in the large selection of classes available to render
+volumes. Each of these methods was state-of-the-art at the time it was
+introduced, but given VTK’s 20+ year history, many of these methods are now
+quite obsolete. Recently, there has been a major
+effort~\citep{hanwell_visualization_2015} undertaken to re-write the rendering
+backend to support latest technological advances in the graphics hardware
+industry. One of the goals of this work was to reduce the number of volume
+mappers to ideally just two: one that supports accelerated rendering on graphics
+hardware and another that works in parallel on the CPU. The
+\texttt{vtkSmartVolumeMapper} would help application developers by automatically
+choosing between these techniques based on system performance. 
 
 \begin{figure}[ht]
   \centering
@@ -24,8 +32,8 @@ and parallel mode (for example in
 ParaView~\citep{ahrens_paraview:_2005,ayachit_paraview_2015}). To achieve this,
 we have created a replacement for the OpenGL fixed pipeline based
 vtkGPUVolumeRayCastMapper. The new mapper, which shares the same name but uses
-the OpenGL programmable pipeline, can be used via vtkSmartVolumeMapper or
-instantiated directly and replaces the old vtkGPUVolumeRayCastMapper.
+the OpenGL programmable pipeline, can be used via \texttt{vtkSmartVolumeMapper} or
+instantiated directly and replaces the old \texttt{vtkGPUVolumeRayCastMapper}.
 Availability of the new mapper with new OpenGL-VTK implementation improved the
 management of textures in the mapper and benefited both forms of rendering
 (geometry and volume) by sharing common code between them. While volume
