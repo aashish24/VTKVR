@@ -45,7 +45,7 @@ reducing the sampling distance.
 \end{figure}
 
 \subsection{Clipping}
-label{clipping}
+\label{clipping}
 A set of infinite planes can be defined to clip the volume to reveal inner
 detail, as shown in Figure 4.  The visibility of each sample along the ray
 is determined by computing the sample's distance to each plane and testing
@@ -148,10 +148,15 @@ masks.
 
 \subsection{Opacity Modulated by Gradient Magnitude}
 \label{opacity-modulated-by-gradient-magnitude}
-A transfer function mapping the magnitude of the gradient to an opacity
-modulation value can be used to essentially perform edge detection (de-emphasize
-homogenous regions) during rendering. See ~\autoref{fig:gradient} for an example
-of rendering with and without the use of a gradient opacity transfer function.
+While the \texttt{vtkGPUVolumeRayCastMapper} supports direct accumulation of
+color and opacity values along the ray, it also allows for modulating the
+opacity accumulation calculation based on relative values of each voxel in the
+dataset. Prior efforts~\citep{marchesin_per-pixel_2010} have demonstrated the
+usefulness of such a technique for feature enhancement in the rendered image. A
+transfer function mapping the magnitude of the gradient to an opacity modulation
+value can be used to essentially perform edge detection (de-emphasize homogenous
+regions) during rendering. See ~\autoref{fig:gradient} for an example of
+rendering with and without the use of a gradient opacity transfer function.
 
 \begin{figure}[htb]
   \centering
@@ -172,7 +177,8 @@ of rendering with and without the use of a gradient opacity transfer function.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{SMALL-PtCu-NP-Grad.png}
-  \caption{Platinum-Copper nanoparticle with gradient opacity modulation enabled}
+  \caption{Platinum-Copper (\ce{PtCu}) nanoparticle~\protect\citep{scott_electron_2012,
+           miao_atomic_2016} with gradient opacity modulation enabled}
   \label{fig:ptcu-grad}
 \end{figure}
 
@@ -180,7 +186,8 @@ of rendering with and without the use of a gradient opacity transfer function.
   \centering
   \includegraphics[width=\columnwidth]{tomviz-medium-CoP.png}
   \caption{Tomviz~\protect\citep{marcus_hanwell_tomviz_2014} rendering a
-  Cobalt-Phosphorous nanoparticle}
+           Cobalt-Phosphorous (\ce{Co2P})
+           nanoparticle~\protect\citep{levin_nanomaterial_2016}}
   \label{fig:tomviz-cop}
 \end{figure}
 
@@ -188,7 +195,7 @@ of rendering with and without the use of a gradient opacity transfer function.
   \centering
   \includegraphics[width=\columnwidth]{supernova-simulation.png}
   \caption{Rendering a single timestep output of the supernova modeling
-  simulation}
+  simulation~\protect\citep{blondin_pulsar_2007}}
   \label{fig:supernova}
 \end{figure}
 
