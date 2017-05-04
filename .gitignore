@@ -2,7 +2,6 @@
 *.out
 *.log
 *.fls
-*.pdf
 *.bbl
 *.blg
 .DS_Store
