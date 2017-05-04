@@ -98,8 +98,8 @@ mapping.
     \includegraphics[width=\textwidth]{HeadClippingSlabShading.png}
     \caption{With shading}
     \label{fig:clipshading}
-  \end{subfigure}%
-  \caption{Use of clipping planes with the \texttt{vtkGPUVolumeRayCastMapper}}
+  \end{subfigure}
+  \caption{Clipping planes with \texttt{vtkGPUVolumeRayCastMapper}}
   \label{fig:clipping}
 \end{figure}
 
@@ -133,8 +133,8 @@ on the same data.
     \includegraphics[width=\columnwidth]{TorsoBlendingAverage.png}
     \caption{Average Intensity}
     \label{fig:blendaverage}
-  \end{subfigure}
-  \caption{Blend modes supported by the \texttt{vtkGPUVolumeRayCastMapper}}
+  \end{subfigure}%
+  \caption{Blend modes supported by \texttt{vtkGPUVolumeRayCastMapper}}
   \label{fig:blendingmodes}
 \end{figure}
 
@@ -212,9 +212,10 @@ rendering with and without the use of a gradient opacity transfer function.
 \subsection{Performance benchmarks}
 \label{performance-benchmarks}
 As part of the modernization effort, we obtained several performance metrics
-from sample systems with different graphics cards ranging from on-board Intel
-Graphics to dedicated GPUs. The code used to benchmark is located within the VTK
-code repository under \texttt{Utilities/Benchmarks/}. The results of the
+from sample systems with with differing specifications of hardware graphics;
+ranging from on-board Intel Graphics to dedicated GPUs. The code used to
+benchmark is located within the VTK code repository under
+\texttt{Utilities/Benchmarks/}. The results of the
 benchmark are shown in~\Autoref{fig:perf-bench}.
 
 \begin{figure}[htbp]

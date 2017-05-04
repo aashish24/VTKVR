@@ -367,18 +367,15 @@ optimizations in the new mapper.
     performing any sort of ray cast on the clipped side is wasteful. Hence a
     simple optimization is to move the starting point of the ray on the plane by
     projecting the ray onto the plane in the view direction.
-
-\item \emph{Camera Inside the Bounding Box}
-	Camera views within the volume are handled by clipping the proxy geometry
-    with the camera's near plane (using \texttt{vtkClipConvexPolyData}), thus
-    ensuring all the bounding box fragments fall within range.
+  \item \emph{Camera Inside the Bounding Box} Rendering with camera views within
+    the volume is handled by clipping the proxy geometry with the camera near plane
+    (using \texttt{vtkClipConvexPolyData}), thus ensuring that all
+    bounding box fragments fall within range.
     Plane-Axis-Aligned-Bounding-Box intersection is used to determine whether
     geometry clipping is necessary.
-
-\item \emph{Support for Double and Long Long Data Type} The current OpenGL API does not
-  support 64-bit data types. In order to be able to render volumes of these
+  \item \emph{Support for Double and Long Long Data Type} The current OpenGL API does not
+    support 64-bit data types. In order to be able to render volumes of these
     types, the mapper loads the data array slice by slice casting the data
     values to floating-point. This, despite the obvious precision loss, is
-    provided to the user as a convenience feature.
-
+    provided to the user as a convenience feature
 \end{itemize}
