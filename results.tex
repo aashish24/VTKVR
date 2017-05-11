@@ -212,11 +212,18 @@ rendering with and without the use of a gradient opacity transfer function.
 \subsection{Performance benchmarks}
 \label{performance-benchmarks}
 As part of the modernization effort, we obtained several performance metrics
-from sample systems with with differing specifications of hardware graphics;
-ranging from on-board Intel Graphics to dedicated GPUs. The code used to
-benchmark is located within the VTK code repository under
-\texttt{Utilities/Benchmarks/}. The results of the
-benchmark are shown in~\Autoref{fig:perf-bench}.
+from sample systems with differing specifications of hardware graphics; ranging
+from on-board graphic cards to dedicated GPUs. The code used to benchmark is
+located within the VTK code repository under \texttt{Utilities/Benchmarks/}. The
+test runs for a specified number of iterations wherein each iteration increases
+data size by an order. For each iteration, the test creates a mock dataset using
+the~\texttt{vtkRTAnalyticSource} and renders it for 80 frames, rotating the
+dataset each frame and recording the time taken to render to screen.  Each test
+was run twice on each system; once with and once without gradient computations
+required by shading. The results of the benchmark are shown
+in~\Autoref{fig:perf-bench}. As observed, surface shaded rendering degrades
+performance but the mapper maintains interactive frame rates even for large
+datasets.
 
 \begin{figure}[htbp]
   \centering
@@ -256,6 +263,8 @@ benchmark are shown in~\Autoref{fig:perf-bench}.
         \ref{plot_a3_s} \tiny{AMD FirePro D300}\\
         \ref{plot_q20_s} \tiny{NVIDIA Quadro 2000}}};
   \end{tikzpicture}
-  \caption{Performance benchmarks}
+  \caption{Results of the benchmarking tests performed on three different
+    graphics cards using the~\protect{\texttt{vtkGPUVolumeRayCastMapper}}
+    with and without shading (gradient computations)}
   \label{fig:perf-bench}
 \end{figure}
