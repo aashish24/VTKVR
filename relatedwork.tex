@@ -1,0 +1,48 @@
+\section{Related Work}
+\label{relatedwork}
+
+Volume Visualization enables viewing of three-dimensional data by rendering
+sampled function of three spatial dimensions and projecting the translucent
+volume onto a 2D projection plane. While many techniques exist for volume
+rendering such as marching cubes, ~\citep{lorensen1987marching},
+image splatting  ~\citep{westover1990footprint}, texture slicing
+[~\citep{rezk2000interactive}, ~\citep{engel2001high}], and ray casting
+[~\citep{hsu1993segmented}, ~\citep{ma1995parallel}, ~\citep{ma1997scalable},
+~\citep{heng2006gpu}]. ray casting has become one of the most used ones on
+modern graphics hardware. Ray casting technique provides a higher quality
+of rendering and many ways to optimize the rendering of the volume such
+as early ray termination and space leaping ~\citep{yagel1993accelerating}.
+
+While the Ray Casting a well-known technique and various implementations
+exists, the challenge of providing high-quality volume visualization with
+dataset of varying size, spacing, and format, with or without the geometry
+rendering, on multiple platforms (Desktop, Cave, Head Mounted Displays (HMD))
+and Operative Systems (Apple, Linux, Window) at interactive speed is still a challenge.
+
+Few open-source implementations exist Voreen~\citep{MRMH09}. Voreen is
+open-source volume visualization library initiated at
+Department of Computer Science at the University of Münster, Germany in 2004.
+It provides features such as Isosurface Rendering,
+Maximum Intensity Projection (MIP)~\citep{wallis1989three},
+support for 1D and 2D transfer functions, and support for different illumination models
+(Phong, Tone, Ambient Occlusion). Both Voreen and VTK uses data-flow networks. However,
+Voreen is Volume Visualization library whereas VTK is a Scientific Visualization
+library and provides better support for Geometry and Gridded datasets. While Voreen
+provides a rapid prototyping environment, VTK volume visualization aims for production
+quality, performance, and Ubiquitousness. Additionally, Voreen
+only supports high-end desktop devices where as VTK supports multiple platforms
+natively enabling researchers bridging the gap between academic research
+and open source and industrial contributions.
+
+Another open-source volume rendering ImageVis3D is being developed by the researchers
+at the University of Utah~citep{SCI:ImageVis3D}. ImageVis3D is an application as opposed
+to a library and provides support for large volume data visualization, volume visualization
+on a desktop and mobile device, MIP, 1D and 2D transfer functions amongst many others.
+It does not support Virtual Reality environments and the flexibility of a data-flow networks.
+
+Other than Voreen and ImageVis3D, many volumes rendering APIs exist, however, except for
+Voreen, advanced volume visualization research performed by the industry and
+Academic communities are not publicly available. Additionally, Voreen only supports
+high-end desktop devices. By providing an open source volume rendering engine that
+supports multiple platforms natively,  researchers can use the engine as a bridge
+between academic research and open source and industrial contributions.
