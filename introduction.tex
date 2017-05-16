@@ -17,7 +17,7 @@ this work was to reduce the number of volume mappers to ideally just two: one
 that supports accelerated rendering on the Graphics Processing Unit (GPU) and
 another that works in parallel on the Central Processing Unit (CPU). The
 \texttt{vtkSmartVolumeMapper} would help application developers by automatically
-choosing between these techniques based on the system configuration. 
+choosing between these techniques based on the system configuration.
 
 \begin{figure}[ht]
   \centering
@@ -31,8 +31,21 @@ choosing between these techniques based on the system configuration.
 The main objective of this effort is to create a cross-platform,
 multi-functional and high-performance volume renderer that works in both serial
 and parallel mode (for example in
-ParaView~\citep{ahrens_paraview:_2005,ayachit_paraview_2015}). To achieve this,
-we have created a replacement for the OpenGL fixed pipeline based
+ParaView~\citep{ahrens_paraview:_2005,ayachit_paraview_2015}). Our volume
+visualization effort in novel in the following way:
+
+\begin{itemize}
+\item The new volume visualization supports all major operating systems and compute environments (Desktop, VR, Mobile) and performs equally
+well on all the systems.
+
+\item The new volume visualization supports a VTK-based pipeline and data-flow networks that provide a highly flexible system for scientific and medical data visualization use-cases.
+
+\item Our technique supports a variety of useful features at interactive frame
+rates such as Clipping, Cropping, Gradient Opacity, Geometry-Volume translucent
+rendering and on demand shader composition.
+\end{itemize}
+
+To achieve this, we have created a replacement for the OpenGL fixed pipeline based
 vtkGPUVolumeRayCastMapper. The new mapper, which shares the same name but uses
 the OpenGL programmable pipeline, can be used via \texttt{vtkSmartVolumeMapper} or
 instantiated directly and replaces the old \texttt{vtkGPUVolumeRayCastMapper}.
