@@ -19,7 +19,7 @@ dataset of varying size, spacing, and format, with or without the geometry
 rendering, on multiple platforms (Desktop, Cave, Head Mounted Displays (HMD))
 and Operative Systems (Apple, Linux, Window) at interactive speed is still a challenge.
 
-Few open-source implementations exist such as Voreen~\citep{MRMH09}. Voreen is
+Few open-source implementations exist such as Voreen~\citep{MRMH09} which
 initiated at Department of Computer Science at the University of Münster, Germany in 2004.
 It provides features such as Isosurface Rendering,
 Maximum Intensity Projection (MIP)~\citep{wallis1989three},
@@ -38,10 +38,16 @@ at the University of Utah~citep{SCI:ImageVis3D}. ImageVis3D is an application as
 to a library and provides support for large volume data visualization, volume visualization
 on a desktop and mobile device, MIP, 1D and 2D transfer functions amongst many others.
 It does not support Virtual Reality environments and the flexibility of a data-flow networks.
+Few other data type specific volume rendering libraries such as Voxx~\citep{clendenon2002voxx}
+and ClearVolume~\cite{royer2015clearvolume} provides visualization of biological and
+light-sheet microscopy. PyMol ~\cite{delano2002pymol} provide volume visualization capabilities
+only to molecular datasets. Finally, hardware architecture specific volume visualiation libraries
+such as OSPray ~\cite{wald2017ospray} and NVIDIA Optix ~\citep{parker2010optix} provide fast
+large volume data visualization capabilities on Intel CPU and Nvidia GPU's but lack support
+for non-native hardware.
 
 Other than Voreen and ImageVis3D, many volumes rendering APIs exist, however, except for
 Voreen, advanced volume visualization research performed by the industry and
-Academic communities are not publicly available. Additionally, Voreen only supports
-high-end desktop devices. By providing an open source volume rendering engine that
-supports multiple platforms natively,  researchers can use the engine as a bridge
+academic communities are not publicly available. By providing an open source volume rendering
+engine that supports multiple platforms natively,  researchers can use the engine as a bridge
 between academic research and open source and industrial contributions.
