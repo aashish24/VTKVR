@@ -21,7 +21,7 @@ choosing between these techniques based on the system configuration.
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=\columnwidth]{vtk_volume_pipeline.pdf}
+  \includegraphics[width=\columnwidth]{vtk_volume_pipeline.png}
   \caption{VTK pipeline for volume rendering which is similar to VTK polygonal
     rendering with differences such as transfer functions are defined on the
     property object.}
@@ -32,17 +32,20 @@ The main objective of this effort is to create a cross-platform,
 multi-functional and high-performance volume renderer that works in both serial
 and parallel mode (for example in
 ParaView~\citep{ahrens_paraview:_2005,ayachit_paraview_2015}). Our volume
-visualization effort in novel in the following way:
+visualization effort is novel in the following way:
 
 \begin{itemize}
-\item The new volume visualization supports all major operating systems and compute environments (Desktop, VR, Mobile) and performs equally
-well on all the systems.
+  \item The new volume visualization supports all major operating
+    systems and compute environments (Desktop, VR, Mobile) and performs equally
+    well on all the systems.
 
-\item The new volume visualization supports a VTK-based pipeline and data-flow networks that provide a highly flexible system for scientific and medical data visualization use-cases.
+  \item The new volume visualization supports a VTK-based pipeline and data-flow
+    networks that provide a highly flexible system for scientific and medical data
+    visualization use-cases.
 
-\item Our technique supports a variety of useful features at interactive frame
-rates such as Clipping, Cropping, Gradient Opacity, Geometry-Volume translucent
-rendering and on demand shader composition.
+  \item Our technique supports a variety of useful features at interactive frame
+    rates such as Clipping, Cropping, Gradient Opacity, Geometry-Volume translucent
+    rendering and on demand shader composition.
 \end{itemize}
 
 To achieve this, we have created a replacement for the OpenGL fixed pipeline based
