@@ -37,17 +37,6 @@
   year = {2008}
 }
 
-@book{engel_real-time_2006,
-  address = {Wellesley, MA, USA},
-  title = {Real-Time {{Volume Graphics}}},
-  edition = {1st},
-  isbn = {978-1-56881-266-3},
-  timestamp = {2017-03-09T18:48:45Z},
-  publisher = {{A. K. Peters, Ltd.}},
-  author = {Engel, Klaus and Hadwiger, Markus and Kniss, Joe M. and Rezk-Salama, Christof and Weiskopf, Daniel},
-  year = {2006}
-}
-
 @inproceedings{ayachit_paraview_2015-1,
   address = {New York, NY, USA},
   series = {ISAV2015},
@@ -288,3 +277,293 @@ Crystallography has been fundamental to the development of many fields of scienc
   month = mar,
   year = {2013}
 }
+
+@book{engel_real-time_2006,
+  address = {Wellesley, MA, USA},
+  title = {Real-{{Time Volume Graphics}}},
+  isbn = {978-1-56881-266-3 978-1-4398-6429-6},
+  language = {en},
+  timestamp = {2017-05-12T14:27:32Z},
+  urldate = {2017-05-12},
+  publisher = {{A K Peters/CRC Press}},
+  author = {Engel, Klaus and Hadwiger, Markus and Kniss, Joe and Rezk-Salama, Christof and Weiskopf, Daniel},
+  month = jul,
+  year = {2006},
+  doi = {10.1201/b10629}
+}
+
+@inproceedings{lorensen_marching_1987,
+  address = {New York, NY, USA},
+  series = {SIGGRAPH '87},
+  title = {Marching {{Cubes}}: {{A High Resolution 3D Surface Construction Algorithm}}},
+  isbn = {978-0-89791-227-3},
+  shorttitle = {Marching {{Cubes}}},
+  doi = {10.1145/37401.37422},
+  abstract = {We present a new algorithm, called marching cubes, that creates triangle models of constant density surfaces from 3D medical data. Using a divide-and-conquer approach to generate inter-slice connectivity, we create a case table that defines triangle topology. The algorithm processes the 3D medical data in scan-line order and calculates triangle vertices using linear interpolation. We find the gradient of the original data, normalize it, and use it as a basis for shading the models. The detail in images produced from the generated surface models is the result of maintaining the inter-slice connectivity, surface data, and gradient information present in the original 3D data. Results from computed tomography (CT), magnetic resonance (MR), and single-photon emission computed tomography (SPECT) illustrate the quality and functionality of marching cubes. We also discuss improvements that decrease processing time and add solid modeling capabilities.},
+  timestamp = {2017-05-16T18:26:55Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the 14th {{Annual Conference}} on {{Computer Graphics}} and {{Interactive Techniques}}},
+  publisher = {{ACM}},
+  author = {Lorensen, William E. and Cline, Harvey E.},
+  year = {1987},
+  pages = {163--169}
+}
+
+@inproceedings{rezk-salama_interactive_2000,
+  address = {New York, NY, USA},
+  series = {HWWS '00},
+  title = {Interactive {{Volume}} on {{Standard PC Graphics Hardware Using Multi}}-Textures and {{Multi}}-Stage {{Rasterization}}},
+  isbn = {978-1-58113-257-1},
+  doi = {10.1145/346876.348238},
+  abstract = {Interactive direct volume rendering has yet been restricted to high-end graphics workstations and special-purpose hardware, due to the large amount of trilinear interpolations, that are necessary to obtain high image quality. Implementations that use the 2D-texture capabilities of standard PC hardware, usually render object-aligned slices in order to substitute trilinear by bilinear interpolation. However the resulting images often contain visual artifacts caused by the lack of spatial interpolation. In this paper we propose new rendering techniques that significantly improve both performance and image quality of the 2D-texture based approach. We will show how in ulti-texturing capabilitiesof modern consumer PC graphboards are exploited to enable in teractive high quality volume visualization on low-cost hardware. Furthermore we demonstrate how multi-stage rasterization hardware can be used to efficiently render shaded isosurfaces and to compute diffuse illumination for semi-transparent volume rendering at interactive frame rates.},
+  timestamp = {2017-05-16T18:32:27Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the {{ACM SIGGRAPH}}/{{EUROGRAPHICS Workshop}} on {{Graphics Hardware}}},
+  publisher = {{ACM}},
+  author = {Rezk-Salama, C. and Engel, K. and Bauer, M. and Greiner, G. and Ertl, T.},
+  year = {2000},
+  keywords = {multi-textures,PC hardware,rasterization,volume rendering},
+  pages = {109--118}
+}
+
+@inproceedings{yagel_accelerating_1993,
+  address = {Washington, DC, USA},
+  series = {VIS '93},
+  title = {Accelerating {{Volume Animation}} by {{Space}}-Leaping},
+  isbn = {978-0-8186-3940-1},
+  abstract = {In this paper we present a method for speeding the process of volume animation. It exploits coherency between consecutive images to shorten the path rays take through the volume. Rays are provided with the information needed to leap over the empty space and commence volume traversal at the vicinity of meaningful data. The algorithm starts by projecting the volume onto a C-buffer (Coordinates-buffer) which stores the object-space coordinates of the first non-empty voxel visible from a pixel. Following a change in the viewing parameters, the C-buffer is transformed accordingly. Next, coordinates that possibly became hidden are discarded. The remaining values serve as an estimate of the point where the new rays should start their volume traversal. This method does not require 3D preprocessing and does not suffer from any image degradation. It can be combined with existing acceleration techniques and can support any ray traversal algorithm and material modeling scheme.},
+  timestamp = {2017-05-16T18:33:03Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the 4th {{Conference}} on {{Visualization}} '93},
+  publisher = {{IEEE Computer Society}},
+  author = {Yagel, Roni and Shi, Zhouhong},
+  year = {1993},
+  pages = {62--69}
+}
+
+@inproceedings{engel_high-quality_2001,
+  address = {New York, NY, USA},
+  series = {HWWS '01},
+  title = {High-Quality {{Pre}}-Integrated {{Volume Rendering Using Hardware}}-Accelerated {{Pixel Shading}}},
+  isbn = {978-1-58113-407-0},
+  doi = {10.1145/383507.383515},
+  abstract = {We introduce a novel texture-based volume rendering approach that achieves the image quality of the best post-shading approaches with far less slices. It is suitable for new flexible consumer graphics hardware and provides high image quality even for low-resolution volume data and non-linear transfer functions with high frequencies, without the performance overhead caused by rendering additional interpolated slices. This is especially useful for volumetric effects in computer games and professional scientific volume visualization, which heavily depend on memory bandwidth and rasterization power.
+We present an implementation of the algorithm on current programmable consumer graphics hardware using multi-textures with advanced texture fetch and pixel shading operations. We implemented direct volume rendering, volume shading, arbitrary number of isosurfaces, and mixed mode rendering. The performance does neither depend on the number of isosurfaces nor the definition of the transfer functions, and is therefore suited for interactive high-quality volume graphics.},
+  timestamp = {2017-05-16T18:33:34Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the {{ACM SIGGRAPH}}/{{EUROGRAPHICS Workshop}} on {{Graphics Hardware}}},
+  publisher = {{ACM}},
+  author = {Engel, Klaus and Kraus, Martin and Ertl, Thomas},
+  year = {2001},
+  keywords = {direct volume rendering,flexible graphics hardware,multi-textures,PC graphics hardware,rasterization,volume graphics,volume shading,volume visualization},
+  pages = {9--16}
+}
+
+@inproceedings{westover_footprint_1990,
+  address = {New York, NY, USA},
+  series = {SIGGRAPH '90},
+  title = {Footprint {{Evaluation}} for {{Volume Rendering}}},
+  isbn = {978-0-89791-344-7},
+  doi = {10.1145/97879.97919},
+  abstract = {This paper presents a forward mapping rendering algorithm to display regular volumetric grids that may not have the same spacings in the three grid directions. It takes advantage of the fact that convolution can be thought of as distributing energy from input samples into space. The renderer calculates an image plane footprint for each data sample and uses the footprint to spread the sample's energy onto the image plane. A result of the technique is that the forward mapping algorithm can support perspective without excessive cost, and support adaptive resampling of the three-dimensional data set during image generation.},
+  timestamp = {2017-05-16T18:34:09Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the 17th {{Annual Conference}} on {{Computer Graphics}} and {{Interactive Techniques}}},
+  publisher = {{ACM}},
+  author = {Westover, Lee},
+  year = {1990},
+  pages = {367--376}
+}
+
+@inproceedings{hsu_segmented_1993,
+  address = {New York, NY, USA},
+  series = {PRS '93},
+  title = {Segmented {{Ray Casting}} for {{Data Parallel Volume Rendering}}},
+  isbn = {978-0-89791-618-9},
+  doi = {10.1145/166181.166182},
+  timestamp = {2017-05-16T18:34:36Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the 1993 {{Symposium}} on {{Parallel Rendering}}},
+  publisher = {{ACM}},
+  author = {Hsu, William M.},
+  year = {1993},
+  keywords = {rendering,volume},
+  pages = {7--14}
+}
+
+@inproceedings{ma_parallel_1995,
+  address = {New York, NY, USA},
+  series = {PRS '95},
+  title = {Parallel {{Volume Ray}}-Casting for {{Unstructured}}-Grid {{Data}} on {{Distributed}}-Memory {{Architectures}}},
+  isbn = {978-0-89791-774-2},
+  doi = {10.1145/218327.218333},
+  timestamp = {2017-05-16T18:35:06Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the {{IEEE Symposium}} on {{Parallel Rendering}}},
+  publisher = {{ACM}},
+  author = {Ma, Kwan-Liu},
+  year = {1995},
+  pages = {23--30}
+}
+
+@inproceedings{ma_scalable_1997,
+  address = {New York, NY, USA},
+  series = {PRS '97},
+  title = {A {{Scalable Parallel Cell}}-Projection {{Volume Rendering Algorithm}} for {{Three}}-Dimensional {{Unstructured Data}}},
+  isbn = {978-1-58113-010-2},
+  doi = {10.1145/266638.266664},
+  timestamp = {2017-05-16T18:37:25Z},
+  urldate = {2017-05-16},
+  booktitle = {Proceedings of the {{IEEE Symposium}} on {{Parallel Rendering}}},
+  publisher = {{ACM}},
+  author = {Ma, Kwan-Liu and Crockett, Thomas W.},
+  year = {1997},
+  keywords = {asynchronous communication,distributed memory,hierarchical data structures,load balancing,message passing,parallel algorithms,Scientific visualization,unstructured grids,volume rendering},
+  pages = {95--ff.}
+}
+
+@inproceedings{heng_gpu-based_2005,
+  title = {{{GPU}}-Based {{Volume Rendering}} for {{Medical Image Visualization}}},
+  doi = {10.1109/IEMBS.2005.1615635},
+  abstract = {During the quick advancements of medical image visualization and augmented virtual reality application, the low performance of the volume rendering algorithm is still a "bottle neck". To facilitate the usage of well developed hardware resource, a novel graphics processing unit (GPU)-based volume ray-casting algorithm is proposed in this paper. Running on a normal PC, it performs an interactive rate while keeping the same image quality as the traditional volume rendering algorithm does. Recently, GPU-accelerated direct volume rendering has positioned itself as an efficient tool for the display and visual analysis of volume data. However, for large sized medical image data, it often shows low efficiency for too large memories requested. Furthermore, it always holds a drawback of writing color buffers multi-times per frame. The proposed algorithm improves the situation by implementing ray casting operation completely in GPU. It needs only one slice plane from CPU and one 3Dtexture to store data when GPU calculates the two terminals of the ray and carries out the color blending operation in its pixel programs. So both the rendering speed and the memories consumed are improved, and the algorithm can deal most medical image data on normal PCs in the interactive speed},
+  timestamp = {2017-05-16T18:51:21Z},
+  booktitle = {2005 {{IEEE Engineering}} in {{Medicine}} and {{Biology}} 27th {{Annual Conference}}},
+  author = {Heng, Yang and Gu, Lixu},
+  month = jan,
+  year = {2005},
+  keywords = {3Dtexture,augmented virtual reality application,Biomedical imaging,color blending operation,computerised tomography,Data analysis,direct volume rendering,Displays,GPU acceleration,GPU-based volume rendering,Graphics,graphics processing unit,Hardware,image colour analysis,Image quality,image texture,medical image data,medical image processing,medical image visualization,Neck,Rendering (computer graphics),virtual reality,Visualization,volume ray-casting algorithm},
+  pages = {5145--5148},
+  file = {IEEE Xplore Abstract Record:/Users/sankheshjhaveri/Library/Application Support/Zotero/Profiles/4gdw0u3h.default/zotero/storage/8FFV7G5D/1615635.html:text/html}
+}
+
+@article{meyer-spradow_voreen:_2009,
+  title = {Voreen: {{A Rapid}}-{{Prototyping Environment}} for {{Ray}}-{{Casting}}-{{Based Volume Visualizations}}},
+  volume = {29},
+  issn = {0272-1716},
+  shorttitle = {Voreen},
+  doi = {10.1109/MCG.2009.130},
+  abstract = {By splitting a complex ray-casting process into different tasks performed on different processors, Voreen provides a lot of flexibility because users can intervene at different points during ray casting. Voreen's object-oriented design lets users easily create customized processor classes that cooperate seamlessly with existing classes. A user-friendly GUI supports rapid prototyping of visualization ideas. We've implemented several applications based on our library. In the future, we'd like to further extend Voreen's capabilities to make visualization prototyping even easier on all abstraction levels. Thus, we plan to realize a set of dedicated processor skeletons, which are solely configured through shader programs and can thus be modified at runtime.},
+  timestamp = {2017-05-16T18:43:05Z},
+  number = {6},
+  journal = {IEEE Computer Graphics and Applications},
+  author = {Meyer-Spradow, J. and Ropinski, T. and Mensmann, J. and Hinrichs, K.},
+  month = nov,
+  year = {2009},
+  keywords = {0,Casting,GPU-based ray casting,graphical user interfaces,GUI,Libraries,object-oriented design,object-oriented methods,program visualisation,Prototypes,rapid-prototyping environment,ray-casting-based volume visualizations,Runtime,Skeleton,software prototyping,Visualization,visualization prototyping,volume rendering,Voreen},
+  pages = {6--13},
+  file = {IEEE Xplore Abstract Record:/Users/sankheshjhaveri/Library/Application Support/Zotero/Profiles/4gdw0u3h.default/zotero/storage/MKKBFFF7/5307637.html:text/html}
+}
+
+@article{wallis_three-dimensional_1989,
+  title = {Three-Dimensional Display in Nuclear Medicine},
+  volume = {8},
+  issn = {0278-0062},
+  doi = {10.1109/42.41482},
+  abstract = {Several surface and volume rendering techniques are compared using nuclear medicine data including several new methods developed by the authors specifically for scintigraphic data. The techniques examined are summed projection, thresholded projection, threshold-based surface illumination, volumetric compositing, maximum-activity projection, sun-weighted maximum-activity projection, and variable attenuation. The advantages and disadvantages of each method are discussed in relation to the goals of three-dimensional display, which are defined herein. Selected images are shown to illustrate the usefulness of the methods.},
+  language = {eng},
+  timestamp = {2017-05-16T18:44:34Z},
+  number = {4},
+  journal = {IEEE transactions on medical imaging},
+  author = {Wallis, J. W. and Miller, T. R. and Lerner, C. A. and Kleerup, E. C.},
+  year = {1989},
+  pages = {297--230},
+  pmid = {18230529}
+}
+
+@article{clendenon_voxx:_2002,
+  title = {Voxx: A {{PC}}-Based, near Real-Time Volume Rendering System for Biological Microscopy},
+  volume = {282},
+  issn = {0363-6143},
+  shorttitle = {Voxx},
+  abstract = {Confocal and two-photon fluorescence microscopy have advanced the exploration of complex, three-dimensional biological structures at submicron resolution. We have developed a voxel-based three-dimensional (3-D) imaging program (Voxx) capable of near real-time rendering that runs on inexpensive personal computers. This low-cost interactive 3-D imaging system provides a powerful tool for analyzing complex structures in cells and tissues and encourages a more thorough exploration of complex biological image data.},
+  language = {eng},
+  timestamp = {2017-05-16T20:28:31Z},
+  number = {1},
+  journal = {American Journal of Physiology. Cell Physiology},
+  author = {Clendenon, Jeffrey L. and Phillips, Carrie L. and Sandoval, Ruben M. and Fang, Shiaofen and Dunn, Kenneth W.},
+  month = jan,
+  year = {2002},
+  keywords = {Animals,Cell Line,Computer Systems,Image Processing; Computer-Assisted,Kidney,Mice,Microscopy; Confocal,Myocardium,Rats,Software,Swine},
+  pages = {C213--218},
+  pmid = {11742814}
+}
+
+@article{royer_clearvolume:_2015,
+  title = {{{ClearVolume}}: Open-Source Live {{3D}} Visualization for Light-Sheet Microscopy},
+  volume = {12},
+  copyright = {\textcopyright{} 2015 Nature Publishing Group, a division of Macmillan Publishers Limited. All Rights Reserved.},
+  issn = {1548-7091},
+  shorttitle = {{{ClearVolume}}},
+  doi = {10.1038/nmeth.3372},
+  abstract = {To the Editor:
+Current state-of-the-art light-sheet microscopes rely on sophisticated control software to perform the acquisition of gigabytes of image data per second over the course of hours or even days. Typically the microscopes acquire data in a first step, and in a second step these data are processed and visualized\ldots{}},
+  language = {en},
+  timestamp = {2017-05-16T20:29:37Z},
+  number = {6},
+  urldate = {2017-05-16},
+  journal = {Nature Methods},
+  author = {Royer, Loic A. and Weigert, Martin and G{\"u}nther, Ulrik and Maghelli, Nicola and Jug, Florian and Sbalzarini, Ivo F. and Myers, Eugene W.},
+  month = jun,
+  year = {2015},
+  keywords = {Light-sheet microscopy,Software,Systems biology},
+  pages = {480--481},
+  file = {Snapshot:/Users/sankheshjhaveri/Library/Application Support/Zotero/Profiles/4gdw0u3h.default/zotero/storage/KCST8EV3/nmeth.3372.html:text/html}
+}
+
+@misc{schrodinger_llc_pymol_2015,
+  title = {The {{PyMOL Molecular Graphics System}}, {{Version}} 1.8},
+  timestamp = {2017-05-16T20:49:26Z},
+  howpublished = {\url{https://www.pymol.org/}},
+  journal = {PyMOL  The PyMOL Molecular Graphics System, Version 1.8, Schr{\"o}dinger, LLC.},
+  author = {{Schr{\"o}dinger, LLC}},
+  month = nov,
+  year = {2015}
+}
+
+@article{wald_ospray_2017,
+  title = {{{OSPRay}} - {{A CPU Ray Tracing Framework}} for {{Scientific Visualization}}},
+  volume = {23},
+  issn = {1941-0506},
+  doi = {10.1109/TVCG.2016.2599041},
+  abstract = {Scientific data is continually increasing in complexity, variety and size, making efficient visualization and specifically rendering an ongoing challenge. Traditional rasterization-based visualization approaches encounter performance and quality limitations, particularly in HPC environments without dedicated rendering hardware. In this paper, we present OSPRay, a turn-key CPU ray tracing framework oriented towards production-use scientific visualization which can utilize varying SIMD widths and multiple device backends found across diverse HPC resources. This framework provides a high-quality, efficient CPU-based solution for typical visualization workloads, which has already been integrated into several prevalent visualization packages. We show that this system delivers the performance, high-level API simplicity, and modular device support needed to provide a compelling new rendering framework for implementing efficient scientific visualization workflows.},
+  language = {eng},
+  timestamp = {2017-05-16T20:39:43Z},
+  number = {1},
+  journal = {IEEE transactions on visualization and computer graphics},
+  author = {Wald, I. and Johnson, G. P. and Amstutz, J. and Brownlee, C. and Knoll, A. and Jeffers, J. and Gunther, J. and Navratil, P.},
+  month = jan,
+  year = {2017},
+  pages = {931--940},
+  pmid = {27875206}
+}
+
+@inproceedings{parker_optix:_2010,
+  address = {New York, NY, USA},
+  series = {SIGGRAPH '10},
+  title = {{{OptiX}}: {{A General Purpose Ray Tracing Engine}}},
+  isbn = {978-1-4503-0210-4},
+  shorttitle = {{{OptiX}}},
+  doi = {10.1145/1833349.1778803},
+  abstract = {The NVIDIA\textregistered{} OptiX\texttrademark{} ray tracing engine is a programmable system designed for NVIDIA GPUs and other highly parallel architectures. The OptiX engine builds on the key observation that most ray tracing algorithms can be implemented using a small set of programmable operations. Consequently, the core of OptiX is a domain-specific just-in-time compiler that generates custom ray tracing kernels by combining user-supplied programs for ray generation, material shading, object intersection, and scene traversal. This enables the implementation of a highly diverse set of ray tracing-based algorithms and applications, including interactive rendering, offline rendering, collision detection systems, artificial intelligence queries, and scientific simulations such as sound propagation. OptiX achieves high performance through a compact object model and application of several ray tracing-specific compiler optimizations. For ease of use it exposes a single-ray programming model with full support for recursion and a dynamic dispatch mechanism similar to virtual function calls.},
+  timestamp = {2017-05-16T20:40:26Z},
+  urldate = {2017-05-16},
+  booktitle = {{{ACM SIGGRAPH}} 2010 {{Papers}}},
+  publisher = {{ACM}},
+  author = {Parker, Steven G. and Bigler, James and Dietrich, Andreas and Friedrich, Heiko and Hoberock, Jared and Luebke, David and McAllister, David and McGuire, Morgan and Morley, Keith and Robison, Austin and Stich, Martin},
+  year = {2010},
+  keywords = {graphics hardware,graphics systems,ray tracing},
+  pages = {66:1--66:13}
+}
+
+@misc{cibc_imagevis3d:_2016,
+  title = {{{ImageVis3D}}: {{An}} Interactive Visualization Software System for Large-Scale Volume Data. {{The NIH}}/{{NIGMS Center}} for {{Integrative Biomedical Computing}}.},
+  timestamp = {2017-05-17T02:14:15Z},
+  howpublished = {\url{http://www.imagevis3d.org}},
+  author = {{CIBC}},
+  year = {2016},
+  annote = {ImageVis3D: An interactive visualization software system for large-scale volume data.
+Scientific Computing and Imaging Institute (\{SCI\}),
+Download from: http://www.imagevis3d.org}
+}
+
+
