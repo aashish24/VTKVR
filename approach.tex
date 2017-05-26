@@ -1,8 +1,8 @@
 \section{Approach}
 \label{approach}
 The new \texttt{vtkGPUVolumeRayCastMapper} uses a ray casting
-technique~\citep{engel_real-time_2006} for volume rendering which is
-state-of-the-art on modern graphics platforms. Algorithmically, at a
+technique ~\citep{engel_real-time_2006} for volume rendering which
+is state-of-the-art on modern graphics platforms. Algorithmically, at a
 high level, it is similar to the older version of this
 class (although with a fairly different OpenGL implementation since that
 original class was first written over a decade ago and used GPU assembly code).
@@ -210,7 +210,7 @@ model is used for volume rendering lighting. Phong lighting requires normals
 which must be computed for each fragment. The normal calculation is done by
 first computing the gradient and then scaling the gradient by the spacing
 between the cells. The gradient is computed by reading the scalar values form
-the neighboring cdells using the offset vector that stores the step size based
+the neighboring cells using the offset vector that stores the step size based
 on the bounds of the volume.
 
 \subsection{Volume Picking}
