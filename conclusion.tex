@@ -22,20 +22,6 @@ approximation). Once we
 have reduced the number of volume mappers in VTK, then adding new features such
 as this will become more manageable.
 
-\subsection{Support for Depth Peeling}
-\label{support-for-depth-peeling}
-VTK allows intermixing of volumes with opaque geometry. For
-translucent geometry, you can obtain a correct image only if all translucent
-props can be sorted in depth order. Therefore, no translucent geometry can be
-inside a volume, as it would be, for example, when depicting a cut plane
-location with a 3D widget that represents the cutting plane as a translucent
-polygon.  Nor can a volume be contained within a translucent geometric object,
-as it would be if, for example, the outer skin of a CT data set was rendered
-as a polygonal isosurface with volume mappers used to render individual organs
-contained within the skin surface. We hope to extend the new
-vtkGPURayCastMapper to support the multipass depth peeling process, allowing
-for correctly rendered images with intersecting translucent objects.
-
 \subsection{Overlapping Volumes}
 \label{overlapping-volumes}
 It is currently possible to render overlapping volumes by taking advantage of
