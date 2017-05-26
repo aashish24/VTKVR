@@ -1,9 +1,9 @@
 \section{Approach}
 \label{approach}
 The new \texttt{vtkGPUVolumeRayCastMapper} uses a ray casting
-technique~\citep{engel_real-time_2006} for volume rendering which is a
-state-of-the-art for volume rendering on modern graphics platforms.
-Algorithmically, at a high level, it is similar to the older version of this
+technique~\citep{engel_real-time_2006} for volume rendering which is
+state-of-the-art on modern graphics platforms. Algorithmically, at a
+high level, it is similar to the older version of this
 class (although with a fairly different OpenGL implementation since that
 original class was first written over a decade ago and used GPU assembly code).
 One of the main reason we chose to use ray casting due to the flexibility of
@@ -74,8 +74,8 @@ bool stop = any(greaterThan(g_dataPos,
 \end{center}
 
 The advantage of such approach is that it requires one less pass and is faster
-than other approaches since there is no texture generation or lookup happens
-for determining the termination of the ray.
+than other approaches since there is no texture generation or lookup required
+to determine the termination of the ray.
 
 
 \subsection{Dynamic Shader Generation}
@@ -178,14 +178,14 @@ the following four categories:
   \item \textbf{Initialization (::Init)} The tags belonging to this group are
     meant to initialize variables inside the main execution function of the
     shader but before the ray-casting loop in the fragment shader. An example of
-    such code includes computation of the initial position of ray and direction
-    of ray traversal.
+    such code includes computation of ray initial position and direction
+    of traversal.
 
   \item \textbf{Implementation (::Impl)} The tags belonging to this group are
     the variables or functions or the combination of both that perform the
     actual operation of clipping, cropping, shading, etc. on one, two, or four
-    component volume data.  The implementation code used local and global
-    variables and optimized for performance reasons as they are executed as long
+    component volume data.  The implementation code uses local and global
+    variables and is optimized for performance reasons as it is executed as long
     as the ray is traversing inside the volume and didn't run into a termination
     condition which is checked every time.
 
@@ -207,7 +207,7 @@ performs the per pixel lighting calculations. The number of lights is limited to
 six mostly for performance reasons as the interactive frame rate goes down
 significantly with each light added to the scene. The Phong shading lighting
 model is used for volume rendering lighting. Phong lighting requires normals
-which have to be computed for each fragment. The normal calculation is done by
+which must be computed for each fragment. The normal calculation is done by
 first computing the gradient and then scaling the gradient by the spacing
 between the cells. The gradient is computed by reading the scalar values form
 the neighboring cdells using the offset vector that stores the step size based
