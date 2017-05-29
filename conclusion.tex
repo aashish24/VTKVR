@@ -5,36 +5,21 @@ widely supported, faster, more easily extensible, and supports majority of the
 features of the old class. In the near future, our goal is to ensure that this
 mapper works as promised by integrating it into existing VTK applications such
 as ParaView and Slicer. Once these tasks are complete, we have some ideas on new
-features we would like to add to this mapper (outlined below). We would also
-like to solicit feedback from folks using the VTK volume mappers. What features
-do you need? Drop us a line at kitware@kitware.com, and let us know.
+features we would like to add to this mapper (outlined below).
 
 \subsection{2D Transfer Functions}
 \label{2d-transfer-functions}
-Currently, volume rendering in VTK uses two 1D transfer functions, mapping
-scalar value to opacity and gradient magnitude to opacity. For some application
-areas, better rendering results can be obtained by using a 2D table that maps
-these two parameters into an opacity value. Part of the challenge in adding a
-new feature such as this to volume rendering in VTK is simply the number of
-volume mappers that have to be updated to handle it (either correctly rendering
-according to these new parameters or at least gracefully implementing an
-approximation). Once we
-have reduced the number of volume mappers in VTK, then adding new features such
-as this will become more manageable.
-
-\subsection{Support for Depth Peeling}
-\label{support-for-depth-peeling}
-VTK allows intermixing of volumes with opaque geometry. For
-translucent geometry, you can obtain a correct image only if all translucent
-props can be sorted in depth order. Therefore, no translucent geometry can be
-inside a volume, as it would be, for example, when depicting a cut plane
-location with a 3D widget that represents the cutting plane as a translucent
-polygon.  Nor can a volume be contained within a translucent geometric object,
-as it would be if, for example, the outer skin of a CT data set was rendered
-as a polygonal isosurface with volume mappers used to render individual organs
-contained within the skin surface. We hope to extend the new
-vtkGPURayCastMapper to support the multipass depth peeling process, allowing
-for correctly rendered images with intersecting translucent objects.
+Currently, volume rendering in VTK uses three independent 1D transfer functions
+to map scalar value to color, scalar value to opacity and gradient magnitude to
+opacity. Increasing the number of parameters in a transfer function can improve
+discrimination between structures in the volume data given that the combined
+parametric information allows to disambiguate areas that fall within a given range
+of those parameters simultaneously. Enhanced structure discrimination is beneficial
+in medical image visualization where distinct tissues are approximately constant
+in value and values transition smoothly from one tissue to the next. There is on-going
+work to support 2D transfer functions combining scalar value and gradient magnitude
+(the scalar field variable and its first derivative) under the the DOE Office of
+Science contract DE-SC0011385 grant.
 
 \subsection{Overlapping Volumes}
 \label{overlapping-volumes}

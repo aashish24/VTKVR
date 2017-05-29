@@ -20,7 +20,7 @@ neutralizes these artifacts but takes an important toll on performance.
 The mapper supports stochastic jittering, which is an alternative technique to
 counteract wood-grain artifacts by adding a random offset to the rays in the
 viewing direction thereby breaking the coherence between neighboring fragments
-which causes the aliased patterns become apparent
+which causes the aliased patterns become less apparent
 as shown in ~\Autoref{fig:jittering_with}.  Jittering is implemented by creating a
 random noise texture (using \texttt{vtkPerlinNoise}) and applying the offset to
 the ray's starting point, thus has a much lower performance penalty than
@@ -37,10 +37,12 @@ reducing the sampling distance.
   \begin{subfigure}[b]{.5\columnwidth}
     \centering
     \includegraphics[width=\textwidth]{cactus_holland_jittering.png}
-    \caption{With jittering enabled.}
+    \caption{Jittering enabled.}
     \label{fig:jittering_with}
   \end{subfigure}
-  \caption{Stochastic jittering.}
+  \caption{Holland cactus dataset \emph{needCitation} exhibiting wood-grain
+  artifacts (a).  Same rendered image but with stochastic jittering enabled
+  to mitigate the artifacts (b).}
   \label{fig:jittering}
 \end{figure}
 
