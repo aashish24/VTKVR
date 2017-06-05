@@ -1,11 +1,12 @@
 \section{Future Work}
 \label{future-work}
-At this point, we have a replacement class for vtkGPURayCastMapper that is more
-widely supported, faster, more easily extensible, and supports majority of the
-features of the old class. In the near future, our goal is to ensure that this
-mapper works as promised by integrating it into existing VTK applications such
-as ParaView and Slicer. Once these tasks are complete, we have some ideas on new
-features we would like to add to this mapper (outlined below).
+As a result of this work, we have developed a replacement class for
+vtkGPURayCastMapper that is more widely supported, faster, more easily
+extensible, and supports majority of the features of the old class. In the
+near future, our goal is to ensure that this mapper works as promised by
+integrating it into existing VTK applications such as ParaView and 3D Slicer.
+Once this integration and proofing process is complete, we plan on adding
+additional, advanced features as described in the following.
 
 \subsection{2D Transfer Functions}
 \label{2d-transfer-functions}
@@ -16,7 +17,7 @@ discrimination between structures in the volume data given that the combined
 parametric information allows to disambiguate areas that fall within a given range
 of those parameters simultaneously. Enhanced structure discrimination is beneficial
 in medical image visualization where distinct tissues are approximately constant
-in value and values transition smoothly from one tissue to the next. There is on-going
+in value and values transition smoothly from one tissue to the next. There is ongoing
 work to support 2D transfer functions combining scalar value and gradient magnitude
 (the scalar field variable and its first derivative) under the the DOE Office of
 Science contract DE-SC0011385 grant.
@@ -24,25 +25,25 @@ Science contract DE-SC0011385 grant.
 \subsection{Overlapping Volumes}
 \label{overlapping-volumes}
 It is currently possible to render overlapping volumes by taking advantage of
-the up to 4 independent components supported by the mapper (each component
+the up to four independent components supported by the mapper (each component
 representing a different volume).
-The limitation with this approach is that each of the overlapping volumes are
+The limitation of this approach is that each of the overlapping volumes are
 required to be sampled in the same grid, hence all of the volumes are required
 to share the same dimensions.  Nonetheless, in order to extend the mapper to
 support overlapping volumes sampled in grids with different dimensions, rays
-should be casted through proxy geometry bounding the N overlapping volumes to be
+can be cast through proxy geometry bounding the N overlapping volumes to be
 rendered and separately sampling and compositing their fetched texture values in
 the fragment shader.
 
 \subsection{Improved Rendering of Labeled Data}
 \label{improved-rendering-of-labeled-data}
-Currently, VTK supports binary masks and only a couple of very specific versions
+Currently, VTK supports binary masks and only a couple of specific representations
 of label mapping. We know that our community needs more extensive label mapping
-functionality – especially for medical datasets. Labeled data requires careful
-attention to the interpolation method used for various parameters. (You may wish
-to use linear interpolation for the scalar value to look up opacity, but,
-perhaps, select the nearest label to look up the color.) We
+functionality--especially for medical datasets. Labeled data requires careful
+attention to the interpolation method used for various parameters. (Users may wish
+to use linear interpolation for the scalar value to look up opacity, but select 
+the nearest label to look up the color.) We
 plan to solicit feedback from the VTK community to understand the sources of
-labeled data and the application requirements for visualization of this data. We
+labeled data and the application requirements for visualization of such data. We
 then hope to implement more comprehensive labeled data volume rendering for both
 the CPU and GPU mappers.

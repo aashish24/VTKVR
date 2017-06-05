@@ -4,8 +4,8 @@ As part of the modernization effort, we obtained several performance metrics
 from sample systems with differing specifications of hardware graphics; ranging
 from on-board graphic cards to dedicated GPUs. The code used to benchmark is
 located within the VTK code repository under \texttt{Utilities/Benchmarks/}. The
-test runs for a specified number of iterations wherein each iteration increases
-data size by an order. For each iteration, the test creates a mock dataset using
+test runs for a specified number of iterations with each iteration increasing
+data size. For each iteration, the test creates a mock dataset using
 the~\texttt{vtkRTAnalyticSource} and renders it for 80 frames, rotating the
 dataset each frame and recording the time taken to render to screen.  Each test
 was run twice on each system; once with and once without gradient computations

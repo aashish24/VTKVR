@@ -1,52 +1,53 @@
-\section{Related Work}
+\section{Background}
 \label{relatedwork}
 
-Volume visualization offers a two-dimensional view of three-dimensional data by
-sampling through the volume and projecting it on a 2D projection plane.  While
-many techniques exist for volume rendering such as marching
-cubes~\citep{lorensen_marching_1987}, image
+Volume visualization provides a two-dimensional view of three-dimensional
+uniformly sampled data by sampling and projecting the data onto a 2D
+projection plane.  While many techniques exist for volume rendering such as
+marching cubes~\citep{lorensen_marching_1987}, image
 splatting~\citep{westover_footprint_1990}, texture
-slicing~\citep{rezk-salama_interactive_2000, engel_high-quality_2001} and ray
+slicing~\citep{rezk_salama_interactive_2000, engel_high-quality_2001} and ray
 casting~\citep{hsu_segmented_1993, ma_parallel_1995, ma_scalable_1997,
-heng_gpu-based_2005}, ray casting has become pervasive on modern
-graphics hardware. Ray casting techniques provides a higher quality of rendering
-and various options to optimize the rendering performance such as early ray
+heng_gpu-based_2005}, ray casting has become pervasive on modern graphics
+hardware. Ray casting techniques provides a higher quality of rendering and
+various options to optimize the rendering performance such as early ray
 termination and space leaping~\citep{yagel_accelerating_1993}.
 
 While ray casting is a well-known technique and various implementations exist,
-providing high-quality volume visualization for datasets
-varying in size, spacing and format, with or without geometry rendering, on
-multiple platforms (Desktop, Cave, Head Mounted Displays (HMD)) and operating
-systems (Apple, Linux, Window) at interactive speeds is still a challenge.
+providing high-quality volume visualization for datasets of adequate
+resolution, supporting a variety of spacing and formats, with or without
+intermixed geometry rendering, on multiple platforms (desktop, Cave, Head
+Mounted Displays (HMD)) and across operating systems (Apple, Linux, Window), at
+interactive speeds is still a challenge.
 
 Few open source software systems exist for volume visualization, such as
 Voreen~\citep{meyer-spradow_voreen:_2009} which initiated at Department of
 Computer Science at the University of M\"unster, Germany in 2004.  It provides
-features such as Isosurface Rendering, Maximum Intensity Projection
+features such as isosurface rendering, maximum intensity projection
 (MIP)~\citep{wallis_three-dimensional_1989}, support for 1D and 2D transfer
-functions, and support for different illumination models (Phong, Tone, Ambient
-Occlusion). Both Voreen and VTK use data-flow networks. However, Voreen is a
-Volume Visualization library whereas VTK is a Scientific Visualization library
+functions, and support for different illumination models (Phong, tone, ambient
+occlusion). Both Voreen and VTK use data-flow networks. However, Voreen is a
+volume visualization library whereas VTK is a scientific visualization library
 and provides better support for geometry and gridded datasets. While Voreen
 provides a rapid prototyping environment, VTK volume visualization aims for
 production quality, performance, and ubiquitousness. Additionally, Voreen only
-supports high-end desktop devices where as VTK supports multiple platforms
-natively, bridging the gap between academic research and open source and
-industrial contributions.
+supports high-end desktop devices whereas VTK supports multiple platforms
+natively, bridging the gap between academic research and practical application.
 
 Another example of an open source volume rendering software system is
-ImageVis3D~\citep{cibc_imagevis3D:_2016}, that is being developed by the
-researchers at the University of Utah. ImageVis3D is an application as opposed
-to a library and provides support for large volume data, desktop as well as
-mobile device, MIP, 1D and 2D transfer functions amongst many others.  It does
-not support Virtual Reality environments and the flexibility of a data-flow
-networks. Other data type specific volume rendering libraries such as
-Voxx~\citep{clendenon_voxx:_2002} and ClearVolume~\citep{royer_clearvolume:_2015}
-provide visualization of biological and light-sheet microscopy.
+ImageVis3D~\citep{cibc_imagevis3D:_2016}, developed by the researchers at the
+University of Utah. ImageVis3D is an application as opposed to a library and
+provides support for large volume data, desktop as well as mobile devices, MIP,
+1D and 2D transfer functions amongst many others.  It does not support Virtual
+Reality environments and the flexibility of data-flow networks. Other data
+type specific volume rendering libraries such as
+Voxx~\citep{clendenon_voxx:_2002} and
+ClearVolume~\citep{royer_clearvolume:_2015} provide visualization of
+biological and light-sheet microscopy.
 PyMOL~\citep{schrodinger_llc_pymol_2015} provides volume visualization
-capabilities for molecular datasets only. Finally, hardware architecture specific
-volume visualization libraries such as OSPRay~\citep{wald_ospray_2017} and
-NVIDIA\textsuperscript{\textregistered}
+capabilities for molecular datasets only. Finally, hardware architecture
+specific volume visualization libraries such as
+OSPRay~\citep{wald_ospray_2017} and NVIDIA\textsuperscript{\textregistered}
 Optix\textsuperscript{\texttrademark}~\citep{parker_optix:_2010} provide fast
 large volume data visualization capabilities on Intel CPU and Nvidia GPU's but
 lack support for non-native hardware.
