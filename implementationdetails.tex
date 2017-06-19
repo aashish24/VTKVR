@@ -42,12 +42,12 @@ these features in detail.
 % \end{figure}%
 
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\columnwidth]{raycasting.jpg}
-  \caption{Implementing volume rendering using single-pass GPU ray casting.}
-  \label{fig:raycasting}
-\end{figure}%
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=\columnwidth]{raycasting.jpg}
+%   \caption{Implementing volume rendering using single-pass GPU ray casting.}
+%   \label{fig:raycasting}
+% \end{figure}%
 
 In a ray-casting algorithm, the entry and the exit point into the volume is
 needed to determine when to stop ray stepping procecss. To determine the entry and
@@ -59,7 +59,9 @@ Using the interpolated vertex position and
 texture lookup, the start and end positions can be computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume are within vec3(1.0), vec3(-1.0)
-range (as shown in ~\Autoref{fig:raycasting}). The code below shows the
+range.
+% (as shown in ~\Autoref{fig:raycasting}).
+The code below shows the
 fragment shader pseudo code that determines whether or not to stop ray stepping
 through the volume.
 
