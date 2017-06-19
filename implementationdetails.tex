@@ -88,8 +88,12 @@ would have been detrimental to the performance. In this improved
 \texttt{vtkOpenGLGPUVolumeRayCastMapper}, the shader is dynamically composed by
 the mapper. For this to work, we have introduced tags in a vertex or fragment
 shader which are then replaced by the \texttt{vtkShaderComposer} depending on
-the options enabled or chosen by the application code. For instance, the
-skeleton fragment shader defines tags as shown in~\Autoref{lst:skeletonshader}.
+the options enabled or chosen by the application code. These tags corresponds
+to each setup in a ray casting shader: 1) Declaration of variables 2) Initialization
+of ray position and direction 3) Iterative Ray traversal inside the volume and
+check for ray termination conditions 4) Final color and opacity computation after
+ray termination. For instance, the skeleton fragment shader defines tags as shown
+in~\Autoref{lst:skeletonshader}.
 
 \begin{lstlisting}[language=C++, caption={Fragment shader tags},
                    captionpos=b, frame=single, breaklines=true,
