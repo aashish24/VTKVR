@@ -448,16 +448,17 @@ following criteria:
 \subsection{Cropping} Cropping refers to the 27 regions defined by pairs of
 planes along each volume coordinate axis and can be independently turned
 on (visible) or off (invisible) to produce a variety of different cropping
-effects, as shown in ~\Autoref{fig:cropping}. Cropping is implemented by
-determining the cropping region of each sample location along the ray and
-including only those samples that fall within a visible region.
+effects%, as shown in ~\Autoref{fig:cropping}.
+Cropping is implemented by determining the cropping region of each sample
+location along the ray and including only those samples that fall within
+a visible region.
 
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=2.5in]{SphereCropping.png}
-  \caption{A sphere is cropped using two different configurations of cropping regions.}
-  \label{fig:cropping}
-\end{figure}
+% \begin{figure}[htb]
+%   \centering
+%   \includegraphics[width=2.5in]{SphereCropping.png}
+%   \caption{A sphere is cropped using two different configurations of cropping regions.}
+%   \label{fig:cropping}
+% \end{figure}
 
 \subsection{Broad Support of Data Types}
 The mapper supports most signed and unsigned data types such as short, int,
