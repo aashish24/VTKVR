@@ -33,13 +33,13 @@ picking amongst many others. In the next few sections, we will cover each of
 these features in detail.
 
 \subsection{Single Pass}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\columnwidth]{frontandback.png}
-  \caption{Front and back faces are rendered for start and end position of the
-  ray.}
-  \label{fig:frontandback}
-\end{figure}%
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=\columnwidth]{frontandback.png}
+%   \caption{Front and back faces are rendered for start and end position of the
+%   ray.}
+%   \label{fig:frontandback}
+% \end{figure}%
 
 
 \begin{figure}[ht]
@@ -53,13 +53,14 @@ In a ray-casting algorithm, the entry and the exit point into the volume is
 needed to determine when to stop ray stepping procecss. To determine the entry and
 the exit point, one approach is to render the geometry of the volume bounding
 box of the volume twice. In the first pass, the front face of the geometry is
-rendered and in the second pass the backface is rendered as shown in
-~\Autoref{fig:frontandback}. Using the interpolated vertex position and
+rendered and in the second pass the backface is rendered.
+% as shown in ~\Autoref{fig:frontandback}.
+Using the interpolated vertex position and
 texture lookup, the start and end positions can be computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume are within vec3(1.0), vec3(-1.0)
 range (as shown in ~\Autoref{fig:raycasting}). The code below shows the
-fragment shader pseudo code that determines whether or not to stop ray stepping 
+fragment shader pseudo code that determines whether or not to stop ray stepping
 through the volume.
 
 \begin{center}
@@ -377,7 +378,7 @@ information it uses the depth of first non-transparent voxel.
 \subsection{Mobile Support}
 The decision to use OpenGL 3 or higher enabled volume rendering to support
 mobile devices (iOS and Android devices) since OpenGL ES 3.0 supports 3D textures.
-However OpenGL ES does not support all of the texture format types, therefore, 
+However OpenGL ES does not support all of the texture format types, therefore,
 new texture formats are added with compile time switches to enable or
 disable them depending on whether the platform is desktop or mobile. One such
 example is capturing of depth buffer since that is not yet supported on the
@@ -489,7 +490,7 @@ mapping.
 \subsection{Blending Modes}
 \label{blending-modes}
 The mapper supports composite blending, minimum intensity projection, maximum
-intensity projection, additive intensity and average intensity blending. 
+intensity projection, additive intensity and average intensity blending.
 These blending modes are useful for the variety of use case found in medical computing.
 The most common one which is also the default is the composite blending mode.
 See ~\Autoref{fig:blendingmodes} for an example of the different blend modes
