@@ -33,33 +33,36 @@ picking amongst many others. In the next few sections, we will cover each of
 these features in detail.
 
 \subsection{Single Pass}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\columnwidth]{frontandback.png}
-  \caption{Front and back faces are rendered for start and end position of the
-  ray.}
-  \label{fig:frontandback}
-\end{figure}%
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=\columnwidth]{frontandback.png}
+%   \caption{Front and back faces are rendered for start and end position of the
+%   ray.}
+%   \label{fig:frontandback}
+% \end{figure}%
 
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=\columnwidth]{raycasting.jpg}
-  \caption{Implementing volume rendering using single-pass GPU ray casting.}
-  \label{fig:raycasting}
-\end{figure}%
+% \begin{figure}[ht]
+%   \centering
+%   \includegraphics[width=\columnwidth]{raycasting.jpg}
+%   \caption{Implementing volume rendering using single-pass GPU ray casting.}
+%   \label{fig:raycasting}
+% \end{figure}%
 
 In a ray-casting algorithm, the entry and the exit point into the volume is
 needed to determine when to stop ray stepping procecss. To determine the entry and
 the exit point, one approach is to render the geometry of the volume bounding
 box of the volume twice. In the first pass, the front face of the geometry is
-rendered and in the second pass the backface is rendered as shown in
-~\Autoref{fig:frontandback}. Using the interpolated vertex position and
+rendered and in the second pass the backface is rendered.
+% as shown in ~\Autoref{fig:frontandback}.
+Using the interpolated vertex position and
 texture lookup, the start and end positions can be computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume are within vec3(1.0), vec3(-1.0)
-range (as shown in ~\Autoref{fig:raycasting}). The code below shows the
-fragment shader pseudo code that determines whether or not to stop ray stepping 
+range.
+% (as shown in ~\Autoref{fig:raycasting}).
+The code below shows the
+fragment shader pseudo code that determines whether or not to stop ray stepping
 through the volume.
 
 \begin{center}
@@ -87,8 +90,12 @@ would have been detrimental to the performance. In this improved
 \texttt{vtkOpenGLGPUVolumeRayCastMapper}, the shader is dynamically composed by
 the mapper. For this to work, we have introduced tags in a vertex or fragment
 shader which are then replaced by the \texttt{vtkShaderComposer} depending on
-the options enabled or chosen by the application code. For instance, the
-skeleton fragment shader defines tags as shown in~\Autoref{lst:skeletonshader}.
+the options enabled or chosen by the application code. These tags corresponds
+to each setup in a ray casting shader: 1) Declaration of variables 2) Initialization
+of ray position and direction 3) Iterative Ray traversal inside the volume and
+check for ray termination conditions 4) Final color and opacity computation after
+ray termination. For instance, the skeleton fragment shader defines tags as shown
+in~\Autoref{lst:skeletonshader}.
 
 \begin{lstlisting}[language=C++, caption={Fragment shader tags},
                    captionpos=b, frame=single, breaklines=true,
@@ -377,7 +384,7 @@ information it uses the depth of first non-transparent voxel.
 \subsection{Mobile Support}
 The decision to use OpenGL 3 or higher enabled volume rendering to support
 mobile devices (iOS and Android devices) since OpenGL ES 3.0 supports 3D textures.
-However OpenGL ES does not support all of the texture format types, therefore, 
+However OpenGL ES does not support all of the texture format types, therefore,
 new texture formats are added with compile time switches to enable or
 disable them depending on whether the platform is desktop or mobile. One such
 example is capturing of depth buffer since that is not yet supported on the
@@ -447,16 +454,17 @@ following criteria:
 \subsection{Cropping} Cropping refers to the 27 regions defined by pairs of
 planes along each volume coordinate axis and can be independently turned
 on (visible) or off (invisible) to produce a variety of different cropping
-effects, as shown in ~\Autoref{fig:cropping}. Cropping is implemented by
-determining the cropping region of each sample location along the ray and
-including only those samples that fall within a visible region.
+effects%, as shown in ~\Autoref{fig:cropping}.
+Cropping is implemented by determining the cropping region of each sample
+location along the ray and including only those samples that fall within
+a visible region.
 
-\begin{figure}[htb]
-  \centering
-  \includegraphics[width=2.5in]{SphereCropping.png}
-  \caption{A sphere is cropped using two different configurations of cropping regions.}
-  \label{fig:cropping}
-\end{figure}
+% \begin{figure}[htb]
+%   \centering
+%   \includegraphics[width=2.5in]{SphereCropping.png}
+%   \caption{A sphere is cropped using two different configurations of cropping regions.}
+%   \label{fig:cropping}
+% \end{figure}
 
 \subsection{Broad Support of Data Types}
 The mapper supports most signed and unsigned data types such as short, int,
@@ -489,7 +497,7 @@ mapping.
 \subsection{Blending Modes}
 \label{blending-modes}
 The mapper supports composite blending, minimum intensity projection, maximum
-intensity projection, additive intensity and average intensity blending. 
+intensity projection, additive intensity and average intensity blending.
 These blending modes are useful for the variety of use case found in medical computing.
 The most common one which is also the default is the composite blending mode.
 See ~\Autoref{fig:blendingmodes} for an example of the different blend modes

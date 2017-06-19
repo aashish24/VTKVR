@@ -1,8 +1,43 @@
 \section{Application Areas}
 \label{applicationareas}
 
+One of the goals of our work is to support volume visualization on multiple
+operating systems (Linux, Mac, Windows), devices (Workstation,
+Virtual Reality, Mobile, Cluster), and for multiple domains (Scientific, Medical).
+This is important as VTK is used by a large user base in different setups.
+In the next few sub-sections, we have presented improvements to
+our mapper for different domains and environments.
+
 \subsection{Domains}
 \label{domains}
 
 \subsection{Devices and Environments}
+Our mapper support rendering of volumes on all commonly used devices. This poses
+a challenge as the mapper has to handle low computing power of mobile devices or
+composition in a cluster environment and still perform at Interactive frame rates.
+To support mobile environments, we have implemented following features:
+\begin{enumerate}
+  \item We added support in the RenderWindowInteractor for multitouch
+  events. We currently have built-in support for receiving and handling
+  multitouch events on iOS, Android, and Windows.
+  \item Added check for OpenGL ES capabilities and accordingly managed
+  formats that are not supported on mobile devices
+  \item We added support for compiling VTK on iOS and Android. While still
+  in a beta stage we have added in support for compiling VTK for Android and
+  iOS platforms
+\end{enumerate}
+
+Various artifacts arise when doing parallel volume rendering (bricking). Artifacts
+due to sampling, gradient computation, etc.  are seen at the edges of each of the bricks.
+To address it, our mapper ensures the entry texture coordinate and the limit texture
+coordinates are correctly adjusted to, and the ray step is scaled accordingly.
+
+Finally, to perform consistently across various devices, our mapper uses two
+critical information from VTK. First, the last frame-render time, and second,
+the desired frame rate for the application. Using these two factors,  the mapper
+then increases the sampling distance anytime users interacts with
+the volume and identifies the desired framerate is not achievable at user-specified
+sampling distance.
+
+
 \label{devices}
