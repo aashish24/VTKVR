@@ -1,18 +1,18 @@
 \section{Implementation Details}
 \label{implementationdetails}
-The new \texttt{vtkGPUVolumeRayCastMapper} uses a ray casting
-technique~\citep{engel_real-time_2006} for volume rendering which
-is state-of-the-art on modern graphics platforms. At a
-high level it is similar to the previous version of this
-class, with a different OpenGL implementation reflecting recent advances in
-graphics systems. One of the main reason we chose to use ray casting due to the flexibility of
-this technique, which supports the many features of the previous software ray
-cast mapper but with the acceleration of the GPU. Ray casting is an image-order
-rendering technique, with one or more rays cast through the volume per image
-pixel. VTK is inherently an object-order rendering system, where the GPU renders
-all graphical primitives (points, lines, triangles, etc.) represented by instances of
-vtkProp in a scene using one or more rendering passes (with multiple passes needed to
-support advanced features such as depth peeling for transparency).
+The new~\texttt{vtkGPUVolumeRayCastMapper} uses a ray casting
+technique~\citep{engel_real-time_2006} for volume rendering which is
+state-of-the-art on modern graphics platforms. At a high level it is similar to
+the previous version of this class, with a different OpenGL implementation
+reflecting recent advances in graphics systems. One of the main reason we chose
+to use ray casting due to the flexibility of this technique, which supports the
+many features of the previous software ray cast mapper but with the acceleration
+of the GPU. Ray casting is an image-order rendering technique, with one or more
+rays cast through the volume per image pixel. VTK is inherently an object-order
+rendering system, where the GPU renders all graphical primitives (points, lines,
+triangles, etc.) represented by instances of vtkProp in a scene using one or
+more rendering passes (with multiple passes needed to support advanced features
+such as depth peeling for transparency).
 
 The image-order rendering process for vtkVolume is initiated when the
 front-facing polygons of the volume’s bounding box are rendered with a custom
@@ -22,8 +22,8 @@ that ray. The volume and all the various rendering parameters are transferred to
 the GPU through the use of textures (3D for the volume, 1D for the various
 transfer functions) and uniform variables. Steps are taken along the ray until
 the ray exits the volume, and the resulting computed color and opacity are
-blended into the current pixel value. Note that volumes are rendered subsequent to
-rendering opaque geometry to allow the ray casting process to terminate at
+blended into the current pixel value. Note that volumes are rendered subsequent
+to rendering opaque geometry to allow the ray casting process to terminate at
 the depth value stored in the depth buffer for that pixel (and, hence, correctly
 intermix with opaque geometry).
 
@@ -42,12 +42,12 @@ these features in detail.
 % \end{figure}%
 
 
-% \begin{figure}[ht]
-%   \centering
-%   \includegraphics[width=\columnwidth]{raycasting.jpg}
-%   \caption{Implementing volume rendering using single-pass GPU ray casting.}
-%   \label{fig:raycasting}
-% \end{figure}%
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\columnwidth]{raycasting}
+  \caption{Implementing volume rendering using single-pass GPU ray casting.}
+  \label{fig:raycasting}
+\end{figure}%
 
 In a ray-casting algorithm, the entry and the exit point into the volume is
 needed to determine when to stop ray stepping procecss. To determine the entry and
@@ -59,8 +59,7 @@ Using the interpolated vertex position and
 texture lookup, the start and end positions can be computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume are within vec3(1.0), vec3(-1.0)
-range.
-% (as shown in ~\Autoref{fig:raycasting}).
+range (as shown in ~\Autoref{fig:raycasting}).
 The code below shows the
 fragment shader pseudo code that determines whether or not to stop ray stepping
 through the volume.
@@ -81,20 +80,20 @@ to determine the termination of the ray.
 
 
 \subsection{Dynamic Shader Generation}
-As mentioned, in the new \texttt{vtkOpenGLGPUVolumeRayCastMapper} all the operations are
-performed on the GPU. The advantage of this approach is more streamlined code
-that is easier to maintain and debug. This approach also provides an opportunity
-to rework how to support different features without having too many branches in
-the shader code or having to send all the options to the shader because that
-would have been detrimental to the performance. In this improved
-\texttt{vtkOpenGLGPUVolumeRayCastMapper}, the shader is dynamically composed by
-the mapper. For this to work, we have introduced tags in a vertex or fragment
-shader which are then replaced by the \texttt{vtkShaderComposer} depending on
-the options enabled or chosen by the application code. These tags corresponds
-to each setup in a ray casting shader: 1) Declaration of variables 2) Initialization
-of ray position and direction 3) Iterative Ray traversal inside the volume and
-check for ray termination conditions 4) Final color and opacity computation after
-ray termination. For instance, the skeleton fragment shader defines tags as shown
+All operations are performed on the GPU in the
+new~\texttt{vtkOpenGLGPUVolumeRayCastMapper}. The advantage of this approach is
+more streamlined code that is easier to maintain and debug. This approach also
+provides an opportunity to rework how to support different features without
+having too many branches in the shader code or having to send all the options to
+the shader because that would have been detrimental to the performance. In this
+improved mapper, the shader is dynamically composed by the mapper. For this to
+work, we have introduced tags in a vertex or fragment shader which are then
+replaced by the~\texttt{vtkVolumeShaderComposer} depending on the options
+enabled or chosen by the application code. These tags corresponds to each setup
+in a ray casting shader: 1) Declaration of variables 2) Initialization of ray
+position and direction 3) Iterative Ray traversal inside the volume and check
+for ray termination conditions 4) Final color and opacity computation after ray
+termination. For instance, the skeleton fragment shader defines tags as shown
 in~\Autoref{lst:skeletonshader}.
 
 \begin{lstlisting}[language=C++, caption={Fragment shader tags},
@@ -202,76 +201,79 @@ the following four categories:
 
 \subsection{Lighting / Shading}
 The old mapper supported only one light (due to limitations in OpenGL at the
-time the class was written). Similarly the \texttt{vtkFixedPointVolumeRayCastMapper}
-supports multiple lights, but only with an approximate lighting model, since
-gradients are precomputed and quantized, and shading is performed for each
-potential gradient direction regardless of fragment location. However the new mapper
-accurately implements the VTK lighting model to produce high quality images for
-publication. To support this, depending on the light type (point, directional,
-and positional), the lighting parameters are sent to the shader which then
-performs the per pixel lighting calculations. The number of lights is limited to
-six mostly for performance reasons as the interactive frame rate goes down
-significantly with each light added to the scene. The Phong shading lighting
-model is used for volume rendering lighting. Phong lighting requires normals
-which must be computed for each fragment. The normal calculation is done by
-first computing the gradient and then scaling the gradient by the spacing
-between the cells. The gradient is computed by reading the scalar values form
-the neighboring cells using the offset vector that stores the step size based
-on the bounds of the volume.
+time the class was written). Similarly
+the~\texttt{vtkFixedPointVolumeRayCastMapper} supports multiple lights, but only
+with an approximate lighting model, since gradients are precomputed and
+quantized, and shading is performed for each potential gradient direction
+regardless of fragment location. However the new mapper accurately implements
+the VTK lighting model to produce high quality images for publication. To
+support this, depending on the light type (point, directional, and positional),
+the lighting parameters are sent to the shader which then performs the per pixel
+lighting calculations. The number of lights is limited to six mostly for
+performance reasons as the interactive frame rate goes down significantly with
+each light added to the scene. The Phong shading lighting model is used for
+volume rendering lighting. Phong lighting requires normals which must be
+computed for each fragment. The normal calculation is done by first computing
+the gradient and then scaling the gradient by the spacing between the cells. The
+gradient is computed by reading the scalar values form the neighboring cells
+using the offset vector that stores the step size based on the bounds of the
+volume.
 
 \subsection{Volume Picking}
 Picking, in the context of volume rendering, is the action of resolving the set
 of voxels a user has clicked on with the pointer. This provides the user with
 means to interact with the objects in a 3D scene. VTK legacy volume mappers
-support picking through an instance external to the mapper itself called
-~\texttt{vtkVolumePicker}.  This class casts a ray into the volume and returns
-the point where the ray intersects an isosurface of a user specified opacity.
-This technique has certain limitations given that the picking class does not
-have enough information to correctly account for clipping, transfer functions
-and other parameters defining how the mapper actually renders, thus reducing its
-reliability on the actual objects being picked.
+support picking through an instance external to the mapper itself
+called~\texttt{vtkVolumePicker}.  This class casts a ray into the volume and
+returns the point where the ray intersects an isosurface of a user specified
+opacity.  This technique has certain limitations given that the picking class
+does not have enough information to correctly account for clipping, transfer
+functions and other parameters defining how the mapper actually renders, thus
+reducing its reliability on the actual objects being picked.
 
-Now VTK supports hardware-accelerated picking of geometric data through the class
-~\texttt{vtkHardwareSelector}, which uses a multiple-render-pass approach in
-order to resolve the various objects in a scene (actors or props in VTK parlance) and
-their corresponding primitives.  Each pass renders separately a different
-selection abstraction (processes, actors, composite blocks and primitives),
-painting with a different color each of the various components in the scene.
-The images rendered by each pass are downloaded from the GPU and subsequently
-analyzed in the class thereby resolving the correspondence of each pixel to its
-particular actor, primitive, etc.
+Now VTK supports hardware-accelerated picking of geometric data through the
+class~\texttt{vtkHardwareSelector}, which uses a multiple-render-pass approach
+in order to resolve the various objects in a scene (actors or props in VTK
+parlance) and their corresponding primitives.  Each pass renders separately a
+different selection abstraction (processes, actors, composite blocks and
+primitives), painting with a different color each of the various components in
+the scene.  The images rendered by each pass are downloaded from the GPU and
+subsequently analyzed in the class thereby resolving the correspondence of each
+pixel to its particular actor, primitive, etc.
 
 The inherent flexibility of the revamped shader implementation of this mapper
-permits a seamless integration with ~\texttt{vtkHardwareSelector}'s interface by
+permits a seamless integration with~\texttt{vtkHardwareSelector}'s interface by
 rendering the appropriate colors for each of its passes, hence granting
 consistency in the object selection regardless of whether it is geometric or
 volumetric data.  Providing selection support directly within the fragment
 shader ensures high selection accuracy even in situations where a volume
 intermixes with geometry in seemingly cumbersome ways or other advanced features
 (e.g. clipping) are enabled (what you see is what you pick).  Given the readily
-available picking styles supported by ~\texttt{vtkHardwareSelector} (e.g.
-~\texttt{vtkAreaPicker}), it is possible to make a selection of a specific set
-of visible voxels.
+available picking styles supported by~\texttt{vtkHardwareSelector}
+(e.g.~\texttt{vtkAreaPicker}), it is possible to make a selection of a specific
+set of visible voxels.
 
-\subsection{Volume Texture Streaming} A common limitation of volume
-rendering is that the 3D volume data does not always fit into the
-graphics memory of a system. This limitation has become increasingly important to
-address as the new mapper provides support for mobile architectures.  A
-relatively simple method when dealing with a large volume is the volume
-streaming approach also commonly known as bricking ~\citep{engel_real-time_2006}
-in which the volume is split into several blocks so that a single sub-block (brick)
-fits completely into GPU memory.  Each sub-block is stored in main memory and streamed
-into GPU memory for a rendering pass one at a time (in a back-to-front manner for correct
-composition). The sub-blocks are rendered using the standard shader programs and
-alpha-blended with each other by OpenGL. Streaming the volume as separate
-texture bricks certainly imposes a performance trade-off but acts as a graphics
-memory expansion scheme for devices that are not able to render a large volume otherwise.
+\subsection{Volume Texture Streaming}
+A common limitation of volume rendering is that the 3D volume data does not
+always fit into the graphics memory of a system. This limitation has become
+increasingly important to address as the new mapper provides support for mobile
+architectures.  A relatively simple method when dealing with a large volume is
+the volume streaming approach also commonly known as
+bricking~\citep{engel_real-time_2006} in which the volume is split into several
+blocks so that a single sub-block (brick) fits completely into GPU memory.  Each
+sub-block is stored in main memory and streamed into GPU memory for a rendering
+pass one at a time (in a back-to-front manner for correct composition). The
+sub-blocks are rendered using the standard shader programs and alpha-blended
+with each other by OpenGL. Streaming the volume as separate texture bricks
+certainly imposes a performance trade-off but acts as a graphics memory
+expansion scheme for devices that are not able to render a large volume
+otherwise.
 
-\subsection{Dual Depth-Peeling} VTK has long supported the use of depth-peeling
-for order-independent rendering of translucent geometry. Since translucent
-fragments must be blended in a specific order to obtain the correct pixel color,
-techniques like depth-peeling are necessary for correctly shading a complex
-scene.
+\subsection{Dual Depth-Peeling}
+VTK has long supported the use of depth-peeling for order-independent rendering
+of translucent geometry. Since translucent fragments must be blended in a
+specific order to obtain the correct pixel color, techniques like depth-peeling
+are necessary for correctly shading a complex scene.
 
 In a multipass depth-peeling rendering, `slices' of fragments are pulled from
 the scene in depth order; the nearest fragments per pixel are collected in
@@ -369,7 +371,7 @@ When the \texttt{RenderToImage} flag is enabled, the volume mapper switches
 rendering to an OpenGL FrameBufferObject (FBO) and allows the user to obtain the
 rendered pixel data via simple image retrieval calls. The mapper provides
 methods to grab color and depth information either as individual textures or as
-VTK's image data structure - \texttt{vtkImageData}. The color data is simply the
+VTK's image data structure -~\texttt{vtkImageData}. The color data is simply the
 pixel representation of the rendered volume whereas depth data consists of a
 grayscale image depicting how deep each voxel is in the scene. When an
 application enables render to texture mode, a framebuffer object is created, the
@@ -396,22 +398,22 @@ developers to build sophisticated applications for the scientific community.
 
 \subsection{Stochastic Jittering}
 Because ray-casting effectively samples a discrete signal (voxel values along
-the ray trajectory), the distance between sampling points heavily
-influences how accurately the volume data is represented.  Due to well
-established limitations described by the sampling theorem, low sampling rates
-may result in aliasing effects often referred to as wood-grain artifacts
-as shown in ~\Autoref{fig:jittering_without} in the context of volume rendering
-~\citep{engel_real-time_2006}. Reducing the distance between samples
+the ray trajectory), the distance between sampling points heavily influences how
+accurately the volume data is represented.  Due to well established limitations
+described by the sampling theorem, low sampling rates may result in aliasing
+effects often referred to as wood-grain artifacts as shown
+in~\Autoref{fig:jittering_without} in the context of volume
+rendering~\citep{engel_real-time_2006}. Reducing the distance between samples
 neutralizes these artifacts but takes an important toll on performance.
 
 The mapper supports stochastic jittering, which is an alternative technique to
 counteract wood-grain artifacts by adding a random offset to the rays in the
 viewing direction thereby breaking the coherence between neighboring fragments
-which causes the aliased patterns become less apparent
-as shown in ~\Autoref{fig:jittering_with}.  Jittering is implemented by creating a
-random noise texture (using \texttt{vtkPerlinNoise}) and applying the offset to
-the ray's starting point, thus has a much lower performance penalty than
-reducing the sampling distance.
+which causes the aliased patterns become less apparent as shown
+in~\Autoref{fig:jittering_with}.  Jittering is implemented by creating a random
+noise texture (using~\texttt{vtkPerlinNoise}) and applying the offset to the
+ray's starting point, thus has a much lower performance penalty than reducing
+the sampling distance.
 
 \begin{figure}[htb]
 \centering
@@ -490,18 +492,18 @@ mapping.
     \caption{With shading}
     \label{fig:clipshading}
   \end{subfigure}
-  \caption{Clipping planes with \texttt{vtkGPUVolumeRayCastMapper}}
+  \caption{Clipping planes with~\texttt{vtkGPUVolumeRayCastMapper}}
   \label{fig:clipping}
 \end{figure}
 
 \subsection{Blending Modes}
 \label{blending-modes}
 The mapper supports composite blending, minimum intensity projection, maximum
-intensity projection, additive intensity and average intensity blending.
-These blending modes are useful for the variety of use case found in medical computing.
-The most common one which is also the default is the composite blending mode.
-See ~\Autoref{fig:blendingmodes} for an example of the different blend modes
-on the same data.
+intensity projection, additive intensity and average intensity blending.  These
+blending modes are useful for the variety of use case found in medical
+computing.  The most common one which is also the default is the composite
+blending mode.  See~\Autoref{fig:blendingmodes} for an example of the different
+blend modes on the same data.
 
 \begin{figure}[htb]
   \centering%
@@ -534,19 +536,19 @@ on the same data.
 Both binary and label masks are supported. With binary masks, the value in the
 masking volume indicates visibility of the voxel in the data volume. When a
 label map is in use, the value in the label map is used to select different
-rendering parameters for that sample.  See ~\Autoref{fig:rendertotexture}for an example of label data
-masks.
+rendering parameters for that sample.  See~\Autoref{fig:rendertotexture}for an
+example of label data masks.
 
 \subsection{Opacity Modulated by Gradient Magnitude}
 \label{opacity-modulated-by-gradient-magnitude}
-While the \texttt{vtkGPUVolumeRayCastMapper} supports direct accumulation of
+While the~\texttt{vtkGPUVolumeRayCastMapper} supports direct accumulation of
 color and opacity values along the ray, it also allows for modulating the
 opacity accumulation calculation based on relative values of each voxel in the
 dataset. Prior efforts~\citep{marchesin_per-pixel_2010} have demonstrated the
 usefulness of such a technique for feature enhancement in the rendered image. A
 transfer function mapping the magnitude of the gradient to an opacity modulation
 value can be used to essentially perform edge detection (de-emphasize homogenous
-regions) during rendering. See ~\Autoref{fig:gradient} for an example of
+regions) during rendering. See~\Autoref{fig:gradient} for an example of
 rendering with and without the use of a gradient opacity transfer function.
 
 \begin{figure}[htb]
@@ -568,8 +570,9 @@ rendering with and without the use of a gradient opacity transfer function.
 \begin{figure}[htb]
   \centering
   \includegraphics[width=\columnwidth]{SMALL-PtCu-NP-Grad.png}
-  \caption{Platinum-Copper (\ce{PtCu}) nanoparticle~\protect\citep{scott_electron_2012,
-           miao_atomic_2016} with gradient opacity modulation enabled}
+  \caption{Platinum-Copper (\ce{PtCu})
+    nanoparticle~\protect\citep{scott_electron_2012, miao_atomic_2016} with
+    gradient opacity modulation enabled}
   \label{fig:ptcu-grad}
 \end{figure}
 
@@ -577,8 +580,8 @@ rendering with and without the use of a gradient opacity transfer function.
   \centering
   \includegraphics[width=\columnwidth]{tomviz-medium-CoP.png}
   \caption{Tomviz~\protect\citep{hanwell_tomviz_2014} rendering a
-           Cobalt-Phosphorous (\ce{Co2P})
-           nanoparticle~\protect\citep{levin_nanomaterial_2016}}
+    Cobalt-Phosphorous (\ce{Co2P})
+    nanoparticle~\protect\citep{levin_nanomaterial_2016}}
   \label{fig:tomviz-cop}
 \end{figure}
 
@@ -610,21 +613,20 @@ frame rates and to handle edge cases, we have implemented following
 optimizations in the new mapper.
 
 \begin{itemize}
-  \item \emph{Clipping plane optimization} In VTK a user can place multiple planes at
-    desired angles to clip the volume. This technique is essential for many
-    medical use-cases. Since only one side of clip planes needs to be traversed,
-    performing any sort of ray cast on the clipped side is wasteful. Hence a
-    simple optimization is to move the starting point of the ray on the plane by
-    projecting the ray onto the plane in the view direction.
+  \item \emph{Clipping plane optimization} In VTK a user can place multiple
+    planes at desired angles to clip the volume. This technique is essential for
+    many medical use-cases. Since only one side of clip planes needs to be
+    traversed, performing any sort of ray cast on the clipped side is wasteful.
+    Hence a simple optimization is to move the starting point of the ray on the
+    plane by projecting the ray onto the plane in the view direction.
   \item \emph{Camera Inside the Bounding Box} Rendering with camera views within
-    the volume is handled by clipping the proxy geometry with the camera near plane
-    (using \texttt{vtkClipConvexPolyData}), thus ensuring that all
-    bounding box fragments fall within range.
-    Plane-Axis-Aligned-Bounding-Box intersection is used to determine whether
-    geometry clipping is necessary.
-  \item \emph{Support for Double and Long Long Data Type} The current OpenGL API does not
-    support 64-bit data types. In order to be able to render volumes of these
-    types, the mapper loads the data array slice by slice casting the data
+    the volume is handled by clipping the proxy geometry with the camera near
+    plane (using \texttt{vtkClipConvexPolyData}), thus ensuring that all
+    bounding box fragments fall within range.  Plane-Axis-Aligned-Bounding-Box
+    intersection is used to determine whether geometry clipping is necessary.
+  \item \emph{Support for Double and Long Long Data Type} The current OpenGL API
+    does not support 64-bit data types. In order to be able to render volumes of
+    these types, the mapper loads the data array slice by slice casting the data
     values to floating-point. This, despite the obvious precision loss, is
     provided to the user as a convenience feature.
 \end{itemize}
