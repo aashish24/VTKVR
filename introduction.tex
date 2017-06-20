@@ -21,14 +21,27 @@ added to assist application developers provide automatic run-time selection of
 the appropriate volume rendering techniques based on system configuration
 (see~\Autoref{fig:inheritancegraph}).
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
-  \includegraphics[width=\columnwidth]{vtk_volume_pipeline}%
-  \caption{VTK pipeline for volume rendering which is similar to VTK polygonal
-    rendering with differences such as transfer functions are defined on the
-    property object.}
-  \label{fig:pipeline}
-\end{figure}%
+  \begin{subfigure}[b]{\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth, height=0.4\textheight]{vtk_volume_pipeline}
+    \caption{VTK pipeline for volume rendering which is similar to VTK polygonal
+      rendering with differences such as transfer functions are defined on the
+      property object.}
+    \label{fig:pipeline}
+  \end{subfigure}\vfill
+  \begin{subfigure}[b]{\columnwidth}
+    \centering
+    \includegraphics[width=\columnwidth, height=0.4\textheight]{inheritancegraph}
+    \caption{Graph depicting C++ class hierarchy for
+      the various volume mappers in VTK}
+    \label{fig:inheritancegraph}
+  \end{subfigure}
+  \caption{Volume rendering works within the constructs of the VTK pipeline
+    mechanism}
+  \label{fig:pipeline-inheritancegraph}
+\end{figure}
 
 Thus a primary objective of this OpenGL modernization effort, and the
 subject of this article, was to create a cross-platform, multi-functional,
@@ -52,14 +65,6 @@ In addition our effort addressed the following key requirements:
     clipping, cropping, gradient opacity, mixed geometry-volume translucent
     rendering, and on-demand shader composition.
 \end{itemize}
-
-\begin{figure}[htb!]
-  \centering
-  \includegraphics{inheritancegraph}%
-  \caption{Graph depicting C++ class hierarchy for
-    the~\texttt{vtkGPUVolumeRayCastMapper}}
-  \label{fig:inheritancegraph}
-\end{figure}%
 
 To achieve this, we created a replacement for the OpenGL fixed pipeline
 based~\texttt{vtkGPUVolumeRayCastMapper}. The new mapper, which shares the same
