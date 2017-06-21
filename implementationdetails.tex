@@ -308,30 +308,30 @@ into our depth-peeling pass. This enables volumetric data to be mixed with
 translucent geometry while efficiently yielding a correctly colored result
 ~\Autoref{fig:volume_peeling_tooth}.
 
-\begin{figure}[htb]
+\begin{figure}[ht]
 \centering
-  \begin{subfigure}[b]{.35\columnwidth}
+  \begin{subfigure}[b]{.5\columnwidth}
     \centering
     \includegraphics[width=\columnwidth]{tooth_front_}
-    \caption{Volume only.}
+    \caption{Volume only}
     \label{fig:tooth_front}
-  \end{subfigure}
-  \begin{subfigure}[b]{.35\columnwidth}
+  \end{subfigure}%
+  \begin{subfigure}[b]{.5\columnwidth}
     \centering
     \includegraphics[width=\columnwidth]{tooth_front_enamel}
-    \caption{Intermixed.}
+    \caption{Intermixed}
     \label{fig:tooth_front_enamel}
   \end{subfigure}
-  \begin{subfigure}[b]{.35\columnwidth}
+  \begin{subfigure}[b]{.5\columnwidth}
     \centering
     \includegraphics[width=\columnwidth]{tooth_bottom_}
-    \caption{Volume only \\(rotated).}
+    \caption{Volume only (rotated)}
     \label{fig:tooth_bottom}
-  \end{subfigure}
-  \begin{subfigure}[b]{.35\columnwidth}
+  \end{subfigure}%
+  \begin{subfigure}[b]{.5\columnwidth}
     \centering
     \includegraphics[width=\columnwidth]{tooth_bottom_enamel}
-    \caption{Intermixed \\(rotated).}
+    \caption{Intermixed (rotated)}
     \label{fig:tooth_bottom_enamel}
   \end{subfigure}
   \caption{Industrial CT scan of a human tooth~\citep{pfister_transfer_2001}.
@@ -356,15 +356,15 @@ passes.
 
 \begin{figure}[ht]
 \centering
-  \begin{subfigure}[b]{\columnwidth}
+  \begin{subfigure}[b]{.5\columnwidth}
     \centering
-    \includegraphics[width=\textwidth]{colorimage}
+    \includegraphics[width=\columnwidth]{colorimage}
     \caption{Color image}
     \label{fig:rendertotexturecolor}
   \end{subfigure}%
-  \begin{subfigure}[b]{\columnwidth}
+  \begin{subfigure}[b]{.5\columnwidth}
     \centering
-    \includegraphics[width=\textwidth]{depthimage}
+    \includegraphics[width=\columnwidth]{depthimage}
     \caption{Depth image}
     \label{fig:rendertotexturedepth}
   \end{subfigure}
@@ -551,12 +551,12 @@ rendering with and without the use of a gradient opacity transfer function.
   \centering
    \begin{subfigure}[b]{0.5\columnwidth}
      \includegraphics[width=\columnwidth]{TorsoNoGradient}
-     \caption{Without gradient opacity function}
+     \caption{Without gradient opacity}
      \label{fig:Ng1}
    \end{subfigure}%
   \begin{subfigure}[b]{0.5\columnwidth}
     \includegraphics[width=\columnwidth]{TorsoGradient}
-    \caption{With gradient opacity function}
+    \caption{With gradient opacity}
     \label{fig:Ng2}
   \end{subfigure}
   \caption{Gradient magnitude based opacity modulation}

@@ -1,12 +1,11 @@
 \section{Future Work}
 \label{future-work}
 As a result of this work, we have developed a replacement class for
-vtkGPURayCastMapper that is more widely supported, faster, more easily
-extensible, and supports majority of the features of the old class. In the
-near future, our goal is to ensure that this mapper works as promised by
-integrating it into existing VTK applications such as ParaView and 3D Slicer.
-Once this integration and proofing process is complete, we plan on adding
-additional, advanced features as described in the following.
+\texttt{vtkGPUVolumeRayCastMapper} that is more widely supported, faster, more
+easily extensible, and supports majority of the features of the old class. In
+the near future, our goal is to ensure that the mapper works as promised with
+existing VTK applications. Eventually, we plan on adding additional, advanced
+features as described in the following sub-sections.
 
 \subsection{2D Transfer Functions}
 \label{2d-transfer-functions}
@@ -14,13 +13,13 @@ Currently, volume rendering in VTK uses three independent 1D transfer functions
 to map scalar value to color, scalar value to opacity and gradient magnitude to
 opacity. Increasing the number of parameters in a transfer function can improve
 discrimination between structures in the volume data given that the combined
-parametric information allows to disambiguate areas that fall within a given range
-of those parameters simultaneously. Enhanced structure discrimination is beneficial
-in medical image visualization where distinct tissues are approximately constant
-in value and values transition smoothly from one tissue to the next. There is ongoing
-work to support 2D transfer functions combining scalar value and gradient magnitude
-(the scalar field variable and its first derivative) under the the DOE Office of
-Science contract DE-SC0011385 grant.
+parametric information allows to disambiguate areas that fall within a given
+range of those parameters simultaneously. Enhanced structure discrimination is
+beneficial in medical image visualization where distinct tissues are
+approximately constant in value and values transition smoothly from one tissue
+to the next. There is ongoing work to support 2D transfer functions combining
+scalar value and gradient magnitude (the scalar field variable and its first
+derivative) under the the DOE Office of Science contract DE-SC0011385 grant.
 
 \subsection{Overlapping Volumes}
 \label{overlapping-volumes}
@@ -37,13 +36,13 @@ the fragment shader.
 
 \subsection{Improved Rendering of Labeled Data}
 \label{improved-rendering-of-labeled-data}
-Currently, VTK supports binary masks and only a couple of specific representations
-of label mapping. We know that our community needs more extensive label mapping
-functionality--especially for medical datasets. Labeled data requires careful
-attention to the interpolation method used for various parameters. (Users may wish
-to use linear interpolation for the scalar value to look up opacity, but select 
-the nearest label to look up the color.) We
-plan to solicit feedback from the VTK community to understand the sources of
-labeled data and the application requirements for visualization of such data. We
-then hope to implement more comprehensive labeled data volume rendering for both
-the CPU and GPU mappers.
+Currently, VTK supports binary masks and only a couple of specific
+representations of label mapping. We know that our community needs more
+extensive label mapping functionality--especially for medical datasets. Labeled
+data requires careful attention to the interpolation method used for various
+parameters. (Users may wish to use linear interpolation for the scalar value to
+look up opacity, but select the nearest label to look up the color.) We plan to
+solicit feedback from the VTK community to understand the sources of labeled
+data and the application requirements for visualization of such data. We then
+hope to implement more comprehensive labeled data volume rendering for both the
+CPU and GPU mappers.

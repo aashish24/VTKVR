@@ -26,9 +26,8 @@ the appropriate volume rendering techniques based on system configuration
   \begin{subfigure}[b]{\columnwidth}
     \centering
     \includegraphics[width=\columnwidth, height=0.4\textheight]{vtk_volume_pipeline}
-    \caption{VTK pipeline for volume rendering which is similar to VTK polygonal
-      rendering with differences such as transfer functions are defined on the
-      property object.}
+    \caption{VTK pipeline for volume rendering which is similar to the polygonal
+      rendering pipeline in VTK}
     \label{fig:pipeline}
   \end{subfigure}\vfill
   \begin{subfigure}[b]{\columnwidth}
@@ -66,7 +65,7 @@ In addition our effort addressed the following key requirements:
     rendering, and on-demand shader composition.
 \end{itemize}
 
-To achieve this, we created a replacement for the OpenGL fixed pipeline
+We created a replacement for the OpenGL fixed pipeline
 based~\texttt{vtkGPUVolumeRayCastMapper}. The new mapper, which shares the same
 name but uses a modern OpenGL programmable pipeline, can be used
 via~\texttt{vtkSmartVolumeMapper} or instantiated directly. Availability of the
