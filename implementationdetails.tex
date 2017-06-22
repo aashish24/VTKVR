@@ -368,7 +368,9 @@ passes.
     \caption{Depth image}
     \label{fig:rendertotexturedepth}
   \end{subfigure}
-  \caption{Render to texture}
+  \caption{When~\texttt{RenderToImage} is enabled, the color and depth data of
+    the final rendering is written to a texture object which can be used for
+    further processing}
   \label{fig:rendertotexture}
 \end{figure}
 
@@ -378,15 +380,16 @@ rendered pixel data via simple image retrieval calls. The mapper provides
 methods to grab color and depth information either as individual textures or as
 VTK's image data structure -~\texttt{vtkImageData}. The color data is simply the
 pixel representation of the rendered volume whereas depth data consists of a
-grayscale image depicting how deep each voxel is in the scene. When an
-application enables render to texture mode, a framebuffer object is created, the
-vertex and fragment shader are generated, color and depth buffers are cleared,
-and the color is set to white with a value of zero alpha. The value of zero
-alpha is used so that applications can safely ignore the transparent pixels and
-the color buffer is set to white color because white represents the maximum
-depth, that is the depth of the far plane. In the render to texture pass, the
-fragment shader writes to color and depth target and to write the depth
-information it uses the depth of first non-transparent voxel.
+grayscale image depicting how deep each voxel is in the scene (as depicted
+in~\Autoref{fig:rendertotexture}). When an application enables render to texture
+mode, a framebuffer object is created, the vertex and fragment shader are
+generated, color and depth buffers are cleared, and the color is set to white
+with a value of zero alpha. The value of zero alpha is used so that applications
+can safely ignore the transparent pixels and the color buffer is set to white
+color because white represents the maximum depth, that is the depth of the far
+plane. In the render to texture pass, the fragment shader writes to color and
+depth target and to write the depth information it uses the depth of first
+non-transparent voxel.
 
 \subsection{Stochastic Jittering}
 \label{jittering}
