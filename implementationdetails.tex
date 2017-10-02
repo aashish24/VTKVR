@@ -99,14 +99,25 @@ in~\Autoref{lst:skeletonshader}.
 \begin{lstlisting}[language=C++, caption={Fragment shader tags},
                    captionpos=b, frame=single, breaklines=true,
                    label=lst:skeletonshader]
+// The tag below will be replaced by a
+// a concatenated string at run-time that
+// declares the appropriate core
+// shader variables which will be used regardless
+// of the operation (MIP, MinIP) performed.
+// The replacement is shown in ~\Autoref{lst:basedeclshader}.
 //VTK::Base::Dec
 
+// The tag below will be replaced to declare
+// variables that are responsible for termination
+// of the ray-casting. Essentially this enables
+// users to partially replace the shader and customize
+// it as necessary.
 //VTK::Termination::Dec
 
 \end{lstlisting}
 
-At runtime the \texttt{//VTK::Base::Dec} tag is replaced by shader code
-shown in~\Autoref{lst:basedeclshader}
+At runtime the \texttt{//VTK::Base::Dec} tag is replaced by a
+shader code partially shown in~\Autoref{lst:basedeclshader}
 
 \begin{lstlisting}[language=C++, caption={Base declaration fragment code},
                    captionpos=b, frame=single, breaklines=true,
@@ -126,17 +137,9 @@ uniform vec3 in_cameraPos;
 
 // view and model matrices
 uniform mat4 in_volumeMatrix;
-uniform mat4 in_inverseVolumeMatrix;
 uniform mat4 in_projectionMatrix;
-uniform mat4 in_inverseProjectionMatrix;
 uniform mat4 in_modelViewMatrix;
-uniform mat4 in_inverseModelViewMatrix;
-uniform mat4 in_textureDatasetMatrix;
-uniform mat4 in_inverseTextureDatasetMatrix;
-varying mat4 ip_inverseTextureDataAdjusted;
-uniform vec3 in_texMin;
-uniform vec3 in_texMax;
-uniform mat4 in_textureToEye;
+
 
 // Ray step size
 uniform vec3 in_cellStep;
@@ -145,28 +148,6 @@ uniform vec3 in_cellSpacing;
 
 // Sample distance
 uniform float in_sampleDistance;
-
-// Scales
-uniform vec3 in_cellScale;
-uniform vec2 in_windowLowerLeftCorner;
-uniform vec2 in_inverseOriginalWindowSize;
-uniform vec2 in_inverseWindowSize;
-uniform vec3 in_textureExtentsMax;
-uniform vec3 in_textureExtentsMin;
-
-// Material and lighting
-uniform vec3 in_diffuse[4];
-uniform vec3 in_ambient[4];
-uniform vec3 in_specular[4];
-uniform float in_shininess[4];
-
-// Others
-uniform bool in_cellFlag;
-uniform bool in_useJittering;
-vec3 g_rayJitter = vec3(0.0);
-uniform bool in_clampDepthToBackface;
-
-uniform vec2 in_averageIPRange;
 \end{lstlisting}
 
 To define a structure, we have chosen a strategy that separates the tags in
