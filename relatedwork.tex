@@ -33,7 +33,21 @@ provides a rapid prototyping environment, VTK volume visualization aims for
 production quality, performance, and ubiquitousness. Additionally, Voreen only
 supports high-end desktop devices whereas VTK supports multiple platforms
 natively, bridging the gap between academic research and practical application.
+Other volume visualization capable tools such as ParaView, Slicer, and MayaVi,
+all are using VTK underneath as the underlying visualization library and therefore
+will benefit from our work. ParaView has been switched to use our work and
+updating the slicer to use our mapper is in progress.
 
+Another volume rendering capable tool Amira provides multiple modules for volume
+visualization namely: voltex, volren, and volume rendering module. In the context
+of our work, the volume rendering module of Amira is most relevant. It provides
+support for GPU rendering, iso-surface, MIP,
+and multi-volume support. In comparison to our work, it provides limited
+support for data larger than main memory as it needs conversion to LDA format,
+lack of other volume rendering modes such as MinIP, off-screen rendering,
+and gradient-opacity and is closed-source. OpenWalnut is another open-source
+tools that for visualization of medical and bio-signal data but provides very
+basic volume visualization support but does offer off-screen rendering support.
 Another example of an open source volume rendering software system is
 ImageVis3D~\citep{cibc_imagevis3D:_2016}, developed by the researchers at the
 University of Utah. ImageVis3D is an application as opposed to a library and
