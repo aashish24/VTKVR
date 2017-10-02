@@ -99,55 +99,48 @@ in~\Autoref{lst:skeletonshader}.
 \begin{lstlisting}[language=C++, caption={Fragment shader tags},
                    captionpos=b, frame=single, breaklines=true,
                    label=lst:skeletonshader]
-// The tag below will be replaced by a
-// a concatenated string at run-time that
-// declares the appropriate core
-// shader variables which will be used regardless
-// of the operation (MIP, MinIP) performed.
-// The replacement is shown in ~\Autoref{lst:basedeclshader}.
-//VTK::Base::Dec
 
-// The tag below will be replaced to declare
-// variables that are responsible for termination
-// of the ray-casting. Essentially this enables
-// users to partially replace the shader and customize
-// it as necessary.
-//VTK::Termination::Dec
+int main()
+{
+  // The tag below will be replaced by a
+  // a concatenated string at run-time that
+  // declares the appropriate core
+  // shader variables which will be used regardless
+  // of the operation (MIP, MinIP) performed.
+  // The replacement is shown in ~\Autoref{lst:basedeclshader}.
+  //VTK::Base::Dec
 
-\end{lstlisting}
+  // The tag below will be replaced to declare
+  // variables that are responsible for termination
+  // of the ray-casting. Essentially this enables
+  // users to partially replace the shader and customize
+  // it as necessary.
+  //VTK::Termination::Dec
 
-At runtime the \texttt{//VTK::Base::Dec} tag is replaced by a
-shader code partially shown in~\Autoref{lst:basedeclshader}
+  // Advance ray and accumulate color and opacity
+  while(not exit)
+  {
+    // This tag will be replaced by a concatenated
+    // string that performs color and opacity aggregation
+    // along the ray.
+    //VTK::Base::Impl
 
-\begin{lstlisting}[language=C++, caption={Base declaration fragment code},
-                   captionpos=b, frame=single, breaklines=true,
-                   label=lst:basedeclshader]
-// Volume dataset
-uniform sampler3D in_volume;
-uniform int in_noOfComponents;
-uniform int in_independentComponents;
+    // Other tags implementing Cropping, Clipping etc.
 
-uniform sampler2D in_noiseSampler;
-#ifndef GL_ES
-uniform sampler2D in_depthSampler;
-#endif
+    // Advance ray here
 
-// Camera position
-uniform vec3 in_cameraPos;
+    // This tag will be replaced by a concatenated
+    // string that will check if the ray is still
+    // inside the volume and other checks.
+    //VTK::Terminate::Impl
+  }
 
-// view and model matrices
-uniform mat4 in_volumeMatrix;
-uniform mat4 in_projectionMatrix;
-uniform mat4 in_modelViewMatrix;
+  // This tag will be replaced by a concatenated
+  // string that performs final color, depth, and opacity
+  // computation.
+  //VTK::Shading::Exit
+}
 
-
-// Ray step size
-uniform vec3 in_cellStep;
-uniform vec2 in_scalarsRange[4];
-uniform vec3 in_cellSpacing;
-
-// Sample distance
-uniform float in_sampleDistance;
 \end{lstlisting}
 
 To define a structure, we have chosen a strategy that separates the tags in
