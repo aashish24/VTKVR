@@ -267,7 +267,9 @@ fragments are peeled in a single geometry pass: One layer from the front and a
 second from the back. These are blended into two separate accumulation buffers
 and eventually the front and back peels will meet towards the middle of the
 geometry. This allows depth-peeling to be carried out in roughly half as many
-geometry passes.
+geometry passes.  For this purpose, accumulation buffers have been implemented
+as RGBA8 texture attachments of a framebuffer to which the rendering results
+are output on each intermediate peeling/blending pass.
 
 An interesting detail of the new depth-peeling implementation is that there are
 four depth values available per-pixel during a typical peeling pass. Two depth
