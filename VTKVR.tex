@@ -1,0 +1,113 @@
+%%
+%% Copyright 2007, 2008, 2009 Elsevier Ltd
+%%
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%%
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.2 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.2 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%%
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%%
+
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+
+\documentclass[preprint,10pt,a4paper,5p,authoryear,twocolumn]{elsarticle}
+
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
+
+%% Load custom macros
+\usepackage{macros}
+
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
+
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%\usepackage{lineno}
+
+%% Set the bibliography style to be apalike i.e. author, year citation
+\bibliographystyle{apalike}
+%% By default, elsarticle loads the natbib package with round parameter showing
+%% round brackets in citations. This can be changed to sqaure by setting the
+%% citestyle
+\setcitestyle{square}
+
+%% Chemistry formulae support
+\usepackage[version=4]{mhchem}
+
+%% This turns references into clickable hyperlinks.
+\usepackage[bookmarks,
+            colorlinks=true,
+            linkcolor=black,
+            citecolor=black,
+            urlcolor=blue,
+            linktocpage,
+            pageanchor=true]{hyperref} %,colorlinks
+
+%% The subcaption package is used for figure and table sub-captions
+\usepackage[list=true,position=b]{subcaption}
+
+%% For code
+\usepackage{listings}
+\lstset{basicstyle=\scriptsize}
+
+%% For charts
+\usepackage{pgfplots}
+\usetikzlibrary{pgfplots.groupplots}
+\pgfplotsset{compat=1.13}
+
+\journal{IEEE Computer Graphics \& Applications}
+
+%% Setting the path to where the images can be found
+\graphicspath{ {images/} }
+
+\begin{document}
+
+\begin{frontmatter}
+  \input{title.tex}
+
+  \input{abstract.tex}
+
+  \begin{keyword}
+    Visualization Toolkit \sep
+    Data analysis \sep
+    Volume rendering \sep
+    Scientific Visualization \sep
+  \end{keyword}
+\end{frontmatter}
+
+%\linenumbers
+
+\input{introduction.tex}
+\input{relatedwork.tex}
+\input{implementationdetails.tex}
+\input{performancebenchmarks.tex}
+\input{applicationareas.tex}
+\input{conclusion.tex}
+\input{acknowledgements.tex}
+
+%% References:
+\section{References}
+\label{}
+\bibliography{VTKVR}
+
+\end{document}
+\endinput
+%%
+%% End of file `SoftwareX_article_template.tex'.

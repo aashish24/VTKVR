@@ -1,0 +1,125 @@
+\section{Performance benchmarks}
+\label{performance-benchmarks}
+As part of the modernization effort, we obtained several performance metrics
+from sample systems with differing specifications of hardware graphics; ranging
+from on-board graphic cards to dedicated GPUs. The code used to benchmark is
+located within the VTK code repository under \texttt{Utilities/Benchmarks/}. The
+test runs for a specified number of iterations with each iteration increasing
+data size. For each iteration, the test creates a mock dataset using
+the~\texttt{vtkRTAnalyticSource} and renders it for 80 frames, rotating the
+dataset each frame and recording the time taken to render to screen.  Each test
+was run twice on each system; once with and once without gradient computations
+required by shading.
+
+The results of the benchmark are shown in~\Autoref{fig:perf-bench}. As observed,
+surface shaded rendering degrades performance but the mapper maintains
+interactive frame rates even for large datasets. Note that the tests on some
+systems were restricted to a maximum voxel count of 300 million voxels owing to
+graphics memory limitations. Note also that we were able to render large volumes
+requiring more than the available graphics memory using texture streaming, as
+described in~\Autoref{streaming}, outside the scope of this performance
+benchmark evaluation.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{groupplot}[
+      group style = {
+        group name=benchmarks,
+        group size=1 by 2,
+        xlabels at=edge bottom,
+        xticklabels at=edge bottom
+      },
+      width=\linewidth,
+      xlabel=Number of voxels in data (x 1 Million),
+      label style={font=\footnotesize},
+      tick label style={font=\footnotesize},
+      xmode=log,
+      xmin=9,
+      xmax=2100,
+      ymin=-10,
+      ylabel=Frames per second,
+      grid=both,
+      grid style={line width=.1pt, draw=gray!10},
+      legend pos=north east,
+      legend style={font=\fontsize{4}{5}\selectfont}
+      ]
+    %\begin{axis}[
+      %width = \linewidth,
+      %xlabel=Number of voxels in data (x 1 Million),
+      %xmode=log,
+      %ylabel=Frames per second,
+      %grid=both,
+      %grid style={line width=.1pt, draw=gray!10}
+      %]
+      \nextgroupplot
+      \addlegendimage{empty legend}
+      \addlegendentry{\hspace{-.6cm}\textbf{Without Shading}}
+      \addplot[color={rgb:red,228;green,26;blue,28},mark=10-pointed star] file {data/k5200.data};
+      \label{plot_k52}
+      \addlegendentry{NVIDIA Quadro K5200}
+      \addplot[color={rgb:red,77;blue,175;green,74},mark=otimes] file {data/amdD300.data};
+      \label{plot_a3}
+      \addlegendentry{AMD FirePro D300}
+      \addplot[color={rgb:red,101;blue,10;green,64},mark=star] file {data/geforce960M.data};
+      \label{plot_gf96}
+      \addlegendentry{NVIDIA GeForce 960M}
+      \addplot[color={rgb:red,55;green,126;blue,184},mark=o] file {data/iris.data};
+      \label{plot_iris}
+      \addlegendentry{Intel Iris Graphics 550}
+      \addplot[color={rgb:red,255;blue,255;green,51},mark=triangle*] file {data/quadro2000.data};
+      \label{plot_q20}
+      \addlegendentry{NVIDIA Quadro 2000}
+      \addplot[color={rgb:red,152;blue,78;green,163},mark=diamond] file {data/intelhd530.data};
+      \label{plot_i530}
+      \addlegendentry{Intel Graphics HD 530}
+      
+      \nextgroupplot
+      \addlegendimage{empty legend}
+      \addlegendentry{\hspace{-.6cm}\textbf{With Shading}}
+      \addplot[color={rgb:red,228;green,26;blue,28},mark=10-pointed star] file {data/k5200_shaded.data};
+      \label{plot_k52_s}
+      \addlegendentry{NVIDIA Quadro K5200}
+      \addplot[color={rgb:red,77;blue,175;green,74},mark=otimes] file {data/amdD300_shaded.data};
+      \label{plot_a3_s}
+      \addlegendentry{AMD FirePro D300}
+      \addplot[color={rgb:red,101;blue,10;green,64},mark=star] file {data/geforce960M_shaded.data};
+      \label{plot_gf96_s}
+      \addlegendentry{NVIDIA GeForce 960M}
+      \addplot[color={rgb:red,55;green,126;blue,184},mark=o] file {data/iris_shaded.data};
+      \label{plot_iris_s}
+      \addlegendentry{Intel Iris Graphics 550}
+      \addplot[color={rgb:red,255;blue,255;green,51},mark=triangle*] file {data/quadro2000_shaded.data};
+      \label{plot_q20_s}
+      \addlegendentry{NVIDIA Quadro 2000}
+      \addplot[color={rgb:red,152;blue,78;green,163},mark=diamond] file {data/intelhd530_shaded.data};
+      \label{plot_i530_s}
+      \addlegendentry{Intel Graphics HD 530}
+    \end{groupplot}
+    %legend
+    %\node [draw,fill=white] at (rel axis cs: 0.4,0.9) {
+      %\shortstack[l]{
+        %\tiny{\textbf{Without Shading}} \\
+        %\ref{plot_k52} \tiny{NVIDIA Quadro K5200} \\
+        %\ref{plot_a3} \tiny{AMD FirePro D300}\\
+        %\ref{plot_q20} \tiny{NVIDIA Quadro 2000}\\
+        %\ref{plot_gf96} \tiny{NVIDIA GeForce 960M}\\
+        %\ref{plot_i530} \tiny{Intel Graphics HD 530}\\
+        %\ref{plot_iris} \tiny{Intel Iris Graphics 550}
+      %}};
+    %\node [draw,fill=white] at (rel axis cs: 0.4,-0.4) {
+      %\shortstack[l]{
+        %\tiny{\textbf{With Shading}} \\
+        %\ref{plot_k52_s} \tiny{NVIDIA Quadro K5200}\\
+        %\ref{plot_a3_s} \tiny{AMD FirePro D300}\\
+        %\ref{plot_q20_s} \tiny{NVIDIA Quadro 2000}\\
+        %\ref{plot_gf96_s} \tiny{NVIDIA GeForce 960M}\\
+        %\ref{plot_i530_s} \tiny{Intel Graphics HD 530}\\
+        %\ref{plot_iris_s} \tiny{Intel Iris Graphics 550}
+      %}};
+  \end{tikzpicture}
+  \caption{Results of the benchmarking tests performed on six different
+    graphics cards using the~\protect{\texttt{vtkGPUVolumeRayCastMapper}}
+    without and with surface shading (i.e. gradient computations)}
+  \label{fig:perf-bench}
+\end{figure}
