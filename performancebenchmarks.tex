@@ -1,8 +1,8 @@
 \section{Performance benchmarks}
 \label{performance-benchmarks}
 As part of the modernization effort, we obtained several performance metrics
-from sample systems with differing specifications of hardware graphics; ranging
-from on-board graphic cards to dedicated GPUs. The code used to benchmark is
+from sample systems with differing specifications of hardware graphics ranging
+from on-board graphic cards to dedicated GPUs. The code used for benchmarking is
 located within the VTK code repository under \texttt{Utilities/Benchmarks/}. The
 test runs for a specified number of iterations with each iteration increasing
 data size. For each iteration, the test creates a mock dataset using
@@ -11,7 +11,7 @@ dataset each frame and recording the time taken to render to screen.  Each test
 was run twice on each system; once with and once without gradient computations
 required by shading.
 
-The results of the benchmark are shown in~\Autoref{fig:perf-bench}. As observed,
+The results of the benchmarking are shown in~\Autoref{fig:perf-bench}. As observed,
 surface shaded rendering degrades performance but the mapper maintains
 interactive frame rates even for large datasets. Note that the tests on some
 systems were restricted to a maximum voxel count of 300 million voxels owing to

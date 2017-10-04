@@ -5,7 +5,7 @@ One of the goals of our work is to support volume visualization for various
 domains (scientific, medical), on multiple devices (workstations, virtual
 reality, mobile, clusters) and on different operating systems (Linux, Mac,
 Windows). This is important as VTK is used by a large user base in different
-setups.  In the next few sub-sections, we have presented improvements to our
+setups.  In the next few sub-sections, we have presented possible customizations to adapt our
 mapper for different domains and environments.
 
 \subsection{Domains}
@@ -15,17 +15,16 @@ Owing to the fact that the new mapper is built with the VTK pipeline model
 (see~\Autoref{fig:pipeline}), it can be integrated into existing VTK
 applications with little effort. As described
 in~\Autoref{implementationdetails}, the volume mapper provides a rich
-feature-set for a rendering a variety of data types. This versatility allows the
-mapper to be used in diverse scientific and medical domains for volumetric
-visualization. As shown in~\Autoref{fig:paraview-turbulent-combustion,
-fig:tomviz-cop}, the mapper has found its way into real-world scientific
-applications like ParaView~\citep{ahrens_paraview:_2005, ayachit_paraview_2015,
+feature-set for rendering a variety of data types. This versatility allows it
+to be used in diverse scientific and medical domains for volumetric
+visualization. As shown in~\Autoref{fig:application-areas}, it has found
+its way into real-world scientific applications like
+ParaView~\citep{ahrens_paraview:_2005, ayachit_paraview_2015,
 ayachit_paraview_2015-1} and tomviz~\citep{hanwell_tomviz_2014}. The volume
-mapper can be used for
-visualizing data generated from physics simulations (\Autoref{fig:supernova}),
-transmission and scanning transmission electron microscopes
-(\Autoref{fig:ptcu-grad}) and medical and dental CT scans
-(\Autoref{fig:volume_peeling_tooth, fig:blendingmodes, fig:clipping}). 
+mapper can be used for visualizing data generated from physics simulations
+(\Autoref{fig:supernova}), transmission and scanning electron
+microscopes (\Autoref{fig:ptcu-grad}) and medical and dental CT scans
+(\Autoref{fig:volume_peeling_tooth, fig:clipping, fig:blendingmodes}). 
 
 \begin{figure}[htb]
   \begin{subfigure}[t]{0.49\columnwidth}
@@ -47,23 +46,23 @@ transmission and scanning transmission electron microscopes
 \end{figure}
 
 \begin{figure}[htb]
-  \begin{subfigure}[t]{\columnwidth}
-    \includegraphics[width=\columnwidth]{tomviz-medium-CoP.png}
-    \caption{Tomviz~\protect\citep{hanwell_tomviz_2014} rendering a
-      Cobalt-Phosphorous (\ce{Co2P})
-      nanoparticle~\protect\citep{levin_nanomaterial_2016}}
-    \label{fig:tomviz-cop}
-  \end{subfigure}
-  \begin{subfigure}[t]{\columnwidth}
+  %\begin{subfigure}[t]{\columnwidth}
+    %\includegraphics[width=\columnwidth]{tomviz-medium-CoP.png}
+    %\caption{Tomviz~\protect\citep{hanwell_tomviz_2014} rendering a
+      %Cobalt-Phosphorous (\ce{Co2P})
+      %nanoparticle~\protect\citep{levin_nanomaterial_2016}}
+    %\label{fig:tomviz-cop}
+  %\end{subfigure}
+  %\begin{subfigure}[t]{\columnwidth}
     \includegraphics[width=\columnwidth]{paraview-turbulent-combustion-simulation.png}
     \caption{ParaView~\protect\citep{ahrens_paraview:_2005, ayachit_paraview_2015,
       ayachit_paraview_2015-1} rendering a single time step of a simulation of
       temporally-evolving plane jet
       flames~\protect\citep{hiroshi_akiba_visualizing_2007}}
-    \label{fig:paraview-turbulent-combustion}
-  \end{subfigure}
-  \caption{The new~\texttt{vtkGPUVolumeRayCastMapper} has been integrated with
-    existing VTK applications}
+    %\label{fig:paraview-turbulent-combustion}
+  %\end{subfigure}
+  %\caption{The new~\texttt{vtkGPUVolumeRayCastMapper} has been integrated with
+    %existing VTK applications}
   \label{fig:application-areas}
 \end{figure}
 
