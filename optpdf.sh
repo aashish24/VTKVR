@@ -7,12 +7,25 @@ file=$1
 filebase=$(basename $file .pdf)
 optfile=/tmp/$$-${filebase}_opt.pdf
 #/usr/local/bin/gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH \
-/usr/local/Cellar/ghostscript/9.21_2/bin/gs -dCompatibilityLevel=1.4 \
+ghostscriptexe=""
+statexe=""
+if [ "$(uname)" == "Darwin" ]; then
+  ghostscriptexe=/usr/local/Cellar/ghostscript/9.21_2/bin/gs
+  statexe="stat -f %z"
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+  ghostscriptexe=/usr/bin/gs
+  statexe="stat --format=%s"
+else
+  echo "Only Mac or Linux systems supported."
+  exit 1
+fi
+
+$ghostscriptexe -dCompatibilityLevel=1.4 \
     -sDEVICE=pdfwrite -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH \
     -sOutputFile=${optfile} ${file}
 if [ $? == '0' ]; then
-    optsize=$(stat -f "%z" ${optfile})
-    orgsize=$(stat -f "%z" ${file})
+    optsize=$($statexe ${optfile})
+    orgsize=$($statexe ${file})
     if [ "${optsize}" -eq 0 ]; then
         echo "No output!  Keeping original"
         rm -f ${optfile}
