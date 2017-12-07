@@ -84,7 +84,7 @@ new~\texttt{vtkOpenGLGPUVolumeRayCastMapper}. The advantage of this approach is
 more streamlined code that is easier to maintain and debug. This approach also
 provides an opportunity to rework how to support different features without
 having too many branches in the shader code or having to send all the options to
-the shader because that would have been detrimental to the performance. In this
+the shader because that would have been detrimental for performance. In this
 improved mapper, the shader is dynamically composed by the mapper. For this to
 work, we have introduced tags in a vertex or fragment shader which are then
 replaced by the~\texttt{vtkVolumeShaderComposer} depending on the options
@@ -92,55 +92,55 @@ enabled or chosen by the application code. These tags correspond to each setup
 in a ray casting shader: 1) Declaration of variables 2) Initialization of ray
 position and direction 3) Iterative Ray traversal inside the volume and check
 for ray termination conditions 4) Final color and opacity computation after ray
-termination. For instance, the skeleton fragment shader defines tags as shown
-in~\Autoref{lst:skeletonshader}.
+termination.% For instance, the skeleton fragment shader defines tags as shown
+%in~\Autoref{lst:skeletonshader}.
 
-\begin{lstlisting}[language=C++, caption={Fragment shader tags},
-                   captionpos=b, frame=single, breaklines=true,
-                   label=lst:skeletonshader]
+%\begin{lstlisting}[language=C++, caption={Fragment shader tags},
+                   %captionpos=b, frame=single, breaklines=true,
+                   %label=lst:skeletonshader]
 
-int main()
-{
-  // The tag below will be replaced by a
-  // a concatenated string at run-time that
-  // declares the appropriate core
-  // shader variables which will be used regardless
-  // of the operation (MIP, MinIP) performed.
-  // The replacement is shown in ~\Autoref{lst:basedeclshader}.
-  //VTK::Base::Dec
+%int main()
+%{
+  %// The tag below will be replaced by a
+  %// a concatenated string at run-time that
+  %// declares the appropriate core
+  %// shader variables which will be used regardless
+  %// of the operation (MIP, MinIP) performed.
+  %// The replacement is shown in ~\Autoref{lst:basedeclshader}.
+  %//VTK::Base::Dec
 
-  // The tag below will be replaced to declare
-  // variables that are responsible for termination
-  // of the ray-casting. Essentially this enables
-  // users to partially replace the shader and customize
-  // it as necessary.
-  //VTK::Termination::Dec
+  %// The tag below will be replaced to declare
+  %// variables that are responsible for termination
+  %// of the ray-casting. Essentially this enables
+  %// users to partially replace the shader and customize
+  %// it as necessary.
+  %//VTK::Termination::Dec
 
-  // Advance ray and accumulate color and opacity
-  while(not exit)
-  {
-    // This tag will be replaced by a concatenated
-    // string that performs color and opacity aggregation
-    // along the ray.
-    //VTK::Base::Impl
+  %// Advance ray and accumulate color and opacity
+  %while(not exit)
+  %{
+    %// This tag will be replaced by a concatenated
+    %// string that performs color and opacity aggregation
+    %// along the ray.
+    %//VTK::Base::Impl
 
-    // Other tags implementing Cropping, Clipping etc.
+    %// Other tags implementing Cropping, Clipping etc.
 
-    // Advance ray here
+    %// Advance ray here
 
-    // This tag will be replaced by a concatenated
-    // string that will check if the ray is still
-    // inside the volume and other checks.
-    //VTK::Terminate::Impl
-  }
+    %// This tag will be replaced by a concatenated
+    %// string that will check if the ray is still
+    %// inside the volume and other checks.
+    %//VTK::Terminate::Impl
+  %}
 
-  // This tag will be replaced by a concatenated
-  // string that performs final color, depth, and opacity
-  // computation.
-  //VTK::Shading::Exit
-}
+  %// This tag will be replaced by a concatenated
+  %// string that performs final color, depth, and opacity
+  %// computation.
+  %//VTK::Shading::Exit
+%}
 
-\end{lstlisting}
+%\end{lstlisting}
 
 To define a structure, we have chosen a strategy that separates the tags in
 the following four categories:
