@@ -71,11 +71,13 @@ The goal of our effort is as follows:
     rendering, and on-demand shader composition.
 \end{itemize}
 
-We created a replacement for the OpenGL fixed-pipeline-based~\texttt{vtkGPUVolumeRayCastMapper}. The new mapper, which shares the same
+We created a replacement for the OpenGL fixed function pipeline
+based~\texttt{vtkGPUVolumeRayCastMapper}. The new mapper, which shares the same
 name but uses a modern OpenGL programmable pipeline, can be used
-via~\texttt{vtkSmartVolumeMapper} or instantiated directly. The
-new mapper with its OpenGL-VTK implementation improves the management of
-textures in the mapper, and benefits both geometry and volume rendering by sharing common code between them. 
+via~\texttt{vtkSmartVolumeMapper} or instantiated directly. The new mapper with
+its OpenGL-VTK implementation improves the management of textures in the mapper,
+and benefits both geometry and volume rendering by sharing common code between
+them. 
 
 While volume ray-casting itself is
 a well-known technique, developing a volume renderer that works with variety of
