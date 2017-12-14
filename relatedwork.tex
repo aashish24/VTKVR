@@ -26,13 +26,6 @@ Computer Science at the University of M\"unster, Germany, in 2004.  It provides
 features such as isosurface rendering, maximum intensity projection
 (MIP)~\citep{wallis_three-dimensional_1989}, support for 1D and 2D transfer
 functions, and support for different illumination models (Phong, tone, ambient
-% * <nandini.seshadri@kitware.com> 2017-10-04T14:25:55.816Z:
-% 
-% > Phong
-% 
-% just checking that this is not a typo!!
-% 
-% ^.
 occlusion). Both Voreen and VTK use data-flow networks. However, Voreen is a
 volume visualization library whereas VTK is a scientific visualization library
 which provides better support for geometry and gridded datasets. While Voreen
@@ -43,17 +36,9 @@ natively, bridging the gap between academic research and practical application.
 Other volume visualization capable tools such as ParaView, Slicer, and
 MayaVi~\citep{ramachandran2011mayavi} all use VTK as the
 underlying visualization library, and will benefit from our work.
-ParaView has already been switched to use our work, and work on updating Slicer to use
-our mapper is in progress.
+ParaView has already been switched to use our work, and work on updating Slicer to use our mapper is in progress.
 
-Another volume rendering-capable tool, Amira~\citep{stalling2005amira}, provides
-multiple modules for volume visualization namely: voltex, volren, and volume
-rendering module. In the context of our work, the volume rendering module of
-Amira is most relevant. It provides support for GPU rendering, iso-surface, MIP,
-and multi-volume support. In comparison to our work, it provides limited
-support for data larger than main memory as it needs conversion to LDA format,
-lack of other volume rendering modes such as MinIP, off-screen rendering,
-and gradient-opacity and is closed-source. OpenWalnut~\citep{eichelbaum2010openwalnut}
+Another volume rendering-capable tool, Amira~\citep{stalling2005amira}, provides multiple modules for volume visualization namely: voltex, volren, and volume rendering module. In the context of our work, the volume rendering module of Amira is most relevant. It provides support for GPU rendering, iso-surface, MIP, and multi-volume support. In comparison to our work, it provides limited support for data larger than main memory as it needs conversion to LDA format, lack of other volume rendering modes such as MinIP, off-screen rendering, and gradient-opacity and is closed-source. OpenWalnut~\citep{eichelbaum2010openwalnut}
 is another open-source tools that for visualization of medical and bio-signal data but
 provides very basic volume visualization support, but does offer off-screen rendering
 support. Another example of an open source volume rendering software system is
@@ -73,6 +58,9 @@ OSPRay~\citep{wald_ospray_2017} and NVIDIA\textsuperscript{\textregistered}
 Optix\textsuperscript{\texttrademark}~\citep{parker_optix:_2010} provide fast
 large volume data visualization capabilities on Intel CPU and Nvidia GPU's but
 lack support for non-native hardware.
+
+While it is difficult to compare our work with other available tools purely based on the feature basis as features can be added or removed and also because not all the features are documented by the tools, we will mark some fundamental differences between our work and other available tools based on design choices and architecture. Use of our VTK volume rendering requires that a user constructs a VTK pipeline which comprises of  reader-filter-renderer. While the pipeline approach provides the most flexibility in constructing workflows needed for a particular study, it could also add some overhead in certain cases. For example, some VTK imaging filters do not modify the input data which means that when they perform any data operation, they copy the data and modify the newly copied data. This means that the application will suffer a performance hit specifically if the data is continuously generated or altered by the source of the data. To mitigate this issue, it is essential that users understand the VTK pipeline and its components well in advance.
+
 
 Many volume rendering APIs exist apart from Voreen and ImageVis3D. However,
 except for Voreen, advanced volume visualization research performed by the
