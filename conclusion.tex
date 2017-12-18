@@ -1,5 +1,21 @@
 \section{Future Work}
 \label{future-work}
+
+Although the shader composition approach in this work has proven to be extermely
+powerful in terms of flexibility, it escalates the initial complexity barrier
+faced by contributors, given the amount of features supported and potential
+combinations between them.  In this case, it is helpful to explore the actual
+structure of the generated shader (in a particular state) in order to gain some
+insight. This can be accomplished through available capabilities in VTK's shader
+program abstraction or through external tools. Future work could ease this
+barrier by extending the API to support user customized shaders.
+
+A feature commonly supported by other visualization toolkits such as Amira
+~\citep{stalling2005amira} is out-of-core volume rendering. Although the core
+component of this work has not been designed to support this feature directly
+, given VTK's design pattern, it is possible to use it as a building block
+for distributed rendering applications as in the case of ParaView.
+
 As a result of this work, we have developed a replacement class for
 \texttt{vtkGPUVolumeRayCastMapper} that is more widely supported, faster, more
 easily extensible, and supports majority of the features of the old class. In
