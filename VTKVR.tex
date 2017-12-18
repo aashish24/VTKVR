@@ -62,10 +62,30 @@
 
 %% The subcaption package is used for figure and table sub-captions
 \usepackage[list=true,position=b]{subcaption}
+\captionsetup[figure]{labelfont=bf,textfont={it},justification=centering}
+\captionsetup[subfigure]{labelfont=bf,textfont={it},justification=centering}
+\captionsetup[lstlisting]{labelfont=bf,textfont={it},justification=centering}
+\setlength{\belowcaptionskip}{0pt} % reduce space after captions
 
 %% For code
 \usepackage{listings}
-\lstset{basicstyle=\scriptsize}
+\usepackage[dvipsnames]{xcolor}
+\lstset{
+  language=C++,
+  basicstyle=\ttfamily\footnotesize\linespread{0.5},
+  numberstyle=\ttfamily\footnotesize
+  keywordstyle=\ttfamily\footnotesize\bfseries,
+  identifierstyle=\color{blue},
+  commentstyle=\ttfamily\footnotesize\slshape\color{olive},
+  stringstyle=\color{magenta},
+  frame=tlbr, frameround=tttt,
+  showstringspaces=false, % no special string spaces
+  columns=flexible,
+  captionpos=b,
+  breaklines=true,
+  moredelim=[l][\ttfamily\footnotesize\bfseries\color{ForestGreen}]{//VTK},
+  float=htbp
+}
 
 %% For charts
 \usepackage{pgfplots}

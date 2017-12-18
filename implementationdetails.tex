@@ -49,29 +49,25 @@ these features in detail.
 % \end{figure}%
 
 In a ray-casting algorithm, the entry and the exit point into the volume is
-needed to determine when to stop ray stepping process. To determine the entry and
-the exit point, one approach is to render the geometry of the volume bounding
-box of the volume twice. In the first pass, the front face of the geometry is
-rendered and in the second pass the back face is rendered.
+needed to determine when to stop ray stepping process. To determine the entry
+and the exit point, one approach is to render the geometry of the volume
+bounding box of the volume twice. In the first pass, the front face of the
+geometry is rendered and in the second pass the back face is rendered.
 % as shown in ~\Autoref{fig:frontandback}.
 Using the interpolated vertex position and
 texture lookup, the start and end positions can be computed. Instead of this, in
 \texttt{vtkGPUVolumeRayCastMapper}, entry and exit points are computed based on
 the fact that the texture extents of the volume are within vec3(1.0), vec3(-1.0)
-range.% (as shown in ~\Autoref{fig:raycasting}).
-The code below shows the
+range. % (as shown in ~\Autoref{fig:raycasting}).
+\Autoref{lst:raystop} shows the
 fragment shader pseudo code that determines whether or not to stop ray stepping
 through the volume.
 
-\begin{center}
-  \begin{lstlisting}[language=Python, caption={Ray stop determination},
-                     captionpos=b, frame=single, breaklines=true]
-bool stop = any(greaterThan(g_dataPos,
-                            ip_texMax)) ||
-            any(lessThan(g_dataPos,
-                         ip_texMin));
-  \end{lstlisting}
-\end{center}
+\begin{lstlisting}[caption={Ray stop determination},
+                   label=lst:raystop]
+bool stop = any(greaterThan(g_dataPos, ip_texMax)) ||
+             any(lessThan(g_dataPos, ip_texMin));
+\end{lstlisting}
 
 The advantage of such approach is that it requires one less pass, and is faster
 than other approaches since there is no texture generation or lookup required
@@ -85,62 +81,40 @@ more streamlined code that is easier to maintain and debug. This approach also
 provides an opportunity to rework how to support different features without
 having too many branches in the shader code or having to send all the options to
 the shader because that would have been detrimental for performance. In this
-improved mapper, the shader is dynamically composed by the mapper. For this to
-work, we have introduced tags in a vertex or fragment shader which are then
-replaced by the~\texttt{vtkVolumeShaderComposer} depending on the options
-enabled or chosen by the application code. These tags correspond to each setup
-in a ray casting shader: 1) Declaration of variables 2) Initialization of ray
+improved mapper, the shader is dynamically composed by the mapper. The shader
+code generation starts with a template vertex and fragment shader with
+pre-defined tags that are then replaced by the~\texttt{vtkVolumeShaderComposer}
+with~\texttt{GLSL} code depending on the options specified by the application.
+We have formalized these tag labels to correspond to each step
+in the ray casting shader: 1) Declaration of variables 2) Initialization of ray
 position and direction 3) Iterative Ray traversal inside the volume and check
 for ray termination conditions 4) Final color and opacity computation after ray
-termination.% For instance, the skeleton fragment shader defines tags as shown
-%in~\Autoref{lst:skeletonshader}.
+termination. \Autoref{lst:skeletonshader} illustrates the technique used to
+generate base fragment shader code with pre-defined tags.
 
-%\begin{lstlisting}[language=C++, caption={Fragment shader tags},
-                   %captionpos=b, frame=single, breaklines=true,
-                   %label=lst:skeletonshader]
+\begin{lstlisting}[caption={Base fragment shader code template for dynamic
+                            shader generation using pre-defined tags},
+                   label=lst:skeletonshader]
+int main()
+{
+  // The tag below will be replaced by code at run-time that
+  // declares the appropriate core shader variables which
+  // will be used regardless of the operation (MIP, MinIP).
+  //VTK::Base::Dec
 
-%int main()
-%{
-  %// The tag below will be replaced by a
-  %// a concatenated string at run-time that
-  %// declares the appropriate core
-  %// shader variables which will be used regardless
-  %// of the operation (MIP, MinIP) performed.
-  %// The replacement is shown in ~\Autoref{lst:basedeclshader}.
-  %//VTK::Base::Dec
+  // Advance ray and accumulate color and opacity
+  while(not exit)
+  {
+    // This tag will be replaced by a code that performs
+    // color and opacity aggregation along the ray.
+    //VTK::Base::Impl
+  }
 
-  %// The tag below will be replaced to declare
-  %// variables that are responsible for termination
-  %// of the ray-casting. Essentially this enables
-  %// users to partially replace the shader and customize
-  %// it as necessary.
-  %//VTK::Termination::Dec
-
-  %// Advance ray and accumulate color and opacity
-  %while(not exit)
-  %{
-    %// This tag will be replaced by a concatenated
-    %// string that performs color and opacity aggregation
-    %// along the ray.
-    %//VTK::Base::Impl
-
-    %// Other tags implementing Cropping, Clipping etc.
-
-    %// Advance ray here
-
-    %// This tag will be replaced by a concatenated
-    %// string that will check if the ray is still
-    %// inside the volume and other checks.
-    %//VTK::Terminate::Impl
-  %}
-
-  %// This tag will be replaced by a concatenated
-  %// string that performs final color, depth, and opacity
-  %// computation.
-  %//VTK::Shading::Exit
-%}
-
-%\end{lstlisting}
+  // This tag will be replaced by code that performs
+  // final color, depth, and opacity computation.
+  //VTK::Base::Exit
+}
+\end{lstlisting}
 
 To define a structure, we have chosen a strategy that separates the tags in
 the following four categories:
