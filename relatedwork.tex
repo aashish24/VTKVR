@@ -67,11 +67,11 @@ large volume data visualization capabilities on Intel CPU and Nvidia GPU's but
 lack support for non-native hardware.
 
 While it is difficult to compare our work with other available tools purely
-based on the feature basis as features can be added or removed and also because
+based on per feature basis as features can be added or removed and also because
 not all the features are documented by the tools, we will mark some fundamental
 differences between our work and other available tools based on design choices
 and architecture. Use of our VTK volume rendering requires that a user
-constructs a VTK pipeline which comprises of  reader-filter-renderer. While the
+constructs a VTK pipeline which comprises of reader-filter-renderer. While the
 pipeline approach provides the most flexibility in constructing workflows needed
 for a particular study, it could also add some overhead in certain cases. For
 example, some VTK imaging filters do not modify the input data which means that
@@ -81,9 +81,16 @@ specifically if the data is continuously generated or altered by the source of
 the data. To mitigate this issue, it is essential that users understand the VTK
 pipeline and its components well in advance.
 
-Many volume rendering APIs exist apart from Voreen and ImageVis3D. However,
-except for Voreen, advanced volume visualization research performed by the
-industry and academic communities are not publicly available. By providing an
-open source volume rendering engine that supports multiple platforms natively,
-we hope to bridge the gap between academic research and industrial applications
-in the field of volume visualization.
+Another notably different feature used in our work is shader composition approach
+which provides a greater degree of flexibility in combining various volume
+visualization features but also presents a significant road barrier to the external
+contributors because of the number of features and combination of these features
+that needs to be supported. Future work could ease this barrier by extending the
+API to support introspection and validation to ensure the correctness of
+user-customized shaders without users knowing the details of the shader composition.
+
+Finally, advanced volume visualization research performed by the
+industry and academic communities are not publicly available except for Voreen
+(ImageVis3D is no longer maintained). By providing an open source volume rendering engine that supports multiple
+platforms natively, our work bridges the gap between academic research and industrial
+applications in the field of interactive volume visualization.
