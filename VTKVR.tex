@@ -51,6 +51,7 @@
 %% Chemistry formulae support
 \usepackage[version=4]{mhchem}
 
+\usepackage[stable]{footmisc}
 %% This turns references into clickable hyperlinks.
 \usepackage[bookmarks,
             colorlinks=true,
@@ -65,7 +66,7 @@
 \captionsetup[figure]{labelfont=bf,textfont={it},justification=centering}
 \captionsetup[subfigure]{labelfont=bf,textfont={it},justification=centering}
 \captionsetup[lstlisting]{labelfont=bf,textfont={it},justification=centering}
-\setlength{\belowcaptionskip}{0pt} % reduce space after captions
+\setlength{\belowcaptionskip}{-1pt} % reduce space after captions
 
 %% For code
 \usepackage{listings}
@@ -97,6 +98,12 @@
 %% Setting the path to where the images can be found
 \graphicspath{ {images/} }
 
+%% Avoid orphan and widow lines
+\usepackage[all]{nowidow}
+
+%% Allow arbitary font sizes
+\usepackage{lmodern}
+
 \begin{document}
 
 \begin{frontmatter}
@@ -125,6 +132,7 @@
 %% References:
 \section{References}
 \label{}
+\enlargethispage{1.5\baselineskip}
 \bibliography{VTKVR}
 
 \end{document}
