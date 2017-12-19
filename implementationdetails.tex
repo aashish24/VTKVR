@@ -75,9 +75,9 @@ to determine the termination of the ray.
 
 
 \subsection{Dynamic Shader Generation}
-All operations are performed on the GPU in the
-new~\texttt{vtkOpenGLGPUVolumeRayCastMapper}. The advantage of this approach is
-more streamlined code that is easier to maintain and debug. This approach also
+All operations are performed on the GPU in the new
+\texttt{vtkOpenGLGPUVolumeRayCastMapper}. The advantage of this approach is more
+streamlined code that is easier to maintain and debug. This approach also
 provides an opportunity to rework how to support different features without
 having too many branches in the shader code or having to send all the options to
 the shader because that would have been detrimental for performance. In this
@@ -85,10 +85,10 @@ improved mapper, the shader is dynamically composed by the mapper. The shader
 code generation starts with a template vertex and fragment shader with
 pre-defined tags that are then replaced by the~\texttt{vtkVolumeShaderComposer}
 with~\texttt{GLSL} code depending on the options specified by the application.
-We have formalized these tag labels to correspond to each step
-in the ray casting shader: 1) Declaration of variables 2) Initialization of ray
-position and direction 3) Iterative Ray traversal inside the volume and check
-for ray termination conditions 4) Final color and opacity computation after ray
+We have formalized these tag labels to correspond to each step in the ray
+casting shader: 1) Declaration of variables 2) Initialization of ray position
+and direction 3) Iterative Ray traversal inside the volume and check for ray
+termination conditions 4) Final color and opacity computation after ray
 termination. \Autoref{lst:skeletonshader} illustrates the technique used to
 generate base fragment shader code with pre-defined tags.
 
