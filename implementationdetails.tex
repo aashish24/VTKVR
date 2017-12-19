@@ -5,14 +5,14 @@ technique~\citep{engel_real-time_2006} for volume rendering which is
 state-of-the-art on modern graphics platforms. At a high level, it is similar to
 the previous version of this class, with a different OpenGL implementation
 reflecting recent advances in graphics systems. One of the main reasons we chose
-to use ray casting is due to the flexibility of this technique, which supports the
-many features of the previous software ray cast mapper but with the acceleration
-of the GPU. Ray casting is an image-order rendering technique, with one or more
-rays cast through the volume per image pixel. VTK is inherently an object-order
-rendering system, where the GPU renders all graphical primitives (points, lines,
-triangles, etc.) represented by instances of vtkProp in a scene using one or
-more rendering passes (with multiple passes needed to support advanced features
-such as depth peeling for transparency).
+to use ray casting is due to the flexibility of this technique, which supports
+the many features of the previous software ray cast mapper but with the
+acceleration of the GPU. Ray casting is an image-order rendering technique, with
+one or more rays cast through the volume per image pixel. VTK is inherently an
+object-order rendering system, where the GPU renders all graphical primitives
+(points, lines, triangles, etc.) represented by instances of vtkProp in a scene
+using one or more rendering passes (with multiple passes needed to support
+advanced features such as depth peeling for transparency).
 
 The image-order rendering process for vtkVolume is initiated when the
 front-facing polygons of the volume’s bounding box are rendered with a custom
@@ -22,8 +22,9 @@ that ray. The volume and all the various rendering parameters are transferred to
 the GPU through the use of textures (3D for the volume, 1D for the various
 transfer functions) and uniform variables. Steps are taken along the ray until
 the ray exits the volume, and the resulting computed color and opacity are
-blended into the current pixel value. Note that volumes are rendered after rendering opaque geometry, to allow the ray casting process to terminate at
-the depth value stored in the depth buffer for that pixel (and hence correctly
+blended into the current pixel value. Note that volumes are rendered after
+rendering opaque geometry, to allow the ray casting process to terminate at the
+depth value stored in the depth buffer for that pixel (and hence correctly
 intermix with opaque geometry).
 
 In addition to providing supported features of the old mapper, the new mapper
@@ -80,11 +81,11 @@ All operations are performed on the GPU in the new
 streamlined code that is easier to maintain and debug. This approach also
 provides an opportunity to rework how to support different features without
 having too many branches in the shader code or having to send all the options to
-the shader because that would have been detrimental for performance. In this
+the shader because that would have been detrimental to performance. In this
 improved mapper, the shader is dynamically composed by the mapper. The shader
-code generation starts with a template vertex and fragment shader with
+code generation starts with a template vertex and a fragment shader with
 pre-defined tags that are then replaced by the~\texttt{vtkVolumeShaderComposer}
-with~\texttt{GLSL} code depending on the options specified by the application.
+with~\texttt{GLSL} code, depending on the options specified by the application.
 We have formalized these tag labels to correspond to each step in the ray
 casting shader: 1) Declaration of variables 2) Initialization of ray position
 and direction 3) Iterative Ray traversal inside the volume and check for ray
